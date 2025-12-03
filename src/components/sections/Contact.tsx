@@ -67,7 +67,7 @@ export default function Contact() {
     {
       icon: Mail,
       title: "البريد الإلكتروني",
-      details: ["alebawani.ksa@hotmail.com"],
+      details: ["alebawani.k.s.a@hotmail.com"],
       color: "text-blue-400",
       bgColor: "bg-blue-400/10"
     },
