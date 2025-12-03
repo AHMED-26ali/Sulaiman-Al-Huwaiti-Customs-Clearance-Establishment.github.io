@@ -1,0 +1,58 @@
+# Robots.txt لمؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت
+# السماح لجميع محركات البحث بأرشفة الموقع بالكامل
+
+User-agent: *
+Allow: /
+
+# السماح الصريح لصفحات الدول
+Allow: /eg
+Allow: /ae  
+Allow: /kw
+Allow: /sa
+Allow: /qa
+Allow: /bh
+Allow: /om
+
+# السماح لصفحات الخدمات والأقسام المهمة
+Allow: /services
+Allow: /about
+Allow: /contact
+Allow: /branches
+Allow: /blog
+
+# منع أرشفة الملفات الإدارية والتقنية
+Disallow: /admin/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /dist/
+Disallow: /_next/
+Disallow: /api/
+Disallow: /*.json$
+Disallow: /*.log$
+
+# محركات البحث الرئيسية
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# رابط خريطة الموقع
+Sitemap: https://sulaimanal-huwaiti.netlify.app/sitemap.xml
+
+# معلومات إضافية
+# Host: sulaimanal-huwaiti.netlify.app
+# Crawl-delay: 1
