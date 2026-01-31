@@ -5,23 +5,23 @@
   <!-- الصفحة الرئيسية -->
   <url>
     <loc>https://sulaimanal-huwaiti.netlify.app/</loc>
-    <lastmod>2024-12-04</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   
-  <!-- صفحة الخدمات -->
+  <!-- صفحة الخدمات الرئيسية -->
   <url>
     <loc>https://sulaimanal-huwaiti.netlify.app/services</loc>
-    <lastmod>2024-12-04</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   
-  <!-- صفحة الفروع -->
+  <!-- صفحة الفروع الرئيسية -->
   <url>
     <loc>https://sulaimanal-huwaiti.netlify.app/branches</loc>
-    <lastmod>2024-12-04</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -29,7 +29,7 @@
   <!-- صفحة من نحن -->
   <url>
     <loc>https://sulaimanal-huwaiti.netlify.app/about</loc>
-    <lastmod>2024-12-04</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -37,7 +37,7 @@
   <!-- صفحة المدونة -->
   <url>
     <loc>https://sulaimanal-huwaiti.netlify.app/blog</loc>
-    <lastmod>2024-12-04</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -45,7 +45,7 @@
   <!-- صفحة التواصل -->
   <url>
     <loc>https://sulaimanal-huwaiti.netlify.app/contact</loc>
-    <lastmod>2024-12-04</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
@@ -53,7 +53,7 @@
   <!-- صفحة لماذا نحن -->
   <url>
     <loc>https://sulaimanal-huwaiti.netlify.app/why-us</loc>
-    <lastmod>2024-12-04</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -61,9 +61,207 @@
   <!-- صفحة الرؤية -->
   <url>
     <loc>https://sulaimanal-huwaiti.netlify.app/vision</loc>
-    <lastmod>2024-12-04</lastmod>
+    <lastmod>2026-01-31</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+
+  <!-- صفحات الفروع الفردية -->
+  
+  <!-- مكتب تخليص جمركي ضبا - ميناء نيوم -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/branches/duba-neom</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- مكتب تخليص جمركي الدرة - حقل -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/branches/durra-haql</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- مكتب تخليص جمركي السلوي -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/branches/salwa</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- مكتب تخليص جمركي جسر الملك فهد -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/branches/king-fahd-bridge</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- مكتب تخليص جمركي البطحاء -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/branches/batha</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- مكتب تخليص جمركي الحديثة -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/branches/haditha</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- مكتب تخليص جمركي ينبع -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/branches/yanbu</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- مكتب تخليص جمركي الدمام - ميناء الملك عبدالعزيز -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/branches/dammam</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- صفحات الخدمات الفردية -->
+  
+  <!-- خدمة التخليص الجمركي -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/customs-clearance</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- خدمة النقل البري والترانزيت -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/land-transport</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- خدمة الشحن البحري -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/sea-freight</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- خدمة الشحن الجوي -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/air-freight</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- خدمة الاستيراد والتصدير -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/import-export</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  
+  <!-- خدمة التأمين الشامل -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/insurance</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- خدمة إدارة المخازن -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/warehouse-management</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- خدمة الاستشارات التجارية -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/business-consulting</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- خدمة حساب الرسوم الجمركية -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/customs-fees-calculation</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- خدمة الخدمات اللوجستية المتكاملة -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/services/logistics</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <!-- صفحات الكلمات المفتاحية للبحث -->
+  
+  <!-- مكتب تخليص جمركي السعودية -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/keywords/customs-clearance-office-saudi</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  
+  <!-- شركة تخليص جمركي -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/keywords/customs-clearance-company</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  
+  <!-- خدمات الشحن الدولي -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/keywords/international-shipping</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  
+  <!-- استيراد وتصدير السعودية -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/keywords/import-export-saudi</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  
+  <!-- موانئ السعودية -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/keywords/saudi-ports</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  
+  <!-- منافذ حدودية السعودية -->
+  <url>
+    <loc>https://sulaimanal-huwaiti.netlify.app/keywords/saudi-border-crossings</loc>
+    <lastmod>2026-01-31</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
   </url>
 
 </urlset>

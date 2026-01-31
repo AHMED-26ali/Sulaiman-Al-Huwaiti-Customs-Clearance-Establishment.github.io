@@ -1,4 +1,47 @@
 User-agent: *
 Allow: /
 
+# Sitemap
 Sitemap: https://sulaimanal-huwaiti.netlify.app/sitemap.xml
+
+# الصفحات الرئيسية
+Allow: /services
+Allow: /branches
+Allow: /about
+Allow: /blog
+Allow: /contact
+Allow: /why-us
+Allow: /vision
+
+# صفحات الفروع
+Allow: /branches/duba-neom
+Allow: /branches/durra-haql
+Allow: /branches/salwa
+Allow: /branches/king-fahd-bridge
+Allow: /branches/batha
+Allow: /branches/haditha
+Allow: /branches/yanbu
+Allow: /branches/dammam
+
+# صفحات الخدمات
+Allow: /services/customs-clearance
+Allow: /services/land-transport
+Allow: /services/sea-freight
+Allow: /services/air-freight
+Allow: /services/import-export
+Allow: /services/insurance
+Allow: /services/warehouse-management
+Allow: /services/business-consulting
+Allow: /services/customs-fees-calculation
+Allow: /services/logistics
+
+# صفحات الكلمات المفتاحية
+Allow: /keywords/customs-clearance-office-saudi
+Allow: /keywords/customs-clearance-company
+Allow: /keywords/international-shipping
+Allow: /keywords/import-export-saudi
+Allow: /keywords/saudi-ports
+Allow: /keywords/saudi-border-crossings
+
+# معدل الزحف
+Crawl-delay: 1
