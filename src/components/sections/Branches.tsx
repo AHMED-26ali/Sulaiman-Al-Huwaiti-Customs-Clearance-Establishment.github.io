@@ -3,6 +3,14 @@ import { MapPin, Ship, Truck, Plane, Sparkles, Anchor, Landmark } from 'lucide-r
 export default function Branches() {
   const branches = [
     {
+      name: 'ميناء جدة الإسلامي',
+      description: 'الميناء الأكبر والأهم على ساحل البحر الأحمر، يربط بين ثلاث قارات ويعد الشريان الرئيسي لدخول البضائع لمنطقة مكة المكرمة والمشاعر المقدسة.',
+      icon: Ship,
+      location: 'مدينة جدة - منطقة مكة المكرمة',
+      type: 'ميناء بحري',
+      color: 'from-orange-500 to-red-600'
+    },
+    {
       name: 'ميناء نيوم (جمرك ضبا)',
       description: 'يُعد أقرب ميناء سعودي لقناة السويس ودول حوض البحر المتوسط، ويمثل المحرك اللوجستي الرئيسي لمشاريع نيوم العملاقة والتجارة العالمية.',
       icon: Ship,
@@ -20,7 +28,7 @@ export default function Branches() {
     },
     {
       name: 'ميناء ينبع التجاري',
-      description: 'ميناء استراتيجي يخدم المنطقة المدينة المنورة، ويتميز بقدرات عالية في مناولة البضائع العامة والمعدات الثقيلة المرتبطة بالصناعات التحويلية.',
+      description: 'ميناء استراتيجي يخدم منطقة المدينة المنورة، ويتميز بقدرات عالية في مناولة البضائع العامة والمعدات الثقيلة المرتبطة بالصناعات التحويلية.',
       icon: Ship,
       location: 'مدينة ينبع - منطقة المدينة المنورة',
       type: 'ميناء بحري',
@@ -48,7 +56,7 @@ export default function Branches() {
       icon: Landmark, 
       location: 'الخبر - المنطقة الشرقية',
       type: 'جسر بري',
-      color: 'from-orange-400 to-orange-600'
+      color: 'from-yellow-400 to-orange-600'
     },
     {
       name: 'منفذ السلوى (Crossing)',
