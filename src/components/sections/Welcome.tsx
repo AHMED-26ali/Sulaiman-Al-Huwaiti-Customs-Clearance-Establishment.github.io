@@ -5,9 +5,9 @@ import ParticleBackground from '@/components/effects/ParticleBackground';
 export default function Welcome() {
   const achievements = [
     { icon: Users, number: "2000+", label: "عميل راضي" },
-    { icon: CheckCircle, number: "8000+", label: "معاملة مكتملة" },
+    { icon: CheckCircle, number: "80000+", label: "معاملة مكتملة" },
     { icon: Star, number: "15+", label: "سنة خبرة" },
-    { icon: Award, number: "5", label: "فروع ومواقع" }
+    { icon: Award, number: "9", label: "فروع ومواقع" }
   ];
 
   const scrollToContact = () => {
