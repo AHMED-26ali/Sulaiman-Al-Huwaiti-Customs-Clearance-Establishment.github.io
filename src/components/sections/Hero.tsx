@@ -241,11 +241,11 @@ export default function Hero() {
             <div className="text-sm font-medium text-gray-300">عميل راضي</div>
           </div>
           <div className="text-center bg-violet-500/20 backdrop-blur-sm rounded-2xl p-6 hover:bg-violet-500/30 transition-all duration-300 border border-violet-400/30">
-            <div className="text-3xl md:text-4xl font-bold text-violet-400 mb-2">8000+</div>
+            <div className="text-3xl md:text-4xl font-bold text-violet-400 mb-2">80000+</div>
             <div className="text-sm font-medium text-gray-300">معاملة مكتملة</div>
           </div>
           <div className="text-center bg-amber-500/20 backdrop-blur-sm rounded-2xl p-6 hover:bg-amber-500/30 transition-all duration-300 border border-amber-400/30">
-            <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2">5</div>
+            <div className="text-3xl md:text-4xl font-bold text-amber-400 mb-2">9</div>
             <div className="text-sm font-medium text-gray-300">فروع ومواقع</div>
           </div>
           <div className="text-center bg-rose-500/20 backdrop-blur-sm rounded-2xl p-6 hover:bg-rose-500/30 transition-all duration-300 border border-rose-400/30">
