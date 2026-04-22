@@ -1,58 +1,35 @@
 # Robots.txt لمؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت
-# السماح لجميع محركات البحث بأرشفة الموقع بالكامل
+# السماح لجميع محركات البحث بأرشفة الموقع بالكامل لضمان الانتشار
 
 User-agent: *
 Allow: /
 
-# السماح الصريح لصفحات الدول
-Allow: /eg
-Allow: /ae  
-Allow: /kw
-Allow: /sa
-Allow: /qa
-Allow: /bh
-Allow: /om
+# السماح لأقسام الدول
+Allow: /egypt
+Allow: /emirates
+Allow: /kuwait
+Allow: /saudi-arabia
+Allow: /qatar
+Allow: /bahrain
+Allow: /oman
 
-# السماح لصفحات الخدمات والأقسام المهمة
+# السماح للمنافذ الرسمية والأقسام
 Allow: /services
 Allow: /about
 Allow: /contact
-Allow: /branches
-Allow: /blog
+Allow: /miena-duba-neom
+Allow: /manfaz-al-durra
+Allow: /manfaz-al-salwa
+Allow: /manfaz-al-batha
+Allow: /jisr-al-malik-fahd
 
-# منع أرشفة الملفات الإدارية والتقنية
+# منع الملفات الإدارية والتقنية
 Disallow: /admin/
-Disallow: /.git/
 Disallow: /node_modules/
-Disallow: /src/
-Disallow: /dist/
-Disallow: /_next/
 Disallow: /api/
-Disallow: /*.json$
-Disallow: /*.log$
 
-# محركات البحث الرئيسية
-User-agent: Googlebot
-Allow: /
+# رابط خريطة الموقع الرسمي
+Sitemap: https://customs-clearance-transit.netlify.app/sitemap.xml
 
-User-agent: Bingbot
-Allow: /
-
-User-agent: Slurp
-Allow: /
-
-User-agent: DuckDuckBot
-Allow: /
-
-User-agent: Baiduspider
-Allow: /
-
-User-agent: YandexBot
-Allow: /
-
-# رابط خريطة الموقع
-Sitemap: https://sulaimanal-huwaiti.netlify.app/sitemap.xml
-
-# معلومات إضافية
-# Host: sulaimanal-huwaiti.netlify.app
-# Crawl-delay: 1
+# العنوان الرسمي للموقع
+Host: customs-clearance-transit.netlify.app
