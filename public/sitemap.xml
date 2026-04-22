@@ -3,65 +3,66 @@
 
   <url>
     <loc>https://customs-clearance-transit.netlify.app/</loc>
-    <lastmod>2025-01-21</lastmod>
+    <lastmod>2026-04-22</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
 
+  <url><loc>https://customs-clearance-transit.netlify.app/#china</loc><priority>0.9</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#india</loc><priority>0.9</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#usa</loc><priority>0.9</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#turkey</loc><priority>0.8</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#germany</loc><priority>0.8</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#egypt</loc><priority>0.9</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#emirates</loc><priority>0.9</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#jordan</loc><priority>0.8</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#kuwait</loc><priority>0.8</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#qatar</loc><priority>0.8</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#bahrain</loc><priority>0.8</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#oman</loc><priority>0.8</priority></url>
+  <url><loc>https://customs-clearance-transit.netlify.app/#italy</loc><priority>0.7</priority></url>
+
+  <url>
+    <loc>https://customs-clearance-transit.netlify.app/#miena-duba-neom</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://customs-clearance-transit.netlify.app/#miena-dammam</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://customs-clearance-transit.netlify.app/#miena-yanbu</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://customs-clearance-transit.netlify.app/#manfaz-al-haditha</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://customs-clearance-transit.netlify.app/#manfaz-al-batha</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://customs-clearance-transit.netlify.app/#jisr-al-malik-fahd</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://customs-clearance-transit.netlify.app/#manfaz-al-salwa</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://customs-clearance-transit.netlify.app/#manfaz-al-durra</loc>
+    <priority>0.8</priority>
+  </url>
+
   <url>
     <loc>https://customs-clearance-transit.netlify.app/#services</loc>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://customs-clearance-transit.netlify.app/#about</loc>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
-
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#egypt</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#emirates</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#kuwait</loc>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#saudi-arabia</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#qatar</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#bahrain</loc>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#oman</loc>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#miena-duba-neom</loc> <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#manfaz-al-durra</loc> <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#manfaz-al-salwa</loc> <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#manfaz-al-batha</loc> <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://customs-clearance-transit.netlify.app/#jisr-al-malik-fahd</loc> <priority>0.7</priority>
-  </url>
-
   <url>
     <loc>https://customs-clearance-transit.netlify.app/#contact</loc>
     <priority>0.9</priority>
