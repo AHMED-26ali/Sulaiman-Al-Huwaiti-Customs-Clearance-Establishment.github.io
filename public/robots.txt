@@ -4,7 +4,13 @@
 User-agent: *
 Allow: /
 
-# السماح لأقسام الدول
+# السماح لأقسام الدول (الاستهداف الدولي)
+Allow: /china
+Allow: /india
+Allow: /usa
+Allow: /turkey
+Allow: /germany
+Allow: /italy
 Allow: /egypt
 Allow: /emirates
 Allow: /kuwait
@@ -12,12 +18,16 @@ Allow: /saudi-arabia
 Allow: /qatar
 Allow: /bahrain
 Allow: /oman
+Allow: /jordan
 
-# السماح للمنافذ الرسمية والأقسام
+# السماح للمنافذ الرسمية والأقسام (Crossings & Ports)
 Allow: /services
 Allow: /about
 Allow: /contact
 Allow: /miena-duba-neom
+Allow: /miena-dammam
+Allow: /miena-yanbu
+Allow: /manfaz-al-haditha
 Allow: /manfaz-al-durra
 Allow: /manfaz-al-salwa
 Allow: /manfaz-al-batha
@@ -27,6 +37,8 @@ Allow: /jisr-al-malik-fahd
 Disallow: /admin/
 Disallow: /node_modules/
 Disallow: /api/
+Disallow: /tsconfig.json
+Disallow: /package.json
 
 # رابط خريطة الموقع الرسمي
 Sitemap: https://customs-clearance-transit.netlify.app/sitemap.xml
