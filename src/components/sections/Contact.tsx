@@ -47,9 +47,9 @@ export default function Contact() {
     
     const whatsappMessage = `السلام عليكم، اسمي ${formData.name}، رقم هاتفي ${formData.phone}. ${formData.message}`;
     const encodedMessage = encodeURIComponent(whatsappMessage);
-    const ahmadAliPhone = "966551046758"; // أحمد علي
+    const UnifiednumberPhone = "966537063709"; // أحمد علي
     
-    window.open(`https://wa.me/${ahmadAliPhone}?text=${encodedMessage}`, '_blank');
+    window.open(`https://wa.me/${UnifiednumberPhone}?text=${encodedMessage}`, '_blank');
     
     // Reset form
     setFormData({ name: '', phone: '', message: '' });
@@ -192,7 +192,7 @@ export default function Contact() {
                   رسالة سريعة
                 </CardTitle>
                 <CardDescription className="text-gray-300">
-                  سيتم تحويل رسالتك مباشرة إلى أحمد علي عبر الواتساب
+                  سيتم تحويل رسالتك مباشرة إلى الرقم الموحد عبر الواتساب
                 </CardDescription>
               </CardHeader>
               <CardContent>
