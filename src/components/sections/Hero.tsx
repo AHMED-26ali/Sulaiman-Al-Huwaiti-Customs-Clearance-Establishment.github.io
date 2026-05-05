@@ -64,12 +64,21 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, [isPlaying, lightboxOpen, images.length]);
 
-  // Scroll thumbnails to active
+  // Scroll thumbnails to active (horizontal only, without affecting page scroll)
   useEffect(() => {
     if (thumbnailsRef.current) {
-      const activeThumb = thumbnailsRef.current.querySelector(`[data-index="${currentIndex}"]`) as HTMLElement;
+      const container = thumbnailsRef.current;
+      const activeThumb = container.querySelector(`[data-index="${currentIndex}"]`) as HTMLElement;
       if (activeThumb) {
-        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        // Calculate horizontal scroll position manually to avoid affecting page scroll
+        const containerRect = container.getBoundingClientRect();
+        const thumbRect = activeThumb.getBoundingClientRect();
+        const offset =
+          thumbRect.left -
+          containerRect.left -
+          containerRect.width / 2 +
+          thumbRect.width / 2;
+        container.scrollBy({ left: offset, behavior: 'smooth' });
       }
     }
   }, [currentIndex]);
