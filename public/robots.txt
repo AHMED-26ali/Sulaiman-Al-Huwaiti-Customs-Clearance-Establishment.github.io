@@ -19,7 +19,7 @@ Disallow: /tsconfig.json
 Disallow: /package.json
 
 # رابط خريطة الموقع الرسمي
-Sitemap: https://customs-clearance-transit.netlify.app/sitemap.xml
+Sitemap: https://sulaimanal-huwaiti.netlify.app/sitemap.xml
 
 # العنوان الرسمي للموقع
-Host: customs-clearance-transit.netlify.app
+Host: sulaimanal-huwaiti.netlify.app
