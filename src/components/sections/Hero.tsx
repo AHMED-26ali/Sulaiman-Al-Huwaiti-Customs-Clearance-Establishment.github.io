@@ -132,7 +132,7 @@ export default function Hero() {
                 <span className="text-sm font-medium text-green-300">رواد التخليص الجمركي في السعودية</span>
               </div>
 
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold leading-relaxed text-center lg:text-right">
+              <h1 className="text-3xl md:text-4xl lg:text-4xl font-bold leading-normal text-center lg:text-right">
                 <span className="block text-white mb-2">سليمان الحويطي</span>
                 <span className="block bg-gradient-to-r from-green-400 via-emerald-400 to-cyan-400 bg-clip-text text-transparent">
                   للتخليص الجمركي والترانزيت
