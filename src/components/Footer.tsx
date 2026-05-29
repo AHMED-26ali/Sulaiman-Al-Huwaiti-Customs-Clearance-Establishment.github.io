@@ -221,7 +221,7 @@ export default function Footer() {
               <ul className="space-y-2 text-gray-300">
                 <li>التخليص الجمركي</li>
                 <li>النقل والترانزيت</li>
-                <li>الشحن البحري والجوي</li>
+                <li>الشحن البحري </li>
                 <li>الاستشارات التجارية</li>
                 <li>إدارة المخازن</li>
               </ul>
@@ -237,7 +237,7 @@ export default function Footer() {
                 </div>
                 <div className="flex items-center space-x-3 space-x-reverse text-gray-300">
                   <Mail className="h-4 w-4 text-blue-400" />
-                  <span className="text-sm">alebawani.ksa@hotmail.com</span>
+                  <span className="text-sm">alebawani.k.s.a@hotmail.com</span>
                 </div>
                 <div className="flex items-center space-x-3 space-x-reverse text-gray-300">
                   <Phone className="h-4 w-4 text-blue-400" />
