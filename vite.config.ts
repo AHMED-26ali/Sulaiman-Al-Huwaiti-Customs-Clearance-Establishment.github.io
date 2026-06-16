@@ -16,4 +16,16 @@ export default defineConfig(({ mode }) => ({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // عزل مكتبة Three.js والملفات التابعة لها في ملف مستقل لتسريع التحميل الأول للموقع
+          if (id.includes("node_modules/three") || id.includes("node_modules/@react-three")) {
+            return "three-js";
+          }
+        },
+      },
+    },
+  },
 }));
