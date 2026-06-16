@@ -6,48 +6,74 @@ import { useNavigate } from 'react-router-dom';
 // 1. تحويل استدعاء الخلفية ثلاثية الأبعاد إلى تحميل كسول (Lazy Loading) لعدم حظر الصفحة
 const ThreeBackground = lazy(() => import('@/components/effects/ThreeBackground'));
 
-// 2. نقل مصفوفة الصور خارج المكون لمنع إعادة إنشائها في الذاكرة مع كل Render
+// 2. دالة مساعدة لتغيير حجم صور Pinterest حسب الحاجة
+// Pinterest يدعم: 75x75, 236x, 400x, 736x, 1200x
+const getPinterestImageUrl = (url: string, size: 'small' | 'medium' | 'large' = 'medium') => {
+  // استخراج المعرف الفريد للصورة من الرابط
+  const match = url.match(/\/(?:\d+x\/|original\/)([a-f0-9\/]+)\.jpg$/);
+  if (!match) return url;
+  
+  const imageId = match[1];
+  const sizeMap = {
+    small: '236x',    // للـ thumbnails (112x140 تقريباً)
+    medium: '400x',   // للعرض المتوسط (359x539)
+    large: '736x',    // للعرض الكبير (lightbox)
+  };
+  
+  return `https://i.pinimg.com/${sizeMap[size]}/${imageId}.jpg`;
+};
+
+// 3. نقل مصفوفة الصور خارج المكون لمنع إعادة إنشائها في الذاكرة مع كل Render
+// تم تغيير الأحجام من 1200x/736x إلى 400x لتوفير带宽
 const images = [
-  "https://i.pinimg.com/736x/10/00/a8/1000a89b5f57ba2118f823884f23dd01.jpg",
-  "https://i.pinimg.com/736x/44/8b/87/448b879530978dd4dff3683357562267.jpg",
-  "https://i.pinimg.com/736x/08/0b/f7/080bf7d23fe74366fbd7a0f93b3ebda1.jpg",
-  "https://i.pinimg.com/736x/13/2d/87/132d87a87454d05f2970f127b806cd74.jpg",
-  "https://i.pinimg.com/736x/8d/2c/0e/8d2c0ebb452eda5260c8e4c728bee04a.jpg",
-  "https://i.pinimg.com/736x/69/e2/69/69e2696213e925c713b67a38dd796619.jpg",
-  "https://i.pinimg.com/736x/39/54/09/395409b14b2ef732c1909231c6d6e60c.jpg",
-  "https://i.pinimg.com/736x/72/14/1c/72141cd1f1de867d006bd74e64e40299.jpg",
-  "https://i.pinimg.com/736x/96/b1/40/96b1401f36348d55779a1246f7b2a809.jpg",
-  "https://i.pinimg.com/736x/17/73/f8/1773f8f358b2fb3360b67169dd536385.jpg",
-  "https://i.pinimg.com/1200x/85/b5/96/85b5966c6b37f156b91335bac4262983.jpg",
-  "https://i.pinimg.com/1200x/2f/8a/dc/2f8adc9602309ad71b5b90bfe1893257.jpg",
-  "https://i.pinimg.com/1200x/53/cb/b2/53cbb26aefdc506c7d2d978e675be67e.jpg",
-  "https://i.pinimg.com/1200x/b2/80/3a/b2803a9b719efca9dabbfed307c062a5.jpg",
-  "https://i.pinimg.com/1200x/64/c5/ec/64c5ec9259622dbd7d2bc0036678b6ee.jpg",
-  "https://i.pinimg.com/1200x/28/21/ac/2821ac050143da4ec61f6f0c75b0b2be.jpg",
-  "https://i.pinimg.com/736x/e1/ad/29/e1ad29604916676e9afe96c0eb077d2d.jpg",
-  "https://i.pinimg.com/736x/e0/45/c7/e045c7ee2b3c886016db8f5c89721390.jpg",
-  "https://i.pinimg.com/1200x/9d/57/47/9d5747c43997b50774de8b6ec450adfa.jpg",
-  "https://i.pinimg.com/736x/24/9b/cf/249bcf9ebf45f49f79f10d462cc3a0b4.jpg",
-  "https://i.pinimg.com/736x/31/be/b4/31beb43bc4f4fe6858df36de2c7acde9.jpg",
-  "https://i.pinimg.com/736x/7f/19/fd/7f19fd90ee55a370e0b552886a445838.jpg",
-  "https://i.pinimg.com/736x/dc/4b/4f/dc4b4fd304c9f371d9e281824c556908.jpg",
-  "https://i.pinimg.com/736x/0b/b4/93/0bb493c3bf38e9c8232c4e6fc9049a5e.jpg",
-  "https://i.pinimg.com/736x/5a/30/09/5a30091f054b60f3a930b756112efa5e.jpg",
-  "https://i.pinimg.com/736x/a3/63/8b/a3638b705ae5dfa35b31284a93f71b60.jpg",
-  "https://i.pinimg.com/736x/20/bb/c7/20bbc710cbc1cefa3250dc8dede0195d.jpg",
-  "https://i.pinimg.com/1200x/8d/3c/10/8d3c10fb9dd41480a09f5baa50dc8a66.jpg",
-  "https://i.pinimg.com/736x/1e/d0/d4/1ed0d47c5174794d97d5cf4ffe8e759a.jpg",
-  "https://i.pinimg.com/736x/52/fa/1e/52fa1e5af83f30d9f8b3abaef66da4ec.jpg",
-  "https://i.pinimg.com/1200x/ab/22/b2/ab22b29f59135071c31a7a58fe7e543d.jpg",
-  "https://i.pinimg.com/736x/b1/06/86/b1068640d04e24604769dc6130f21189.jpg",
-  "https://i.pinimg.com/1200x/14/7f/d0/147fd06865daf64022dc1a12ad9120c9.jpg",
-  "https://i.pinimg.com/736x/20/90/2b/20902b5703c6e31aed23870a0f343054.jpg",
-  "https://i.pinimg.com/736x/96/e5/f8/96e5f8db92e2962cd7745c3f49cdabb6.jpg",
-  "https://i.pinimg.com/1200x/62/bd/01/62bd01ef13bd46b44a5309afa93a9e9f.jpg",
-  "https://i.pinimg.com/736x/36/10/a4/3610a4a3335963ee54500b3ad0b90529.jpg",
-  "https://i.pinimg.com/736x/3f/73/fa/3f73fa178153a88f089985e42ae98830.jpg",
-  "https://i.pinimg.com/736x/a9/5f/e6/a95fe6bf1291eaca742fff2029ae096a.jpg",
+  "https://i.pinimg.com/400x/10/00/a8/1000a89b5f57ba2118f823884f23dd01.jpg",
+  "https://i.pinimg.com/400x/44/8b/87/448b879530978dd4dff3683357562267.jpg",
+  "https://i.pinimg.com/400x/08/0b/f7/080bf7d23fe74366fbd7a0f93b3ebda1.jpg",
+  "https://i.pinimg.com/400x/13/2d/87/132d87a87454d05f2970f127b806cd74.jpg",
+  "https://i.pinimg.com/400x/8d/2c/0e/8d2c0ebb452eda5260c8e4c728bee04a.jpg",
+  "https://i.pinimg.com/400x/69/e2/69/69e2696213e925c713b67a38dd796619.jpg",
+  "https://i.pinimg.com/400x/39/54/09/395409b14b2ef732c1909231c6d6e60c.jpg",
+  "https://i.pinimg.com/400x/72/14/1c/72141cd1f1de867d006bd74e64e40299.jpg",
+  "https://i.pinimg.com/400x/96/b1/40/96b1401f36348d55779a1246f7b2a809.jpg",
+  "https://i.pinimg.com/400x/17/73/f8/1773f8f358b2fb3360b67169dd536385.jpg",
+  "https://i.pinimg.com/400x/85/b5/96/85b5966c6b37f156b91335bac4262983.jpg",
+  "https://i.pinimg.com/400x/2f/8a/dc/2f8adc9602309ad71b5b90bfe1893257.jpg",
+  "https://i.pinimg.com/400x/53/cb/b2/53cbb26aefdc506c7d2d978e675be67e.jpg",
+  "https://i.pinimg.com/400x/b2/80/3a/b2803a9b719efca9dabbfed307c062a5.jpg",
+  "https://i.pinimg.com/400x/64/c5/ec/64c5ec9259622dbd7d2bc0036678b6ee.jpg",
+  "https://i.pinimg.com/400x/28/21/ac/2821ac050143da4ec61f6f0c75b0b2be.jpg",
+  "https://i.pinimg.com/400x/e1/ad/29/e1ad29604916676e9afe96c0eb077d2d.jpg",
+  "https://i.pinimg.com/400x/e0/45/c7/e045c7ee2b3c886016db8f5c89721390.jpg",
+  "https://i.pinimg.com/400x/9d/57/47/9d5747c43997b50774de8b6ec450adfa.jpg",
+  "https://i.pinimg.com/400x/24/9b/cf/249bcf9ebf45f49f79f10d462cc3a0b4.jpg",
+  "https://i.pinimg.com/400x/31/be/b4/31beb43bc4f4fe6858df36de2c7acde9.jpg",
+  "https://i.pinimg.com/400x/7f/19/fd/7f19fd90ee55a370e0b552886a445838.jpg",
+  "https://i.pinimg.com/400x/dc/4b/4f/dc4b4fd304c9f371d9e281824c556908.jpg",
+  "https://i.pinimg.com/400x/0b/b4/93/0bb493c3bf38e9c8232c4e6fc9049a5e.jpg",
+  "https://i.pinimg.com/400x/5a/30/09/5a30091f054b60f3a930b756112efa5e.jpg",
+  "https://i.pinimg.com/400x/a3/63/8b/a3638b705ae5dfa35b31284a93f71b60.jpg",
+  "https://i.pinimg.com/400x/20/bb/c7/20bbc710cbc1cefa3250dc8dede0195d.jpg",
+  "https://i.pinimg.com/400x/8d/3c/10/8d3c10fb9dd41480a09f5baa50dc8a66.jpg",
+  "https://i.pinimg.com/400x/1e/d0/d4/1ed0d47c5174794d97d5cf4ffe8e759a.jpg",
+  "https://i.pinimg.com/400x/52/fa/1e/52fa1e5af83f30d9f8b3abaef66da4ec.jpg",
+  "https://i.pinimg.com/400x/ab/22/b2/ab22b29f59135071c31a7a58fe7e543d.jpg",
+  "https://i.pinimg.com/400x/b1/06/86/b1068640d04e24604769dc6130f21189.jpg",
+  "https://i.pinimg.com/400x/14/7f/d0/147fd06865daf64022dc1a12ad9120c9.jpg",
+  "https://i.pinimg.com/400x/20/90/2b/20902b5703c6e31aed23870a0f343054.jpg",
+  "https://i.pinimg.com/400x/96/e5/f8/96e5f8db92e2962cd7745c3f49cdabb6.jpg",
+  "https://i.pinimg.com/400x/62/bd/01/62bd01ef13bd46b44a5309afa93a9e9f.jpg",
+  "https://i.pinimg.com/400x/36/10/a4/3610a4a3335963ee54500b3ad0b90529.jpg",
+  "https://i.pinimg.com/400x/3f/73/fa/3f73fa178153a88f089985e42ae98830.jpg",
+  "https://i.pinimg.com/400x/a9/5f/e6/a95fe6bf1291eaca742fff2029ae096a.jpg",
 ];
+
+// 4. أبعاد تقريبية للصور لمنع Layout Shift
+const IMAGE_DIMENSIONS = {
+  thumbnail: { width: 112, height: 140 },
+  side: { width: 280, height: 364 },
+  main: { width: 520, height: 676 },
+  lightbox: { width: 736, height: 956 },
+};
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -207,6 +233,9 @@ export default function Hero() {
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
+                    decoding="async"
+                    width={IMAGE_DIMENSIONS.side.width}
+                    height={IMAGE_DIMENSIONS.side.height}
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
                 </button>
@@ -225,6 +254,10 @@ export default function Hero() {
                             direction === 'next' ? 'animate-slide-in-right' : 'animate-slide-in-left'
                           }`}
                           loading={currentIndex < 3 ? 'eager' : 'lazy'}
+                          decoding={currentIndex < 3 ? 'sync' : 'async'}
+                          fetchpriority={currentIndex === 0 ? 'high' : 'auto'}
+                          width={IMAGE_DIMENSIONS.main.width}
+                          height={IMAGE_DIMENSIONS.main.height}
                         />
 
                         {/* Gradient overlay */}
@@ -301,6 +334,9 @@ export default function Hero() {
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
+                    decoding="async"
+                    width={IMAGE_DIMENSIONS.side.width}
+                    height={IMAGE_DIMENSIONS.side.height}
                   />
                   <div className="absolute inset-0 bg-gradient-to-l from-black/60 to-transparent"></div>
                 </button>
@@ -341,7 +377,15 @@ export default function Hero() {
                     }`}
                     aria-label={`عرض الصورة ${idx + 1}`}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
+                    <img 
+                      src={img} 
+                      alt="" 
+                      className="w-full h-full object-cover" 
+                      loading="lazy"
+                      decoding="async"
+                      width={IMAGE_DIMENSIONS.thumbnail.width}
+                      height={IMAGE_DIMENSIONS.thumbnail.height}
+                    />
                     {idx === currentIndex && (
                       <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/30 to-transparent"></div>
                     )}
@@ -436,6 +480,10 @@ export default function Hero() {
               src={images[currentIndex]}
               alt={`صورة ${currentIndex + 1}`}
               className="w-full h-full object-contain rounded-xl shadow-2xl"
+              loading="eager"
+              decoding="sync"
+              width={IMAGE_DIMENSIONS.lightbox.width}
+              height={IMAGE_DIMENSIONS.lightbox.height}
             />
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20">
               <span className="text-sm font-bold text-white">
