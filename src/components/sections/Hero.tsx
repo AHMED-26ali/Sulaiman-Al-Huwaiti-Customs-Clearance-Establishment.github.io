@@ -252,9 +252,9 @@ export default function Hero() {
                           <div className="flex items-end justify-between gap-3">
                             <div>
                               <p className="text-xs text-cyan-300 font-medium mb-1 tracking-wider">معرض</p>
-                              <h3 className="text-base md:text-lg font-bold text-white">
+                              <h2 className="text-base md:text-lg font-bold text-white">
                                 خدمات التخليص الجمركي والترانزيت
-                              </h3>
+                              </h2>
                             </div>
                             <button
                               onClick={() => setIsPlaying(!isPlaying)}
