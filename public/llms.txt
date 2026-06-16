@@ -1,0 +1,11 @@
+# مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت
+
+هذا الملف مصمم لمساعدة وكلاء ونماذج الذكاء الاصطناعي على فهم محتوى موقع مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت وتصفحه بشكل صحيح.
+
+## خريطة الموقع والروابط الأساسية
+- [الصفحة الرئيسية](https://sulaimanal-huwaiti.netlify.app/)
+- [خدماتنا](https://sulaimanal-huwaiti.netlify.app/services)
+- [لماذا نحن](https://sulaimanal-huwaiti.netlify.app/why-us)
+- [فروعنا](https://sulaimanal-huwaiti.netlify.app/branches)
+- [المدونة](https://sulaimanal-huwaiti.netlify.app/blog)
+- [تواصل معنا](https://sulaimanal-huwaiti.netlify.app/contact)
