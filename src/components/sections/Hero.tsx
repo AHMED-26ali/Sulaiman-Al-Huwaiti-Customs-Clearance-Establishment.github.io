@@ -3,23 +3,21 @@ import { ArrowLeft, Star, Zap, Shield, ChevronLeft, ChevronRight, Play, Pause, M
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
-// 1. تحويل استدعاء الخلفية ثلاثية الأبعاد إلى تحميل كسول (Lazy Loading) لعدم حظر الصفحة
 const ThreeBackground = lazy(() => import('@/components/effects/ThreeBackground'));
 
-// 2. نقل مصفوفة الصور خارج المكون لمنع إعادة إنشائها في الذاكرة مع كل Render
-// تم استخدام 11 صورة فقط بدلاً من 39 صورة - جميعها بمقاس 3:4 ومُحسّنة بحجم 400x
+// الصور الجديدة - 11 صورة فقط بمقاس 3:4
 const images = [
-  "https://i.pinimg.com/400x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
-  "https://i.pinimg.com/400x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
-  "https://i.pinimg.com/400x/37/ed/b4/37edb45c6bbb6b6bf286b31745ffb3ff.jpg",
-  "https://i.pinimg.com/400x/07/a5/bc/07a5bc3bc6d4afdcc406e7c6077cec72.jpg",
-  "https://i.pinimg.com/400x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
-  "https://i.pinimg.com/400x/dc/08/ba/dc08ba0113b2ad6ccdcce386aec420de.jpg",
-  "https://i.pinimg.com/400x/6e/b3/8c/6eb38cc920d9aff27d1a937de857acb3.jpg",
-  "https://i.pinimg.com/400x/59/5d/d6/595dd682326f5f6ac72689b544e86e6b.jpg",
-  "https://i.pinimg.com/400x/b7/5f/4b/b75f4b3ec36c9fe4ac95a9b127912205.jpg",
-  "https://i.pinimg.com/400x/cd/32/ee/cd32eef494b2196f48a96520ca1c47a1.jpg",
-  "https://i.pinimg.com/400x/50/8c/0a/508c0a70dfa93ab4753f820691c7a71b.jpg",
+  "https://i.pinimg.com/474x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
+  "https://i.pinimg.com/474x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
+  "https://i.pinimg.com/474x/37/ed/b4/37edb45c6bbb6b6bf286b31745ffb3ff.jpg",
+  "https://i.pinimg.com/474x/07/a5/bc/07a5bc3bc6d4afdcc406e7c6077cec72.jpg",
+  "https://i.pinimg.com/474x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
+  "https://i.pinimg.com/474x/dc/08/ba/dc08ba0113b2ad6ccdcce386aec420de.jpg",
+  "https://i.pinimg.com/474x/6e/b3/8c/6eb38cc920d9aff27d1a937de857acb3.jpg",
+  "https://i.pinimg.com/474x/59/5d/d6/595dd682326f5f6ac72689b544e86e6b.jpg",
+  "https://i.pinimg.com/474x/b7/5f/4b/b75f4b3ec36c9fe4ac95a9b127912205.jpg",
+  "https://i.pinimg.com/474x/cd/32/ee/cd32eef494b2196f48a96520ca1c47a1.jpg",
+  "https://i.pinimg.com/474x/50/8c/0a/508c0a70dfa93ab4753f820691c7a71b.jpg",
 ];
 
 export default function Hero() {
@@ -30,7 +28,6 @@ export default function Hero() {
   const thumbnailsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  // Auto-play
   useEffect(() => {
     if (!isPlaying || lightboxOpen) return;
     const interval = setInterval(() => {
@@ -40,7 +37,6 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, [isPlaying, lightboxOpen]);
 
-  // Scroll thumbnails to active (horizontal only, without affecting page scroll)
   useEffect(() => {
     if (thumbnailsRef.current) {
       const container = thumbnailsRef.current;
@@ -58,7 +54,6 @@ export default function Hero() {
     }
   }, [currentIndex]);
 
-  // Keyboard navigation for lightbox
   useEffect(() => {
     if (!lightboxOpen) return;
     const handleKey = (e: KeyboardEvent) => {
@@ -90,14 +85,12 @@ export default function Hero() {
 
   return (
     <section id="home" className="min-h-screen text-white relative overflow-hidden pt-16 section-transparent">
-      {/* غلفنا المكون بـ Suspense لكي يظهر الهيكل النصي للموقع فوراً دون انتظار أكواد الـ 3D الثقيلة */}
       <Suspense fallback={null}>
         <ThreeBackground enabled={true} />
       </Suspense>
 
       <div className="container mx-auto px-4 py-12 md:py-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
-          {/* Content - Left side (2/5) */}
           <div className="lg:col-span-2 space-y-8 animate-fade-in-right">
             <div className="space-y-6">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-green-500/20 to-emerald-500/20 backdrop-blur-sm border border-green-400/30">
@@ -157,15 +150,11 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Professional Image Gallery - Right side (3/5) */}
           <div className="lg:col-span-3 animate-fade-in-left">
             <div className="relative w-full max-w-2xl mx-auto" dir="ltr">
-              {/* Background glow */}
               <div className="absolute -inset-8 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-purple-500/20 rounded-[3rem] blur-3xl opacity-60 animate-pulse"></div>
 
-              {/* Main showcase - 3D coverflow */}
               <div className="relative h-[440px] md:h-[520px] flex items-center justify-center perspective-1000">
-                {/* Previous image (side) */}
                 <button
                   onClick={handlePrev}
                   className="absolute left-0 md:left-4 w-[28%] h-[70%] rounded-2xl overflow-hidden opacity-40 hover:opacity-70 transition-all duration-500 cursor-pointer group z-10"
@@ -180,15 +169,12 @@ export default function Hero() {
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
-                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
                 </button>
 
-                {/* Main image */}
                 <div className="relative w-[60%] h-full z-20 group">
                   <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/20 ring-offset-4 ring-offset-transparent">
-                    {/* Frame gradient border */}
                     <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/40 via-green-400/40 to-purple-400/40 p-[2px]">
                       <div className="relative w-full h-full rounded-3xl overflow-hidden bg-black">
                         <img
@@ -199,13 +185,10 @@ export default function Hero() {
                             direction === 'next' ? 'animate-slide-in-right' : 'animate-slide-in-left'
                           }`}
                           loading={currentIndex < 3 ? 'eager' : 'lazy'}
-                          decoding="async"
                         />
 
-                        {/* Gradient overlay */}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
 
-                        {/* Top badge */}
                         <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
                           <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
                           <span className="text-xs font-bold text-white tracking-wider">
@@ -213,7 +196,6 @@ export default function Hero() {
                           </span>
                         </div>
 
-                        {/* Fullscreen button */}
                         <button
                           onClick={() => setLightboxOpen(true)}
                           className="absolute top-4 left-4 p-2 rounded-full bg-black/60 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100"
@@ -222,7 +204,6 @@ export default function Hero() {
                           <Maximize2 className="w-4 h-4 text-white" />
                         </button>
 
-                        {/* Bottom info */}
                         <div className="absolute bottom-0 left-0 right-0 p-5" dir="rtl">
                           <div className="flex items-end justify-between gap-3">
                             <div>
@@ -245,7 +226,6 @@ export default function Hero() {
                           </div>
                         </div>
 
-                        {/* Progress bar */}
                         <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
                           <div
                             key={currentIndex}
@@ -261,7 +241,6 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* Next image (side) */}
                 <button
                   onClick={handleNext}
                   className="absolute right-0 md:right-4 w-[28%] h-[70%] rounded-2xl overflow-hidden opacity-40 hover:opacity-70 transition-all duration-500 cursor-pointer group z-10"
@@ -276,12 +255,10 @@ export default function Hero() {
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
-                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-gradient-to-l from-black/60 to-transparent"></div>
                 </button>
 
-                {/* Nav arrows */}
                 <button
                   onClick={handlePrev}
                   className="absolute left-2 md:-left-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
@@ -298,7 +275,6 @@ export default function Hero() {
                 </button>
               </div>
 
-              {/* Thumbnails strip */}
               <div
                 ref={thumbnailsRef}
                 dir="ltr"
@@ -317,13 +293,7 @@ export default function Hero() {
                     }`}
                     aria-label={`عرض الصورة ${idx + 1}`}
                   >
-                    <img 
-                      src={img} 
-                      alt="" 
-                      className="w-full h-full object-cover" 
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
                     {idx === currentIndex && (
                       <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/30 to-transparent"></div>
                     )}
@@ -331,7 +301,6 @@ export default function Hero() {
                 ))}
               </div>
 
-              {/* Dot indicators (first 10) */}
               <div className="flex items-center justify-center gap-1.5 mt-4">
                 {images.slice(0, Math.min(images.length, 10)).map((_, idx) => (
                   <button
@@ -353,7 +322,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Stats Section */}
         <div className="mt-16 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           <div className="text-center bg-emerald-500/10 backdrop-blur-sm rounded-2xl p-6 hover:bg-emerald-500/20 transition-all duration-300 border border-emerald-400/30 hover:scale-105 hover:-translate-y-1">
             <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-emerald-400 to-green-400 bg-clip-text text-transparent mb-2">2000+</div>
@@ -374,7 +342,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Lightbox Modal */}
       {lightboxOpen && (
         <div
           className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in"
@@ -418,8 +385,6 @@ export default function Hero() {
               src={images[currentIndex]}
               alt={`صورة ${currentIndex + 1}`}
               className="w-full h-full object-contain rounded-xl shadow-2xl"
-              loading="eager"
-              decoding="sync"
             />
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20">
               <span className="text-sm font-bold text-white">
