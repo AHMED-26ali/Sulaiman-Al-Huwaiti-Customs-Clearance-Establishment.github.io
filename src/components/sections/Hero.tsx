@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const ThreeBackground = lazy(() => import('@/components/effects/ThreeBackground'));
 
-// الصور مُحسّنة - 11 صورة بحجم 236x للـ thumbnails و 474x للعرض الرئيسي
+// الصور محسّنة بأحجام مختلفة للـ thumbnails والعرض الرئيسي
 const images = [
   "https://i.pinimg.com/474x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
   "https://i.pinimg.com/474x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
@@ -19,6 +19,16 @@ const images = [
   "https://i.pinimg.com/474x/cd/32/ee/cd32eef494b2196f48a96520ca1c47a1.jpg",
   "https://i.pinimg.com/474x/50/8c/0a/508c0a70dfa93ab4753f820691c7a71b.jpg",
 ];
+
+// دالة مساعدة للحصول على حجم الصورة المناسب
+const getImageSize = (url: string, size: 'thumb' | 'main' | 'full') => {
+  const sizeMap = {
+    thumb: '236x',
+    main: '474x',
+    full: '736x'
+  };
+  return url.replace(/\/\d+x\//, `/${sizeMap[size]}/`);
+};
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -165,7 +175,7 @@ export default function Hero() {
                   aria-label="الصورة السابقة"
                 >
                   <img
-                    src={images[prevIdx]}
+                    src={getImageSize(images[prevIdx], 'main')}
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
@@ -182,7 +192,7 @@ export default function Hero() {
                       <div className="relative w-full h-full rounded-3xl overflow-hidden bg-black">
                         <img
                           key={currentIndex}
-                          src={images[currentIndex]}
+                          src={getImageSize(images[currentIndex], 'main')}
                           alt={`خدمات التخليص الجمركي - صورة ${currentIndex + 1}`}
                           className={`w-full h-full object-cover transition-all duration-700 ease-out ${
                             direction === 'next' ? 'animate-slide-in-right' : 'animate-slide-in-left'
@@ -258,7 +268,7 @@ export default function Hero() {
                   aria-label="الصورة التالية"
                 >
                   <img
-                    src={images[nextIdx]}
+                    src={getImageSize(images[nextIdx], 'main')}
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
@@ -304,7 +314,7 @@ export default function Hero() {
                     aria-label={`عرض الصورة ${idx + 1}`}
                   >
                     <img 
-                      src={img} 
+                      src={getImageSize(img, 'thumb')}
                       alt="" 
                       className="w-full h-full object-cover" 
                       loading="lazy"
@@ -400,11 +410,11 @@ export default function Hero() {
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={images[currentIndex]}
+              src={getImageSize(images[currentIndex], 'full')}
               alt={`صورة ${currentIndex + 1}`}
               className="w-full h-full object-contain rounded-xl shadow-2xl"
-              loading="eager"
-              decoding="sync"
+              loading="lazy"
+              decoding="async"
             />
             <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20">
               <span className="text-sm font-bold text-white">
