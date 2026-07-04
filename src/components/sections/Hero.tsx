@@ -7,19 +7,14 @@ const ThreeBackground = lazy(() => import('@/components/effects/ThreeBackground'
 
 // الصور محسّنة بأحجام مختلفة للـ thumbnails والعرض الرئيسي
 const images = [
-  "https://i.pinimg.com/474x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
-  "https://i.pinimg.com/474x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
-  "https://i.pinimg.com/474x/37/ed/b4/37edb45c6bbb6b6bf286b31745ffb3ff.jpg",
-  "https://i.pinimg.com/474x/07/a5/bc/07a5bc3bc6d4afdcc406e7c6077cec72.jpg",
-  "https://i.pinimg.com/474x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
-  "https://i.pinimg.com/474x/dc/08/ba/dc08ba0113b2ad6ccdcce386aec420de.jpg",
-  "https://i.pinimg.com/474x/6e/b3/8c/6eb38cc920d9aff27d1a937de857acb3.jpg",
-  "https://i.pinimg.com/474x/59/5d/d6/595dd682326f5f6ac72689b544e86e6b.jpg",
-  "https://i.pinimg.com/474x/b7/5f/4b/b75f4b3ec36c9fe4ac95a9b127912205.jpg",
-  "https://i.pinimg.com/474x/cd/32/ee/cd32eef494b2196f48a96520ca1c47a1.jpg",
-  "https://i.pinimg.com/474x/50/8c/0a/508c0a70dfa93ab4753f820691c7a71b.jpg",
+  "https://i.pinimg.com/236x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
+  "https://i.pinimg.com/236x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
+  "https://i.pinimg.com/236x/37/ed/b4/37edb45c6bbb6b6bf286b31745ffb3ff.jpg",
+  "https://i.pinimg.com/236x/07/a5/bc/07a5bc3bc6d4afdcc406e7c6077cec72.jpg",
+  "https://i.pinimg.com/236x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
+  "https://i.pinimg.com/236x/dc/08/ba/dc08ba0113b2ad6ccdcce386aec420de.jpg",
+  "https://i.pinimg.com/236x/6e/b3/8c/6eb38cc920d9aff27d1a937de857acb3.jpg",
 ];
-
 // دالة مساعدة للحصول على حجم الصورة المناسب
 const getImageSize = (url: string, size: 'thumb' | 'main' | 'full') => {
   const sizeMap = {
