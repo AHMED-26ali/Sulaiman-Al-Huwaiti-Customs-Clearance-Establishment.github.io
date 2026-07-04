@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 
 const ThreeBackground = lazy(() => import('@/components/effects/ThreeBackground'));
 
-// تقليل عدد الصور من 7 إلى 5 فقط
 const images = [
   "https://i.pinimg.com/236x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
   "https://i.pinimg.com/236x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
@@ -14,7 +13,6 @@ const images = [
   "https://i.pinimg.com/236x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
 ];
 
-// دالة مساعدة للحصول على حجم الصورة المناسب
 const getImageSize = (url: string, size: 'thumb' | 'side' | 'main' | 'full') => {
   const sizeMap = {
     thumb: '150x',
@@ -159,93 +157,100 @@ export default function Hero() {
             <div className="relative w-full max-w-2xl mx-auto" dir="ltr">
               <div className="absolute -inset-8 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-purple-500/20 rounded-[3rem] blur-3xl opacity-60 animate-pulse"></div>
 
-              <div className="relative h-[500px] md:h-[600px] flex items-center justify-center">
-                <div className="relative w-full max-w-2xl z-20 group">
-                  <div className="rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/20">
-                    <div className="relative w-full h-full rounded-3xl overflow-hidden bg-black">
-                      <img
-                        key={currentIndex}
-                        src={getImageSize(images[currentIndex], 'main')}
-                        alt={`خدمات التخليص الجمركي - صورة ${currentIndex + 1}`}
-                        className="w-full h-full object-cover transition-all duration-700 ease-out"
-                        loading={currentIndex === 0 ? 'eager' : 'lazy'}
-                        decoding="async"
-                        fetchpriority={currentIndex === 0 ? 'high' : 'auto'}
-                      />
-
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
-
-                      <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
-                        <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                        <span className="text-xs font-bold text-white tracking-wider">
-                          {String(currentIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
-                        </span>
-                      </div>
-
-                      <button
-                        onClick={() => setLightboxOpen(true)}
-                        className="absolute top-4 left-4 p-2 rounded-full bg-black/60 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100"
-                        aria-label="عرض بالحجم الكامل"
-                      >
-                        <Maximize2 className="w-4 h-4 text-white" />
-                      </button>
-
-                      <div className="absolute bottom-0 left-0 right-0 p-5" dir="rtl">
-                        <div className="flex items-end justify-between gap-3">
-                          <div>
-                            <p className="text-xs text-cyan-300 font-medium mb-1 tracking-wider">معرض</p>
-                            <h2 className="text-base md:text-lg font-bold text-white">
-                              خدمات التخليص الجمركي والترانزيت
-                            </h2>
-                          </div>
-                          <button
-                            onClick={() => setIsPlaying(!isPlaying)}
-                            className="flex-shrink-0 p-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300"
-                            aria-label={isPlaying ? 'إيقاف' : 'تشغيل'}
-                          >
-                            {isPlaying ? (
-                              <Pause className="w-4 h-4 text-white" />
-                            ) : (
-                              <Play className="w-4 h-4 text-white" />
-                            )}
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-                        <div
+              {/* المقاسات القديمة */}
+              <div className="relative h-[440px] md:h-[520px] flex items-center justify-center perspective-1000">
+                <div className="relative w-[60%] h-full z-20 group">
+                  <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/20 ring-offset-4 ring-offset-transparent">
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/40 via-green-400/40 to-purple-400/40 p-[2px]">
+                      <div className="relative w-full h-full rounded-3xl overflow-hidden bg-black">
+                        <img
                           key={currentIndex}
-                          className="h-full bg-gradient-to-r from-cyan-400 via-green-400 to-emerald-400"
-                          style={{
-                            animation: isPlaying ? 'progress 4s linear' : 'none',
-                            width: isPlaying ? '100%' : `${((currentIndex + 1) / images.length) * 100}%`,
-                          }}
-                        ></div>
+                          src={getImageSize(images[currentIndex], 'main')}
+                          alt={`خدمات التخليص الجمركي - صورة ${currentIndex + 1}`}
+                          className={`w-full h-full object-cover transition-all duration-700 ease-out ${
+                            direction === 'next' ? 'animate-slide-in-right' : 'animate-slide-in-left'
+                          }`}
+                          loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                          decoding="async"
+                          fetchpriority={currentIndex === 0 ? 'high' : 'auto'}
+                        />
+
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
+
+                        <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
+                          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                          <span className="text-xs font-bold text-white tracking-wider">
+                            {String(currentIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
+                          </span>
+                        </div>
+
+                        <button
+                          onClick={() => setLightboxOpen(true)}
+                          className="absolute top-4 left-4 p-2 rounded-full bg-black/60 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100"
+                          aria-label="عرض بالحجم الكامل"
+                        >
+                          <Maximize2 className="w-4 h-4 text-white" />
+                        </button>
+
+                        <div className="absolute bottom-0 left-0 right-0 p-5" dir="rtl">
+                          <div className="flex items-end justify-between gap-3">
+                            <div>
+                              <p className="text-xs text-cyan-300 font-medium mb-1 tracking-wider">معرض</p>
+                              <h2 className="text-base md:text-lg font-bold text-white">
+                                خدمات التخليص الجمركي والترانزيت
+                              </h2>
+                            </div>
+                            <button
+                              onClick={() => setIsPlaying(!isPlaying)}
+                              className="flex-shrink-0 p-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300"
+                              aria-label={isPlaying ? 'إيقاف' : 'تشغيل'}
+                            >
+                              {isPlaying ? (
+                                <Pause className="w-4 h-4 text-white" />
+                              ) : (
+                                <Play className="w-4 h-4 text-white" />
+                              )}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
+                          <div
+                            key={currentIndex}
+                            className="h-full bg-gradient-to-r from-cyan-400 via-green-400 to-emerald-400"
+                            style={{
+                              animation: isPlaying ? 'progress 4s linear' : 'none',
+                              width: isPlaying ? '100%' : `${((currentIndex + 1) / images.length) * 100}%`,
+                            }}
+                          ></div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
+                {/* أزرار التنقل على الجنب */}
                 <button
                   onClick={handlePrev}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                  className="absolute left-2 md:-left-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
                   aria-label="السابق"
                 >
                   <ChevronLeft className="w-6 h-6 text-white group-hover:text-cyan-300" />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
+                  className="absolute right-2 md:-right-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
                   aria-label="التالي"
                 >
                   <ChevronRight className="w-6 h-6 text-white group-hover:text-cyan-300" />
                 </button>
               </div>
 
+              {/* Thumbnails */}
               <div
                 ref={thumbnailsRef}
                 dir="ltr"
-                className="mt-6 flex gap-2 overflow-x-auto scrollbar-hide pb-2 px-1 justify-center"
+                className="mt-6 flex gap-2 overflow-x-auto scrollbar-hide pb-2 px-1"
                 style={{ scrollbarWidth: 'none' }}
               >
                 {images.map((img, idx) => (
@@ -276,6 +281,7 @@ export default function Hero() {
                 ))}
               </div>
 
+              {/* Dot indicators */}
               <div className="flex items-center justify-center gap-1.5 mt-4">
                 {images.slice(0, Math.min(images.length, 10)).map((_, idx) => (
                   <button
