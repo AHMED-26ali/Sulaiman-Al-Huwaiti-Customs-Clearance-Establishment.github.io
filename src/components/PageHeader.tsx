@@ -11,24 +11,25 @@ export default function PageHeader({ title, subtitle, gradient }: PageHeaderProp
   return (
     <div className={`relative py-16 md:py-24 px-4 overflow-hidden bg-gradient-to-br ${gradient}`}>
       {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-20">
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
         <div className="absolute top-10 right-10 w-72 h-72 rounded-full bg-white/20 blur-3xl"></div>
         <div className="absolute bottom-10 left-10 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
       </div>
 
       <div className="container mx-auto relative z-10">
         {/* Breadcrumb */}
-        <div className="flex items-center justify-center gap-2 mb-6 text-white/80">
+        <nav aria-label="breadcrumb" className="flex items-center justify-center gap-2 mb-6 text-white/80">
           <Link
             to="/"
             className="flex items-center gap-2 hover:text-white transition-colors duration-300 group"
+            aria-label="العودة للرئيسية"
           >
-            <Home className="w-4 h-4" />
+            <Home className="w-4 h-4" aria-hidden="true" />
             <span>الرئيسية</span>
           </Link>
-          <ChevronLeft className="w-4 h-4" />
-          <span className="text-white font-semibold">{title}</span>
-        </div>
+          <ChevronLeft className="w-4 h-4" aria-hidden="true" />
+          <span className="text-white font-semibold" aria-current="page">{title}</span>
+        </nav>
 
         {/* Title */}
         <div className="text-center">
