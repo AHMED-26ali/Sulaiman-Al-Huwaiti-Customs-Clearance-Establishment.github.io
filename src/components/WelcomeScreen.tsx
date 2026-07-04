@@ -11,8 +11,8 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowWelcome(false);
-      setTimeout(onComplete, 500); // تقليل وقت الانتظار
-    }, 2500); // تقليل المدة من 4000 إلى 2500
+      setTimeout(onComplete, 500);
+    }, 2500);
 
     return () => clearTimeout(timer);
   }, [onComplete]);
@@ -32,92 +32,63 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
             background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)"
           }}
         >
-          {/* Floating Particles - تقليل العدد من 100 إلى 30 */}
-          <div className="absolute inset-0 overflow-hidden">
-            {[...Array(30)].map((_, i) => (
-              <motion.div
+          {/* Floating Particles - CSS animations بدل framer-motion */}
+          <div className="absolute inset-0 overflow-hidden particles-container">
+            {[...Array(15)].map((_, i) => (
+              <div
                 key={`particle-${i}`}
-                className="absolute rounded-full bg-white/40"
+                className="absolute rounded-full bg-white/40 particle"
                 style={{
-                  width: Math.random() * 3 + 1,
-                  height: Math.random() * 3 + 1,
+                  width: `${Math.random() * 3 + 1}px`,
+                  height: `${Math.random() * 3 + 1}px`,
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  willChange: 'transform, opacity'
-                }}
-                animate={{
-                  y: [0, -20],
-                  opacity: [0, 0.6, 0]
-                }}
-                transition={{
-                  duration: 2,
-                  repeat: 1, // تشغيل مرة واحدة بس
-                  delay: Math.random() * 0.5,
-                  ease: "easeOut"
+                  animationDelay: `${Math.random() * 2}s`,
+                  animationDuration: `${2 + Math.random() * 2}s`
                 }}
               />
             ))}
           </div>
 
-          {/* Geometric Shapes - تقليل العدد من 20 إلى 8 */}
-          <div className="absolute inset-0">
-            {[...Array(8)].map((_, i) => (
-              <motion.div
+          {/* Geometric Shapes - CSS animations */}
+          <div className="absolute inset-0 shapes-container">
+            {[...Array(5)].map((_, i) => (
+              <div
                 key={`shape-${i}`}
-                className="absolute"
+                className={`absolute shape shape-${i % 3}`}
                 style={{
                   left: `${Math.random() * 100}%`,
                   top: `${Math.random() * 100}%`,
-                  willChange: 'transform'
+                  animationDelay: `${Math.random() * 2}s`,
+                  animationDuration: `${3 + Math.random() * 2}s`
                 }}
-                animate={{
-                  rotate: [0, 180],
-                  scale: [0.8, 1.2, 0.8],
-                }}
-                transition={{
-                  duration: 3,
-                  repeat: 1, // تشغيل مرة واحدة
-                  delay: Math.random() * 0.3
-                }}
-              >
-                {i % 3 === 0 && (
-                  <div className="w-4 h-4 border border-white/20 rotate-45" />
-                )}
-                {i % 3 === 1 && (
-                  <div className="w-3 h-3 bg-blue-300/30 rounded-full" />
-                )}
-                {i % 3 === 2 && (
-                  <div className="w-6 h-2 bg-purple-300/30 rounded-full" />
-                )}
-              </motion.div>
+              />
             ))}
           </div>
 
-          {/* Glowing Orbs - تقليل العدد من 3 إلى 2 */}
+          {/* Glowing Orbs - framer-motion بس */}
           <motion.div 
-            className="absolute top-20 left-20 w-64 h-64 rounded-full blur-3xl"
+            className="absolute top-20 left-20 w-64 h-64 rounded-full blur-3xl orb-1"
             style={{ 
               backgroundColor: 'rgba(59, 130, 246, 0.2)',
-              willChange: 'transform, opacity'
             }}
             animate={{ 
               scale: [1, 1.3, 1],
               opacity: [0.2, 0.5, 0.2]
             }}
-            transition={{ duration: 4, repeat: 1 }}
+            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
           />
           
           <motion.div 
-            className="absolute bottom-20 right-20 w-80 h-80 rounded-full blur-3xl"
+            className="absolute bottom-20 right-20 w-80 h-80 rounded-full blur-3xl orb-2"
             style={{ 
               backgroundColor: 'rgba(168, 85, 247, 0.2)',
-              willChange: 'transform, opacity'
             }}
             animate={{ 
               scale: [1.2, 0.9, 1.2],
               opacity: [0.3, 0.6, 0.3]
             }}
-            transition={{ duration: 5, repeat: 1 }}
+            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
           />
 
           {/* Main Content */}
@@ -146,12 +117,12 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                   }}
                 />
                 
-                {/* Rotating Ring - واحد بس بدل 3 */}
+                {/* Rotating Ring */}
                 <motion.div 
                   className="absolute inset-0 border-2 border-dashed rounded-full"
                   style={{ borderColor: 'rgba(255, 255, 255, 0.4)' }}
                   animate={{ rotate: 360 }}
-                  transition={{ duration: 6, repeat: 1, ease: "linear" }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
                 />
               </div>
             </motion.div>
@@ -208,7 +179,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
               </motion.p>
             </motion.div>
 
-            {/* Loading Dots - تبسيط الأنيميشن */}
+            {/* Loading Dots */}
             <motion.div 
               className="mt-12 flex justify-center gap-3"
               initial={{ opacity: 0 }}
@@ -226,7 +197,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                   }}
                   transition={{ 
                     duration: 1,
-                    repeat: 2,
+                    repeat: Infinity,
                     delay: i * 0.2
                   }}
                 />
@@ -250,6 +221,80 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
               تخطي ←
             </motion.button>
           </div>
+
+          {/* CSS Animations - أخف بكتير من framer-motion */}
+          <style>{`
+            @keyframes particle-float {
+              0% {
+                transform: translateY(0) scale(0);
+                opacity: 0;
+              }
+              50% {
+                opacity: 0.6;
+                transform: translateY(-20px) scale(1);
+              }
+              100% {
+                transform: translateY(-40px) scale(0);
+                opacity: 0;
+              }
+            }
+
+            @keyframes shape-rotate {
+              0% {
+                transform: rotate(0deg) scale(0.8);
+                opacity: 0.3;
+              }
+              50% {
+                transform: rotate(180deg) scale(1.2);
+                opacity: 0.8;
+              }
+              100% {
+                transform: rotate(360deg) scale(0.8);
+                opacity: 0.3;
+              }
+            }
+
+            .particle {
+              animation: particle-float 3s ease-in-out infinite;
+              will-change: transform, opacity;
+            }
+
+            .shape {
+              animation: shape-rotate 4s ease-in-out infinite;
+              will-change: transform, opacity;
+            }
+
+            .shape-0 {
+              width: 16px;
+              height: 16px;
+              border: 1px solid rgba(255, 255, 255, 0.2);
+              transform: rotate(45deg);
+            }
+
+            .shape-1 {
+              width: 12px;
+              height: 12px;
+              background: rgba(147, 197, 253, 0.3);
+              border-radius: 50%;
+            }
+
+            .shape-2 {
+              width: 24px;
+              height: 8px;
+              background: rgba(192, 132, 252, 0.3);
+              border-radius: 4px;
+            }
+
+            /* احترام تفضيلات المستخدم */
+            @media (prefers-reduced-motion: reduce) {
+              .particle,
+              .shape,
+              .orb-1,
+              .orb-2 {
+                animation: none !important;
+              }
+            }
+          `}</style>
         </motion.div>
       )}
     </AnimatePresence>
