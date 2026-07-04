@@ -28,7 +28,6 @@ export default function Hero() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
-  const thumbnailsRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,23 +38,6 @@ export default function Hero() {
     }, 4000);
     return () => clearInterval(interval);
   }, [isPlaying, lightboxOpen]);
-
-  useEffect(() => {
-    if (thumbnailsRef.current) {
-      const container = thumbnailsRef.current;
-      const activeThumb = container.querySelector(`[data-index="${currentIndex}"]`) as HTMLElement;
-      if (activeThumb) {
-        const containerRect = container.getBoundingClientRect();
-        const thumbRect = activeThumb.getBoundingClientRect();
-        const offset =
-          thumbRect.left -
-          containerRect.left -
-          containerRect.width / 2 +
-          thumbRect.width / 2;
-        container.scrollBy({ left: offset, behavior: 'smooth' });
-      }
-    }
-  }, [currentIndex]);
 
   useEffect(() => {
     if (!lightboxOpen) return;
@@ -157,7 +139,6 @@ export default function Hero() {
             <div className="relative w-full max-w-2xl mx-auto" dir="ltr">
               <div className="absolute -inset-8 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-purple-500/20 rounded-[3rem] blur-3xl opacity-60 animate-pulse"></div>
 
-              {/* المقاسات القديمة */}
               <div className="relative h-[440px] md:h-[520px] flex items-center justify-center perspective-1000">
                 <div className="relative w-[60%] h-full z-20 group">
                   <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/20 ring-offset-4 ring-offset-transparent">
@@ -229,7 +210,6 @@ export default function Hero() {
                   </div>
                 </div>
 
-                {/* أزرار التنقل على الجنب */}
                 <button
                   onClick={handlePrev}
                   className="absolute left-2 md:-left-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
@@ -244,60 +224,6 @@ export default function Hero() {
                 >
                   <ChevronRight className="w-6 h-6 text-white group-hover:text-cyan-300" />
                 </button>
-              </div>
-
-              {/* Thumbnails */}
-              <div
-                ref={thumbnailsRef}
-                dir="ltr"
-                className="mt-6 flex gap-2 overflow-x-auto scrollbar-hide pb-2 px-1"
-                style={{ scrollbarWidth: 'none' }}
-              >
-                {images.map((img, idx) => (
-                  <button
-                    key={idx}
-                    data-index={idx}
-                    onClick={() => goTo(idx)}
-                    className={`flex-shrink-0 relative rounded-xl overflow-hidden transition-all duration-500 ${
-                      idx === currentIndex
-                        ? 'w-20 h-16 ring-2 ring-cyan-400 ring-offset-2 ring-offset-transparent scale-110 shadow-lg shadow-cyan-500/50'
-                        : 'w-16 h-14 opacity-60 hover:opacity-100 hover:scale-105'
-                    }`}
-                    aria-label={`عرض الصورة ${idx + 1}`}
-                  >
-                    <img 
-                      src={getImageSize(img, 'thumb')}
-                      alt="" 
-                      className="w-full h-full object-cover" 
-                      loading="lazy"
-                      decoding="async"
-                      width={80}
-                      height={64}
-                    />
-                    {idx === currentIndex && (
-                      <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/30 to-transparent"></div>
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              {/* Dot indicators */}
-              <div className="flex items-center justify-center gap-1.5 mt-4">
-                {images.slice(0, Math.min(images.length, 10)).map((_, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => goTo(idx)}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                      idx === currentIndex % 10
-                        ? 'w-8 bg-gradient-to-r from-cyan-400 to-green-400'
-                        : 'w-1.5 bg-white/30 hover:bg-white/60'
-                    }`}
-                    aria-label={`الصورة ${idx + 1}`}
-                  />
-                ))}
-                {images.length > 10 && (
-                  <span className="text-xs text-white/50 mr-2">+{images.length - 10}</span>
-                )}
               </div>
             </div>
           </div>
