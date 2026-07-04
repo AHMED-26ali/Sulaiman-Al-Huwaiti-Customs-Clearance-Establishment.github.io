@@ -5,22 +5,22 @@ import { useNavigate } from 'react-router-dom';
 
 const ThreeBackground = lazy(() => import('@/components/effects/ThreeBackground'));
 
-// الصور محسّنة بأحجام مختلفة للـ thumbnails والعرض الرئيسي
+// تقليل عدد الصور من 7 إلى 5 فقط
 const images = [
   "https://i.pinimg.com/236x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
   "https://i.pinimg.com/236x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
   "https://i.pinimg.com/236x/37/ed/b4/37edb45c6bbb6b6bf286b31745ffb3ff.jpg",
   "https://i.pinimg.com/236x/07/a5/bc/07a5bc3bc6d4afdcc406e7c6077cec72.jpg",
   "https://i.pinimg.com/236x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
-  "https://i.pinimg.com/236x/dc/08/ba/dc08ba0113b2ad6ccdcce386aec420de.jpg",
-  "https://i.pinimg.com/236x/6e/b3/8c/6eb38cc920d9aff27d1a937de857acb3.jpg",
 ];
+
 // دالة مساعدة للحصول على حجم الصورة المناسب
-const getImageSize = (url: string, size: 'thumb' | 'main' | 'full') => {
+const getImageSize = (url: string, size: 'thumb' | 'side' | 'main' | 'full') => {
   const sizeMap = {
-    thumb: '236x',
-    main: '474x',
-    full: '736x'
+    thumb: '150x',  // أصغر للـ thumbnails
+    side: '236x',   // للـ side images
+    main: '400x',   // للصورة الرئيسية
+    full: '736x'    // للـ lightbox
   };
   return url.replace(/\/\d+x\//, `/${sizeMap[size]}/`);
 };
@@ -160,6 +160,7 @@ export default function Hero() {
               <div className="absolute -inset-8 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-purple-500/20 rounded-[3rem] blur-3xl opacity-60 animate-pulse"></div>
 
               <div className="relative h-[440px] md:h-[520px] flex items-center justify-center perspective-1000">
+                {/* الصورة السابقة - استخدام حجم أصغر */}
                 <button
                   onClick={handlePrev}
                   className="absolute left-0 md:left-4 w-[28%] h-[70%] rounded-2xl overflow-hidden opacity-40 hover:opacity-70 transition-all duration-500 cursor-pointer group z-10"
@@ -170,17 +171,18 @@ export default function Hero() {
                   aria-label="الصورة السابقة"
                 >
                   <img
-                    src={getImageSize(images[prevIdx], 'main')}
+                    src={getImageSize(images[prevIdx], 'side')}
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
                     decoding="async"
-                    width={280}
-                    height={364}
+                    width={145}
+                    height={189}
                   />
                   <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent"></div>
                 </button>
 
+                {/* الصورة الرئيسية */}
                 <div className="relative w-[60%] h-full z-20 group">
                   <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/20 ring-offset-4 ring-offset-transparent">
                     <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/40 via-green-400/40 to-purple-400/40 p-[2px]">
@@ -195,8 +197,8 @@ export default function Hero() {
                           loading={currentIndex === 0 ? 'eager' : 'lazy'}
                           decoding="async"
                           fetchpriority={currentIndex === 0 ? 'high' : 'auto'}
-                          width={520}
-                          height={676}
+                          width={312}
+                          height={406}
                         />
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
@@ -253,6 +255,7 @@ export default function Hero() {
                   </div>
                 </div>
 
+                {/* الصورة التالية - استخدام حجم أصغر */}
                 <button
                   onClick={handleNext}
                   className="absolute right-0 md:right-4 w-[28%] h-[70%] rounded-2xl overflow-hidden opacity-40 hover:opacity-70 transition-all duration-500 cursor-pointer group z-10"
@@ -263,13 +266,13 @@ export default function Hero() {
                   aria-label="الصورة التالية"
                 >
                   <img
-                    src={getImageSize(images[nextIdx], 'main')}
+                    src={getImageSize(images[nextIdx], 'side')}
                     alt=""
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     loading="lazy"
                     decoding="async"
-                    width={280}
-                    height={364}
+                    width={145}
+                    height={189}
                   />
                   <div className="absolute inset-0 bg-gradient-to-l from-black/60 to-transparent"></div>
                 </button>
@@ -290,6 +293,7 @@ export default function Hero() {
                 </button>
               </div>
 
+              {/* Thumbnails - استخدام حجم أصغر */}
               <div
                 ref={thumbnailsRef}
                 dir="ltr"
@@ -314,8 +318,8 @@ export default function Hero() {
                       className="w-full h-full object-cover" 
                       loading="lazy"
                       decoding="async"
-                      width={112}
-                      height={140}
+                      width={80}
+                      height={64}
                     />
                     {idx === currentIndex && (
                       <div className="absolute inset-0 bg-gradient-to-t from-cyan-500/30 to-transparent"></div>
