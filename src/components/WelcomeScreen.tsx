@@ -7,15 +7,23 @@ interface WelcomeScreenProps {
 
 export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
   const [showWelcome, setShowWelcome] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // كشف الجهاز
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    checkMobile();
+
+    // تقليل المدة على الموبايل
     const timer = setTimeout(() => {
       setShowWelcome(false);
-      setTimeout(onComplete, 500);
-    }, 2500);
+      setTimeout(onComplete, isMobile ? 300 : 500);
+    }, isMobile ? 1500 : 2500);
 
     return () => clearTimeout(timer);
-  }, [onComplete]);
+  }, [onComplete, isMobile]);
 
   return (
     <AnimatePresence mode="wait" onExitComplete={onComplete}>
@@ -25,16 +33,16 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
           animate={{ opacity: 1 }}
           exit={{ 
             opacity: 0,
-            transition: { duration: 0.5 }
+            transition: { duration: 0.3 }
           }}
           className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
           style={{
             background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)"
           }}
         >
-          {/* Floating Particles - CSS animations بدل framer-motion */}
+          {/* Floating Particles - تقليل العدد على الموبايل */}
           <div className="absolute inset-0 overflow-hidden particles-container">
-            {[...Array(15)].map((_, i) => (
+            {[...Array(isMobile ? 5 : 15)].map((_, i) => (
               <div
                 key={`particle-${i}`}
                 className="absolute rounded-full bg-white/40 particle"
@@ -50,46 +58,52 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
             ))}
           </div>
 
-          {/* Geometric Shapes - CSS animations */}
-          <div className="absolute inset-0 shapes-container">
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={`shape-${i}`}
-                className={`absolute shape shape-${i % 3}`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 2}s`,
-                  animationDuration: `${3 + Math.random() * 2}s`
-                }}
-              />
-            ))}
-          </div>
+          {/* Geometric Shapes - تقليل العدد على الموبايل */}
+          {!isMobile && (
+            <div className="absolute inset-0 shapes-container">
+              {[...Array(5)].map((_, i) => (
+                <div
+                  key={`shape-${i}`}
+                  className={`absolute shape shape-${i % 3}`}
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${Math.random() * 2}s`,
+                    animationDuration: `${3 + Math.random() * 2}s`
+                  }}
+                />
+              ))}
+            </div>
+          )}
 
-          {/* Glowing Orbs - framer-motion بس */}
-          <motion.div 
-            className="absolute top-20 left-20 w-64 h-64 rounded-full blur-3xl orb-1"
-            style={{ 
-              backgroundColor: 'rgba(59, 130, 246, 0.2)',
-            }}
-            animate={{ 
-              scale: [1, 1.3, 1],
-              opacity: [0.2, 0.5, 0.2]
-            }}
-            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          />
-          
-          <motion.div 
-            className="absolute bottom-20 right-20 w-80 h-80 rounded-full blur-3xl orb-2"
-            style={{ 
-              backgroundColor: 'rgba(168, 85, 247, 0.2)',
-            }}
-            animate={{ 
-              scale: [1.2, 0.9, 1.2],
-              opacity: [0.3, 0.6, 0.3]
-            }}
-            transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-          />
+          {/* Glowing Orbs - تعطيل على الموبايل */}
+          {!isMobile && (
+            <>
+              <motion.div 
+                className="absolute top-20 left-20 w-64 h-64 rounded-full blur-3xl orb-1"
+                style={{ 
+                  backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                }}
+                animate={{ 
+                  scale: [1, 1.3, 1],
+                  opacity: [0.2, 0.5, 0.2]
+                }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              />
+              
+              <motion.div 
+                className="absolute bottom-20 right-20 w-80 h-80 rounded-full blur-3xl orb-2"
+                style={{ 
+                  backgroundColor: 'rgba(168, 85, 247, 0.2)',
+                }}
+                animate={{ 
+                  scale: [1.2, 0.9, 1.2],
+                  opacity: [0.3, 0.6, 0.3]
+                }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+              />
+            </>
+          )}
 
           {/* Main Content */}
           <div className="relative z-10 text-center text-white px-6">
@@ -108,22 +122,24 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
             >
               <div className="relative">
                 <motion.img 
-                  src="https://i.pinimg.com/400x/1e/e4/78/1ee4788aeee1f2426ea5e7fe73f811e1.jpg"
+                  src="https://i.pinimg.com/236x/1e/e4/78/1ee4788aeee1f2426ea5e7fe73f811e1.jpg"
                   alt="شعار سليمان الحويطي"
-                  className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover shadow-2xl"
+                  className="w-24 h-24 md:w-40 md:h-40 rounded-full object-cover shadow-2xl"
                   style={{
                     border: '3px solid rgba(255, 255, 255, 0.5)',
                     boxShadow: '0 0 40px rgba(59, 130, 246, 0.6)'
                   }}
                 />
                 
-                {/* Rotating Ring */}
-                <motion.div 
-                  className="absolute inset-0 border-2 border-dashed rounded-full"
-                  style={{ borderColor: 'rgba(255, 255, 255, 0.4)' }}
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                />
+                {/* Rotating Ring - تعطيل على الموبايل */}
+                {!isMobile && (
+                  <motion.div 
+                    className="absolute inset-0 border-2 border-dashed rounded-full"
+                    style={{ borderColor: 'rgba(255, 255, 255, 0.4)' }}
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                  />
+                )}
               </div>
             </motion.div>
 
@@ -132,11 +148,11 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
               initial={{ y: 30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              className="space-y-4"
+              transition={{ delay: 0.3, duration: 0.5 }}
+              className="space-y-3"
             >
               <motion.h1 
-                className="text-4xl md:text-6xl font-bold leading-tight text-white"
+                className="text-3xl md:text-6xl font-bold leading-tight text-white"
                 style={{
                   textShadow: '0 0 20px rgba(255, 255, 255, 0.6)',
                   fontWeight: '900'
@@ -146,7 +162,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
               </motion.h1>
 
               <motion.h2 
-                className="text-3xl md:text-5xl font-bold leading-tight"
+                className="text-2xl md:text-5xl font-bold leading-tight"
                 style={{
                   color: '#fbbf24',
                   textShadow: '0 0 20px rgba(251, 191, 36, 0.6)',
@@ -155,7 +171,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                 initial={{ scale: 0.9 }}
                 animate={{ scale: 1 }}
                 transition={{ 
-                  delay: 0.7,
+                  delay: 0.5,
                   type: "spring",
                   stiffness: 150,
                   damping: 10
@@ -165,7 +181,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
               </motion.h2>
 
               <motion.p 
-                className="text-xl md:text-2xl font-semibold"
+                className="text-lg md:text-2xl font-semibold"
                 style={{
                   color: '#93c5fd',
                   textShadow: '0 0 15px rgba(147, 197, 253, 0.6)',
@@ -173,19 +189,19 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                 }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.9, duration: 0.5 }}
+                transition={{ delay: 0.7, duration: 0.4 }}
               >
                 للتخليص الجمركي والترانزيت
               </motion.p>
             </motion.div>
 
-            {/* Loading Dots */}
+            {/* Loading Dots - تقليل العدد على الموبايل */}
             <motion.div 
-              className="mt-12 flex justify-center gap-3"
+              className="mt-8 md:mt-12 flex justify-center gap-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ delay: 1.2, duration: 0.3 }}
+              transition={{ delay: 0.9, duration: 0.3 }}
             >
               {[0, 1, 2].map((i) => (
                 <motion.div
@@ -208,13 +224,13 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
             <motion.button
               onClick={() => {
                 setShowWelcome(false);
-                setTimeout(onComplete, 300);
+                setTimeout(onComplete, 200);
               }}
               className="absolute bottom-6 right-6 text-white/70 hover:text-white text-sm font-semibold transition-all duration-200 px-4 py-2 rounded-full border border-white/30 hover:border-white/60 hover:bg-white/10"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ delay: 1.5 }}
+              transition={{ delay: 1.2 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -222,7 +238,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
             </motion.button>
           </div>
 
-          {/* CSS Animations - أخف بكتير من framer-motion */}
+          {/* CSS Animations */}
           <style>{`
             @keyframes particle-float {
               0% {
