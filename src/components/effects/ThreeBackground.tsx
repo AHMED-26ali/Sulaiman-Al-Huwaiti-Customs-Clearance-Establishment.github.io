@@ -13,8 +13,6 @@ export default function ThreeBackground({ enabled, className = "" }: ThreeBackgr
     camera?: THREE.PerspectiveCamera;
     renderer?: THREE.WebGLRenderer;
     stars?: THREE.Points;
-    geometry?: THREE.BufferGeometry;
-    material?: THREE.PointsMaterial;
     animationId?: number;
   }>({});
   const [isVisible, setIsVisible] = useState(true);
@@ -37,27 +35,39 @@ export default function ThreeBackground({ enabled, className = "" }: ThreeBackgr
     // Scene setup
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    
+    // تحسينات الأداء: تعطيل antialias وتحديد pixel ratio
+    const renderer = new THREE.WebGLRenderer({ 
+      alpha: true, 
+      antialias: false, // تعطيل antialias لتوفير GPU
+      powerPreference: 'low-power' // استخدام GPU أقل استهلاكاً
+    });
+    
+    // تحديد pixel ratio لتوفير الأداء على الشاشات عالية الدقة
+    const pixelRatio = Math.min(window.devicePixelRatio, 1.5);
+    renderer.setPixelRatio(pixelRatio);
     
     renderer.setSize(width, height);
     renderer.setClearColor(0x000000, 0);
     mountRef.current.appendChild(renderer.domElement);
 
-    // Create starfield
+    // تقليل عدد النجوم من 2000 إلى 800
     const starsGeometry = new THREE.BufferGeometry();
     const starsMaterial = new THREE.PointsMaterial({
       color: 0x60a5fa,
-      size: 2,
+      size: 1.5, // تقليل الحجم
       transparent: true,
-      opacity: 0.8,
-      blending: THREE.AdditiveBlending
+      opacity: 0.6, // تقليل الشفافية
+      blending: THREE.AdditiveBlending,
+      sizeAttenuation: true // تحسين الأداء
     });
 
     const starsVertices = [];
-    for (let i = 0; i < 2000; i++) {
-      const x = (Math.random() - 0.5) * 2000;
-      const y = (Math.random() - 0.5) * 2000;
-      const z = (Math.random() - 0.5) * 2000;
+    const starCount = 800; // تقليل العدد
+    for (let i = 0; i < starCount; i++) {
+      const x = (Math.random() - 0.5) * 1500; // تقليل المدى
+      const y = (Math.random() - 0.5) * 1500;
+      const z = (Math.random() - 0.5) * 1500;
       starsVertices.push(x, y, z);
     }
 
@@ -65,16 +75,16 @@ export default function ThreeBackground({ enabled, className = "" }: ThreeBackgr
     const stars = new THREE.Points(starsGeometry, starsMaterial);
     scene.add(stars);
 
-    // Create low-poly geometric shapes
+    // تقليل الأشكال الهندسية من 3 إلى 2
     const shapes: THREE.Mesh[] = [];
     
     // Icosahedron
-    const icoGeometry = new THREE.IcosahedronGeometry(50, 0);
+    const icoGeometry = new THREE.IcosahedronGeometry(40, 0); // تقليل الحجم
     const icoMaterial = new THREE.MeshBasicMaterial({
       color: 0x8b5cf6,
       wireframe: true,
       transparent: true,
-      opacity: 0.3
+      opacity: 0.25 // تقليل الشفافية
     });
     const icosahedron = new THREE.Mesh(icoGeometry, icoMaterial);
     icosahedron.position.set(-100, 50, -200);
@@ -82,85 +92,89 @@ export default function ThreeBackground({ enabled, className = "" }: ThreeBackgr
     shapes.push(icosahedron);
 
     // Dodecahedron
-    const dodecaGeometry = new THREE.DodecahedronGeometry(40, 0);
+    const dodecaGeometry = new THREE.DodecahedronGeometry(35, 0); // تقليل الحجم
     const dodecaMaterial = new THREE.MeshBasicMaterial({
       color: 0x06b6d4,
       wireframe: true,
       transparent: true,
-      opacity: 0.25
+      opacity: 0.2 // تقليل الشفافية
     });
     const dodecahedron = new THREE.Mesh(dodecaGeometry, dodecaMaterial);
     dodecahedron.position.set(150, -80, -300);
     scene.add(dodecahedron);
     shapes.push(dodecahedron);
 
-    // Octahedron
-    const octaGeometry = new THREE.OctahedronGeometry(35, 0);
-    const octaMaterial = new THREE.MeshBasicMaterial({
-      color: 0x10b981,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.2
-    });
-    const octahedron = new THREE.Mesh(octaGeometry, octaMaterial);
-    octahedron.position.set(0, 100, -250);
-    scene.add(octahedron);
-    shapes.push(octahedron);
-
     camera.position.z = 100;
 
     // Store references
-    sceneRef.current = { scene, camera, renderer, stars, geometry: starsGeometry, material: starsMaterial };
+    sceneRef.current = { scene, camera, renderer, stars };
 
-    // Animation loop
-    const animate = () => {
+    // تحسين الـ animation loop
+    let lastTime = 0;
+    const targetFPS = 30; // تقليل FPS من 60 إلى 30
+    const frameInterval = 1000 / targetFPS;
+
+    const animate = (currentTime: number) => {
       if (!isVisible) {
         sceneRef.current.animationId = requestAnimationFrame(animate);
         return;
       }
 
-      // Rotate stars
+      // Throttle الـ animation لتقليل استهلاك CPU
+      const deltaTime = currentTime - lastTime;
+      if (deltaTime < frameInterval) {
+        sceneRef.current.animationId = requestAnimationFrame(animate);
+        return;
+      }
+      lastTime = currentTime;
+
+      // تقليل سرعة الدوران
       if (stars) {
-        stars.rotation.x += 0.0005;
-        stars.rotation.y += 0.0008;
+        stars.rotation.x += 0.0003; // تقليل السرعة
+        stars.rotation.y += 0.0005;
       }
 
-      // Rotate shapes
+      // تقليل سرعة دوران الأشكال
       shapes.forEach((shape, index) => {
-        shape.rotation.x += 0.005 + index * 0.001;
-        shape.rotation.y += 0.008 + index * 0.002;
-        shape.rotation.z += 0.003 + index * 0.0015;
+        shape.rotation.x += 0.003 + index * 0.0008; // تقليل السرعة
+        shape.rotation.y += 0.005 + index * 0.001;
+        shape.rotation.z += 0.002 + index * 0.001;
       });
 
       renderer.render(scene, camera);
       sceneRef.current.animationId = requestAnimationFrame(animate);
     };
 
-    animate();
+    sceneRef.current.animationId = requestAnimationFrame(animate);
 
-    // Handle resize
+    // تحسين الـ resize handler مع throttle
+    let resizeTimeout: NodeJS.Timeout;
     const handleResize = () => {
-      if (!mountRef.current) return;
-      
-      const newWidth = mountRef.current.clientWidth;
-      const newHeight = mountRef.current.clientHeight;
-      
-      camera.aspect = newWidth / newHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(newWidth, newHeight);
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        if (!mountRef.current) return;
+        
+        const newWidth = mountRef.current.clientWidth;
+        const newHeight = mountRef.current.clientHeight;
+        
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
+      }, 200); // Throttle لمدة 200ms
     };
 
     window.addEventListener('resize', handleResize);
 
-    // Cleanup
+    // Cleanup محسّن
     return () => {
       window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimeout);
       
       if (sceneRef.current.animationId) {
         cancelAnimationFrame(sceneRef.current.animationId);
       }
       
-      if (mountRef.current && renderer.domElement) {
+      if (mountRef.current && renderer.domElement && mountRef.current.contains(renderer.domElement)) {
         mountRef.current.removeChild(renderer.domElement);
       }
       
@@ -171,9 +185,10 @@ export default function ThreeBackground({ enabled, className = "" }: ThreeBackgr
       icoMaterial.dispose();
       dodecaGeometry.dispose();
       dodecaMaterial.dispose();
-      octaGeometry.dispose();
-      octaMaterial.dispose();
       renderer.dispose();
+      
+      // مسح الـ scene
+      scene.clear();
     };
   }, [enabled, isVisible]);
 
