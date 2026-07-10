@@ -3,6 +3,7 @@ import { ArrowLeft, Star, Zap, Shield, ChevronLeft, ChevronRight, Play, Pause, M
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
+// Lazy loading للـ ThreeBackground
 const ThreeBackground = lazy(() => import('@/components/effects/ThreeBackground'));
 
 const images = [
@@ -13,14 +14,29 @@ const images = [
   "https://i.pinimg.com/236x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
 ];
 
-const getImageSize = (url: string, size: 'thumb' | 'side' | 'main' | 'full') => {
-  const sizeMap = {
-    thumb: '150x',
-    side: '236x',
-    main: '400x',
-    full: '736x'
-  };
+// دالة مساعدة للحصول على حجم الصورة المناسب حسب الجهاز
+const getImageSize = (url: string, size: 'thumb' | 'side' | 'main' | 'full', isMobile: boolean) => {
+  const sizeMap = isMobile 
+    ? { thumb: '75x', side: '150x', main: '236x', full: '400x' }  // أحجام أصغر للموبايل
+    : { thumb: '150x', side: '236x', main: '400x', full: '736x' }; // أحجام عادية للديسكتوب
   return url.replace(/\/\d+x\//, `/${sizeMap[size]}/`);
+};
+
+// Hook للكشف عن الجهاز
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+  
+  return isMobile;
 };
 
 export default function Hero() {
@@ -29,6 +45,7 @@ export default function Hero() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
   const navigate = useNavigate();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (!isPlaying || lightboxOpen) return;
@@ -65,14 +82,14 @@ export default function Hero() {
     setCurrentIndex(idx);
   };
 
-  const prevIdx = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
-  const nextIdx = currentIndex === images.length - 1 ? 0 : currentIndex + 1;
-
   return (
     <section id="home" className="min-h-screen text-white relative overflow-hidden pt-16 section-transparent">
-      <Suspense fallback={null}>
-        <ThreeBackground enabled={true} />
-      </Suspense>
+      {/* تعطيل ThreeBackground على الموبايل لتوفير الأداء */}
+      {!isMobile && (
+        <Suspense fallback={null}>
+          <ThreeBackground enabled={true} />
+        </Suspense>
+      )}
 
       <div className="container mx-auto px-4 py-12 md:py-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 items-center">
@@ -137,18 +154,23 @@ export default function Hero() {
 
           <div className="lg:col-span-3 animate-fade-in-left">
             <div className="relative w-full max-w-2xl mx-auto" dir="ltr">
-              <div className="absolute -inset-8 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-purple-500/20 rounded-[3rem] blur-3xl opacity-60 animate-pulse"></div>
+              {/* خلفية بسيطة على الموبايل بدل الأنيميشن الثقيل */}
+              {isMobile ? (
+                <div className="absolute -inset-8 bg-gradient-to-r from-green-500/10 via-cyan-500/10 to-purple-500/10 rounded-[3rem] blur-2xl opacity-40"></div>
+              ) : (
+                <div className="absolute -inset-8 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-purple-500/20 rounded-[3rem] blur-3xl opacity-60 animate-pulse"></div>
+              )}
 
-              <div className="relative h-[440px] md:h-[520px] flex items-center justify-center perspective-1000">
-                <div className="relative w-[60%] h-full z-20 group">
+              <div className="relative h-[360px] md:h-[520px] flex items-center justify-center">
+                <div className="relative w-[85%] md:w-[60%] h-full z-20 group">
                   <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/20 ring-offset-4 ring-offset-transparent">
                     <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/40 via-green-400/40 to-purple-400/40 p-[2px]">
                       <div className="relative w-full h-full rounded-3xl overflow-hidden bg-black">
                         <img
                           key={currentIndex}
-                          src={getImageSize(images[currentIndex], 'main')}
+                          src={getImageSize(images[currentIndex], 'main', isMobile)}
                           alt={`خدمات التخليص الجمركي - صورة ${currentIndex + 1}`}
-                          className={`w-full h-full object-cover transition-all duration-700 ease-out ${
+                          className={`w-full h-full object-cover transition-all duration-500 ease-out ${
                             direction === 'next' ? 'animate-slide-in-right' : 'animate-slide-in-left'
                           }`}
                           loading={currentIndex === 0 ? 'eager' : 'lazy'}
@@ -289,7 +311,7 @@ export default function Hero() {
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={getImageSize(images[currentIndex], 'full')}
+              src={getImageSize(images[currentIndex], 'full', isMobile)}
               alt={`صورة ${currentIndex + 1}`}
               className="w-full h-full object-contain rounded-xl shadow-2xl"
               loading="lazy"
@@ -324,8 +346,6 @@ export default function Hero() {
         .animate-slide-in-right { animation: slide-in-right 0.6s ease-out; }
         .animate-slide-in-left { animation: slide-in-left 0.6s ease-out; }
         .animate-fade-in { animation: fade-in 0.3s ease-out; }
-        .perspective-1000 { perspective: 1200px; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
       `}</style>
     </section>
   );
