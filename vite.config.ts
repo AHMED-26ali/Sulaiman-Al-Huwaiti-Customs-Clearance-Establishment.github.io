@@ -1,13 +1,31 @@
-import { defineConfig } from "vite";
+import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+
+// إضافة إضافة تجعل تحميل الـ CSS الأولي غير حاجب للعرض مع ضمان تطبيق التنسيق الفوري
+function asyncCssPlugin(): Plugin {
+  return {
+    name: 'async-css-plugin',
+    apply: 'build',
+    enforce: 'post',
+    transformIndexHtml(html) {
+      // تحويل وسم <link rel="stylesheet" href="..."> المولّد تلقائياً ليكون غير حاجب للعرض
+      return html.replace(
+        /<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g,
+        `<link rel="preload" href="$1" as="style">
+  <link rel="stylesheet" crossorigin href="$1" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" crossorigin href="$1"></noscript>`
+      );
+    },
+  };
+}
 
 export default defineConfig(({ mode }) => ({
   server: {
     host: "0.0.0.0",
     port: 3000,
   },
-  plugins: [react()],
+  plugins: [react(), asyncCssPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
