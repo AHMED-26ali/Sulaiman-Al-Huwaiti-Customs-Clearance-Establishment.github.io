@@ -9,7 +9,7 @@
   <meta name="yandex-verification" content="2c6f2cb1ca88aae8" />
   <title>مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت | السعودية</title>
 
-  <!-- الروابط الاستباقية - محسّنة -->
+  <!-- الروابط الاستباقية للخطوط والصور -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://i.pinimg.com" crossorigin />
@@ -17,12 +17,27 @@
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   
-  <!-- Preload للصورة الرئيسية بحجم أصغر -->
-  <link rel="preload" as="image" href="https://i.pinimg.com/400x/10/00/a8/1000a89b5f57ba2118f823884f23dd01.jpg" fetchpriority="high" />
+  <!-- Preload للخطوط مع font-display=swap لتجنب حظر العرض نهائياً -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;800&family=Tajawal:wght@400;500;700;900&display=swap" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;800&family=Tajawal:wght@400;500;700;900&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;800&family=Tajawal:wght@400;500;700;900&display=swap" /></noscript>
   
-  <!-- تحميل الخطوط بطريقة ذكية - مش هتوقف الصفحة -->
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;800&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;800&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet" /></noscript>
+  <!-- Critical CSS مدمج في الصفحة لأول شاشة FCP فوري دون انتظار أي طلب خارجي -->
+  <style>
+    :root { color-scheme: dark; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background-color: #0b1120;
+      color: #ffffff;
+      font-family: 'Noto Sans Arabic', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      direction: rtl;
+      text-align: right;
+    }
+  </style>
+
+  <!-- Preload للصورة الرئيسية لرفع سرعة LCP -->
+  <link rel="preload" as="image" href="https://i.pinimg.com/400x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg" fetchpriority="high" />
   
   <meta name="description" content="مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت - خبرة في الاستيراد والتصدير، التخليص الجمركي، خدمات الشحن، الترانزيت، ومكاتب التخليص الجمركي في السعودية.">
   
