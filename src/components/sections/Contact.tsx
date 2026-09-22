@@ -379,7 +379,7 @@ export default function Contact() {
         </motion.div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes float-mega-slow {
           0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
           25% { transform: translate(50px, -50px) rotate(90deg) scale(1.15); }

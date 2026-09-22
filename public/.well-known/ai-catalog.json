@@ -1,0 +1,57 @@
+{
+  "specVersion": "1.0",
+  "host": {
+    "displayName": "مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت",
+    "identifier": "did:web:sulaimanal-huwaiti.vercel.app",
+    "documentationUrl": "https://sulaimanal-huwaiti.vercel.app/llms.txt",
+    "logoUrl": "https://i.pinimg.com/400x/4a/bd/a5/4abda5fedbce60d6d334b2996d98b4a4.jpg"
+  },
+  "entries": [
+    {
+      "identifier": "urn:air:sulaimanal-huwaiti:customs:clearance-and-transit",
+      "displayName": "مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت",
+      "type": "application/json",
+      "description": "خدمات التخليص الجمركي الفوري والترانزيت وفسح الشحنات في موانئ ومنافذ المملكة العربية السعودية (ضبا، نيوم، جدة، البطحاء، الحديثة، والدمام).",
+      "tags": [
+        "تخليص جمركي",
+        "ترانزيت",
+        "شحن",
+        "موانئ السعودية",
+        "نيوم",
+        "ضبا"
+      ],
+      "capabilities": [
+        "CustomsClearance",
+        "TransitLogistics",
+        "FreightForwarding",
+        "ImportExportHandling"
+      ],
+      "data": {
+        "name": "Sulaiman Al-Huwaiti Customs Clearance & Transit",
+        "serviceArea": "Saudi Arabia",
+        "ports": [
+          "ضبا / نيوم",
+          "ميناء جدة الإسلامي",
+          "منفذ البطحاء",
+          "منفذ السلوي",
+          "منفذ الدرة",
+          "جسر الملك فهد",
+          "ميناء الملك عبد العزيز بالدمام",
+          "منفذ الحديثة",
+          "ميناء ينبع"
+        ],
+        "contact": {
+          "phone": "+966559586786",
+          "email": "alebawani.k.s.a@hotmail.com",
+          "address": "ضبا - حي المقيطع، منطقة تبوك، المملكة العربية السعودية"
+        }
+      },
+      "representativeQueries": [
+        "ما هي خدمات التخليص الجمركي لمؤسسة سليمان الحويطي؟",
+        "ما هي فروع وموانئ التخليص الجمركي المتاحة في السعودية ونيوم؟",
+        "كيف اتواصل مع مخلص جمركي معتمد في ميناء ضبا وجدة؟"
+      ],
+      "version": "1.0.0"
+    }
+  ]
+}

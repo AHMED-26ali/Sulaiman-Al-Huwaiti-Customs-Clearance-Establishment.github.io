@@ -247,7 +247,7 @@ export default function Blog() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         /* Mouse interaction effects */
         .interactive-orb-blog:hover {
           transform: scale(1.4) !important;

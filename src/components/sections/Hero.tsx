@@ -1,17 +1,55 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import { ArrowLeft, Star, Zap, Shield, ChevronLeft, ChevronRight, Play, Pause, Maximize2, X } from 'lucide-react';
+import { ArrowLeft, Star, Zap, Shield, ChevronLeft, ChevronRight, Play, Pause, Maximize2, X, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 
 // Lazy loading للـ ThreeBackground
 const ThreeBackground = lazy(() => import('@/components/effects/ThreeBackground'));
 
-const images = [
-  "https://i.pinimg.com/236x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
-  "https://i.pinimg.com/236x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
-  "https://i.pinimg.com/236x/37/ed/b4/37edb45c6bbb6b6bf286b31745ffb3ff.jpg",
-  "https://i.pinimg.com/236x/07/a5/bc/07a5bc3bc6d4afdcc406e7c6077cec72.jpg",
-  "https://i.pinimg.com/236x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
+interface GalleryItem {
+  url: string;
+  title: string;
+  category: string;
+  desc: string;
+  tag: string;
+}
+
+const images: GalleryItem[] = [
+  {
+    url: "https://i.pinimg.com/236x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg",
+    title: "شحن وتفريغ الحاويات البحرية",
+    category: "الموانئ والشحن البحري",
+    desc: "مناولة احترافية وتخليص فوري للبضائع بميناء ضبا وميناء جدة الإسلامي وميناء الدمام",
+    tag: "شحن بحري",
+  },
+  {
+    url: "https://i.pinimg.com/236x/92/ad/16/92ad162aa3532505cd8c58ff678e65f4.jpg",
+    title: "أسطول الترانزيت والنقل الدولي",
+    category: "النقل والترانزيت الدولي",
+    desc: "شاحنات حديثة ومجهزة لنقل البضائع العابرة للحدود بأمان وسرعة فائقة",
+    tag: "ترانزيت دولي",
+  },
+  {
+    url: "https://i.pinimg.com/236x/37/ed/b4/37edb45c6bbb6b6bf286b31745ffb3ff.jpg",
+    title: "فسح جمركي إلكتروني فوري",
+    category: "التخليص الجمركي الفوري",
+    desc: "دقة وسرعة في استخراج أذونات الفسح الجمركي وتدقيق الوثائق عبر منصة سابر وفسح",
+    tag: "فسح فوري",
+  },
+  {
+    url: "https://i.pinimg.com/236x/07/a5/bc/07a5bc3bc6d4afdcc406e7c6077cec72.jpg",
+    title: "المنافذ الحدودية والمستودعات",
+    category: "المنافذ واللوجستيات",
+    desc: "تواجد دائم في المنافذ البرية الحيوية (البطحاء، الحديثة، والدرة) على مدار الساعة",
+    tag: "منافذ برية",
+  },
+  {
+    url: "https://i.pinimg.com/236x/e3/4a/94/e34a94f99a52db11dc9fe05b4ad098c6.jpg",
+    title: "إدارة سلاسل الإمداد ومشاريع نيوم",
+    category: "الخدمات اللوجستية المتكاملة",
+    desc: "حلول تخليص وترانزيت استراتيجية تدعم مشاريع رؤية 2030 ومنطقة نيوم الكبرى",
+    tag: "مشاريع نيوم",
+  },
 ];
 
 // دالة مساعدة للحصول على حجم الصورة المناسب حسب الجهاز
@@ -46,13 +84,14 @@ export default function Hero() {
   const [direction, setDirection] = useState<'next' | 'prev'>('next');
   const navigate = useNavigate();
   const isMobile = useIsMobile();
+  const touchStartX = useRef<number | null>(null);
 
   useEffect(() => {
     if (!isPlaying || lightboxOpen) return;
     const interval = setInterval(() => {
       setDirection('next');
       setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    }, 4000);
+    }, 4500);
     return () => clearInterval(interval);
   }, [isPlaying, lightboxOpen]);
 
@@ -78,8 +117,26 @@ export default function Hero() {
   };
 
   const goTo = (idx: number) => {
+    if (idx === currentIndex) return;
     setDirection(idx > currentIndex ? 'next' : 'prev');
     setCurrentIndex(idx);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    touchStartX.current = null;
   };
 
   return (
@@ -153,99 +210,149 @@ export default function Hero() {
           </div>
 
           <div className="lg:col-span-3 animate-fade-in-left">
-            <div className="relative w-full max-w-2xl mx-auto" dir="ltr">
-              {/* خلفية بسيطة على الموبايل بدل الأنيميشن الثقيل */}
-              {isMobile ? (
-                <div className="absolute -inset-8 bg-gradient-to-r from-green-500/10 via-cyan-500/10 to-purple-500/10 rounded-[3rem] blur-2xl opacity-40"></div>
-              ) : (
-                <div className="absolute -inset-8 bg-gradient-to-r from-green-500/20 via-cyan-500/20 to-purple-500/20 rounded-[3rem] blur-3xl opacity-60 animate-pulse"></div>
-              )}
+            <div 
+              className="relative w-full max-w-sm sm:max-w-md lg:max-w-[440px] mx-auto flex flex-col items-center select-none" 
+              dir="ltr"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              {/* إطار العرض الرئيسي بنسبة 3:4 (Portrait Aspect Ratio) */}
+              <div className="relative w-full aspect-[3/4] rounded-3xl overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.8)] border border-white/20 bg-slate-950 group">
+                {/* خلفية جمالية متوهجة */}
+                <div className="absolute -inset-4 bg-gradient-to-tr from-emerald-500/20 via-cyan-500/20 to-blue-500/20 rounded-3xl blur-2xl opacity-50 pointer-events-none"></div>
 
-              <div className="relative h-[360px] md:h-[520px] flex items-center justify-center">
-                <div className="relative w-[85%] md:w-[60%] h-full z-20 group">
-                  <div className="absolute inset-0 rounded-3xl overflow-hidden shadow-2xl ring-2 ring-white/20 ring-offset-4 ring-offset-transparent">
-                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-cyan-400/40 via-green-400/40 to-purple-400/40 p-[2px]">
-                      <div className="relative w-full h-full rounded-3xl overflow-hidden bg-black">
-                        <img
-                          key={currentIndex}
-                          src={getImageSize(images[currentIndex], 'main', isMobile)}
-                          alt={`خدمات التخليص الجمركي - صورة ${currentIndex + 1}`}
-                          className={`w-full h-full object-cover transition-all duration-500 ease-out ${
-                            direction === 'next' ? 'animate-slide-in-right' : 'animate-slide-in-left'
-                          }`}
-                          loading={currentIndex === 0 ? 'eager' : 'lazy'}
-                          decoding="async"
-                          fetchpriority={currentIndex === 0 ? 'high' : 'auto'}
-                        />
+                {/* الصورة المعروضة بجودة عالية وترانزيشن هادئ */}
+                <img
+                  key={currentIndex}
+                  src={getImageSize(images[currentIndex].url, 'main', isMobile)}
+                  alt={images[currentIndex].title}
+                  className="relative w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 animate-fade-in"
+                  loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                  decoding="async"
+                  fetchPriority={currentIndex === 0 ? 'high' : 'auto'}
+                />
 
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none"></div>
+                {/* تدرج لوني سينمائي لحماية وضوح النصوص */}
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-slate-950/40 pointer-events-none"></div>
 
-                        <div className="absolute top-4 right-4 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/20">
-                          <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                          <span className="text-xs font-bold text-white tracking-wider">
-                            {String(currentIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
-                          </span>
-                        </div>
+                {/* شريط الإجراءات العلوي المدمج (Glass Header Overlay) */}
+                <div className="absolute top-4 left-4 right-4 flex items-center justify-between z-20 pointer-events-auto">
+                  {/* أزرار التحكم والخيارات */}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setLightboxOpen(true)}
+                      className="p-2.5 rounded-xl bg-slate-950/60 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:border-cyan-400/50 text-white hover:text-cyan-300 transition-all duration-300 shadow-md"
+                      aria-label="عرض بالحجم الكامل"
+                      title="تكبير الصورة ملء الشاشة"
+                    >
+                      <Maximize2 className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => setIsPlaying(!isPlaying)}
+                      className="p-2.5 rounded-xl bg-slate-950/60 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:border-emerald-400/50 text-white hover:text-emerald-300 transition-all duration-300 shadow-md"
+                      aria-label={isPlaying ? 'إيقاف مؤقت' : 'تشغيل تلقائي'}
+                      title={isPlaying ? 'إيقاف مؤقت' : 'تشغيل العرض التلقائي'}
+                    >
+                      {isPlaying ? (
+                        <Pause className="w-4 h-4" />
+                      ) : (
+                        <Play className="w-4 h-4" />
+                      )}
+                    </button>
+                  </div>
 
-                        <button
-                          onClick={() => setLightboxOpen(true)}
-                          className="absolute top-4 left-4 p-2 rounded-full bg-black/60 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 opacity-0 group-hover:opacity-100"
-                          aria-label="عرض بالحجم الكامل"
-                        >
-                          <Maximize2 className="w-4 h-4 text-white" />
-                        </button>
-
-                        <div className="absolute bottom-0 left-0 right-0 p-5" dir="rtl">
-                          <div className="flex items-end justify-between gap-3">
-                            <div>
-                              <p className="text-xs text-cyan-300 font-medium mb-1 tracking-wider">معرض</p>
-                              <h2 className="text-base md:text-lg font-bold text-white">
-                                خدمات التخليص الجمركي والترانزيت
-                              </h2>
-                            </div>
-                            <button
-                              onClick={() => setIsPlaying(!isPlaying)}
-                              className="flex-shrink-0 p-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300"
-                              aria-label={isPlaying ? 'إيقاف' : 'تشغيل'}
-                            >
-                              {isPlaying ? (
-                                <Pause className="w-4 h-4 text-white" />
-                              ) : (
-                                <Play className="w-4 h-4 text-white" />
-                              )}
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/10">
-                          <div
-                            key={currentIndex}
-                            className="h-full bg-gradient-to-r from-cyan-400 via-green-400 to-emerald-400"
-                            style={{
-                              animation: isPlaying ? 'progress 4s linear' : 'none',
-                              width: isPlaying ? '100%' : `${((currentIndex + 1) / images.length) * 100}%`,
-                            }}
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
+                  {/* شارة التوثيق والترقيم */}
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/70 backdrop-blur-md border border-white/20 shadow-md">
+                    <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></div>
+                    <span className="text-xs font-bold text-white tracking-wider font-mono">
+                      {String(currentIndex + 1).padStart(2, '0')} / {String(images.length).padStart(2, '0')}
+                    </span>
                   </div>
                 </div>
 
+                {/* أزرار التنقل السلس الجانبية */}
                 <button
                   onClick={handlePrev}
-                  className="absolute left-2 md:-left-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-                  aria-label="السابق"
+                  className="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-2xl bg-slate-950/60 backdrop-blur-md border border-white/20 hover:bg-emerald-500/20 hover:border-emerald-400 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center text-white hover:text-emerald-300 opacity-80 group-hover:opacity-100 shadow-lg"
+                  aria-label="الصورة السابقة"
+                  title="السابق"
                 >
-                  <ChevronLeft className="w-6 h-6 text-white group-hover:text-cyan-300" />
+                  <ChevronLeft className="w-6 h-6" />
                 </button>
                 <button
                   onClick={handleNext}
-                  className="absolute right-2 md:-right-2 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 hover:scale-110 transition-all duration-300 flex items-center justify-center group"
-                  aria-label="التالي"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-2xl bg-slate-950/60 backdrop-blur-md border border-white/20 hover:bg-cyan-500/20 hover:border-cyan-400 hover:scale-110 active:scale-95 transition-all duration-300 flex items-center justify-center text-white hover:text-cyan-300 opacity-80 group-hover:opacity-100 shadow-lg"
+                  aria-label="الصورة التالية"
+                  title="التالي"
                 >
-                  <ChevronRight className="w-6 h-6 text-white group-hover:text-cyan-300" />
+                  <ChevronRight className="w-6 h-6" />
                 </button>
+
+                {/* لوحة المعلومات السفلية المدمجة (Bottom Info Overlay) */}
+                <div className="absolute bottom-0 left-0 right-0 p-5 md:p-6 z-20" dir="rtl">
+                  <div className="space-y-1.5 mb-3">
+                    <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-500/20 backdrop-blur-md border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+                      <Sparkles className="w-3 h-3 text-emerald-400" />
+                      <span>{images[currentIndex].category}</span>
+                    </div>
+                    <h2 className="text-lg md:text-xl font-bold text-white drop-shadow-md leading-tight">
+                      {images[currentIndex].title}
+                    </h2>
+                    <p className="text-xs md:text-sm text-gray-300 line-clamp-2 leading-relaxed">
+                      {images[currentIndex].desc}
+                    </p>
+                  </div>
+
+                  {/* شريط التقدم الزمني المقسم (Segmented Progress Bars) */}
+                  <div className="grid grid-cols-5 gap-1.5 pt-2">
+                    {images.map((_, idx) => {
+                      const isActive = idx === currentIndex;
+                      const isPassed = idx < currentIndex;
+                      return (
+                        <div
+                          key={idx}
+                          onClick={() => goTo(idx)}
+                          className="h-1.5 rounded-full bg-white/20 overflow-hidden cursor-pointer transition-all duration-300 hover:h-2"
+                          title={`الانتقال إلى ${images[idx].tag}`}
+                        >
+                          <div
+                            className={`h-full transition-all duration-300 ${
+                              isActive
+                                ? 'bg-gradient-to-r from-emerald-400 to-cyan-400'
+                                : isPassed
+                                ? 'bg-emerald-400/70'
+                                : 'bg-transparent'
+                            }`}
+                            style={{
+                              width: isActive ? (isPlaying ? '100%' : '100%') : isPassed ? '100%' : '0%',
+                              animation: isActive && isPlaying ? 'progress 4.5s linear' : 'none',
+                            }}
+                          />
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* شريط توثيق واعتماد المؤسسة في الأسفل */}
+              <div 
+                className="mt-4 w-full flex items-center justify-between gap-3 px-4 py-3 rounded-2xl bg-slate-900/80 backdrop-blur-md border border-white/10 shadow-lg" 
+                dir="rtl"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-400/20 to-cyan-400/20 border border-emerald-400/30 flex items-center justify-center flex-shrink-0">
+                    <Shield className="w-5 h-5 text-emerald-300" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-white">ترخيص رسمي معتمد للتخليص والترانزيت</p>
+                    <p className="text-[11px] text-gray-400">تغطية مباشرة لموانئ ضبا، جدة، نيوم وكافة منافذ المملكة</p>
+                  </div>
+                </div>
+                <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span>فسح جمركي فوري</span>
+                </div>
               </div>
             </div>
           </div>
@@ -273,23 +380,35 @@ export default function Hero() {
 
       {lightboxOpen && (
         <div
-          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 animate-fade-in"
+          className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-between p-4 sm:p-6 animate-fade-in"
           onClick={() => setLightboxOpen(false)}
         >
-          <button
-            onClick={() => setLightboxOpen(false)}
-            className="absolute top-4 right-4 md:top-6 md:right-6 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 z-10"
-            aria-label="إغلاق"
-          >
-            <X className="w-6 h-6 text-white" />
-          </button>
+          {/* رأس النافذة المنبثقة */}
+          <div className="w-full flex items-center justify-between z-20" dir="rtl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center gap-3">
+              <span className="px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-xs font-semibold">
+                {images[currentIndex].category}
+              </span>
+              <span className="text-sm font-bold text-white font-mono">
+                {currentIndex + 1} / {images.length}
+              </span>
+            </div>
+            <button
+              onClick={() => setLightboxOpen(false)}
+              className="p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/25 transition-all duration-300 text-white"
+              aria-label="إغلاق"
+            >
+              <X className="w-6 h-6 text-white" />
+            </button>
+          </div>
 
+          {/* أزرار التنقل بالصورة الكبيرة */}
           <button
             onClick={(e) => {
               e.stopPropagation();
               handlePrev();
             }}
-            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 z-10"
+            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 p-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/25 hover:scale-110 active:scale-95 transition-all duration-300 z-20 text-white"
             aria-label="السابق"
           >
             <ChevronLeft className="w-7 h-7 text-white" />
@@ -300,28 +419,54 @@ export default function Hero() {
               e.stopPropagation();
               handleNext();
             }}
-            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 p-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-all duration-300 z-10"
+            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 p-3.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/25 hover:scale-110 active:scale-95 transition-all duration-300 z-20 text-white"
             aria-label="التالي"
           >
             <ChevronRight className="w-7 h-7 text-white" />
           </button>
 
+          {/* مساحة الصورة الكبيرة والتفاصيل */}
           <div
-            className="relative max-w-6xl max-h-[85vh] w-full"
+            className="relative max-w-5xl max-h-[68vh] w-full flex flex-col items-center justify-center my-auto"
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={getImageSize(images[currentIndex], 'full', isMobile)}
-              alt={`صورة ${currentIndex + 1}`}
-              className="w-full h-full object-contain rounded-xl shadow-2xl"
+              src={getImageSize(images[currentIndex].url, 'full', isMobile)}
+              alt={images[currentIndex].title}
+              className="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl ring-1 ring-white/20"
               loading="lazy"
               decoding="async"
             />
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/70 backdrop-blur-md border border-white/20">
-              <span className="text-sm font-bold text-white">
-                {currentIndex + 1} / {images.length}
-              </span>
+            <div className="mt-4 text-center max-w-2xl px-4" dir="rtl">
+              <h3 className="text-lg md:text-xl font-bold text-white mb-1">
+                {images[currentIndex].title}
+              </h3>
+              <p className="text-xs md:text-sm text-gray-300">
+                {images[currentIndex].desc}
+              </p>
             </div>
+          </div>
+
+          {/* شريط المصغرات السريع داخل النافذة المنبثقة */}
+          <div 
+            className="w-full max-w-lg flex items-center justify-center gap-2 py-2 px-3 rounded-2xl bg-white/5 backdrop-blur-md border border-white/10 z-20"
+            dir="rtl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {images.map((img, idx) => (
+              <button
+                key={idx}
+                onClick={() => goTo(idx)}
+                className={`w-12 h-12 rounded-xl overflow-hidden transition-all duration-300 ${
+                  idx === currentIndex 
+                    ? 'ring-2 ring-emerald-400 scale-105 shadow-md shadow-emerald-500/30 opacity-100' 
+                    : 'opacity-40 hover:opacity-80'
+                }`}
+                title={img.title}
+              >
+                <img src={getImageSize(img.url, 'thumb', isMobile)} alt={img.title} className="w-full h-full object-cover" />
+              </button>
+            ))}
           </div>
         </div>
       )}

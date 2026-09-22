@@ -123,8 +123,8 @@ export default function Footer() {
   return (
     <>
       <footer className="text-white py-16 section-transparent footer-3d-container relative">
-        {/* 3D Shapes Background */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {/* 3D Shapes Background with reduced opacity so it doesn't obscure text */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20 z-0">
           {/* Floating 3D Shapes */}
           <div className="shape-3d" style={{ top: '10%', left: '5%', width: '80px', height: '80px', animationDelay: '0s' }}></div>
           <div className="shape-3d" style={{ top: '20%', right: '10%', width: '60px', height: '60px', animationDelay: '1s' }}></div>
@@ -190,57 +190,72 @@ export default function Footer() {
             ></div>
           ))}
         </div>
-        <div className="container mx-auto px-4">
+        <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Company Info */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 space-x-reverse">
-                <Building className="h-8 w-8 text-blue-400" />
-                <h3 className="text-xl font-bold">سليمان الحويطي</h3>
+                <Building className="h-8 w-8 text-cyan-400" />
+                <h3 className="text-xl font-bold text-white">سليمان الحويطي</h3>
               </div>
-              <p className="text-gray-300 leading-relaxed">
+              <p className="text-gray-200 leading-relaxed font-medium">
                 مؤسسة متخصصة في التخليص الجمركي والترانزيت مع خبرة تزيد عن 15 سنة في خدمة عملائنا الكرام
               </p>
             </div>
 
             {/* Quick Links */}
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-blue-400">روابط سريعة</h4>
-              <ul className="space-y-2">
-                <li><a href="#services" title="اطلع على خدماتنا المتميزة في التخليص الجمركي" className="text-gray-300 hover:text-white transition-colors">خدماتنا</a></li>
-                <li><a href="#branches" title="تعرف على مواقع فروعنا في المملكة" className="text-gray-300 hover:text-white transition-colors">فروعنا</a></li>
-                <li><a href="#why-us" title="اكتشف لماذا نحن الخيار الأفضل" className="text-gray-300 hover:text-white transition-colors">لماذا نحن</a></li>
-                <li><a href="#blog" title="اقرأ آخر أخبار ومقالات التخليص الجمركي" className="text-gray-300 hover:text-white transition-colors">المدونة</a></li>
-                <li><a href="#contact" title="تواصل معنا للحصول على استشارة مجانية" className="text-gray-300 hover:text-white transition-colors">تواصل معنا</a></li>
+              <h4 className="text-lg font-bold text-cyan-300">روابط سريعة</h4>
+              <ul className="space-y-2.5">
+                <li><a href="#services" title="اطلع على خدماتنا المتميزة في التخليص الجمركي" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">خدماتنا</a></li>
+                <li><a href="#branches" title="تعرف على مواقع فروعنا في المملكة" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">فروعنا</a></li>
+                <li><a href="#why-us" title="اكتشف لماذا نحن الخيار الأفضل" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">لماذا نحن</a></li>
+                <li><a href="#blog" title="اقرأ آخر أخبار ومقالات التخليص الجمركي" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">المدونة</a></li>
+                <li><a href="#contact" title="تواصل معنا للحصول على استشارة مجانية" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">تواصل معنا</a></li>
               </ul>
             </div>
 
             {/* Services */}
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-blue-400">خدماتنا الرئيسية</h4>
-              <ul className="space-y-2 text-gray-300">
-                <li>التخليص الجمركي</li>
-                <li>النقل والترانزيت</li>
-                <li>الشحن البحري </li>
-                <li>الاستشارات التجارية</li>
-                <li>إدارة المخازن</li>
+              <h4 className="text-lg font-bold text-cyan-300">خدماتنا الرئيسية</h4>
+              <ul className="space-y-2.5 text-gray-100 font-medium">
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>التخليص الجمركي</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>النقل والترانزيت</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>الشحن البحري</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>الاستشارات التجارية</span>
+                </li>
+                <li className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>إدارة المخازن</span>
+                </li>
               </ul>
             </div>
 
             {/* Contact Info */}
             <div className="space-y-4">
-              <h4 className="text-lg font-semibold text-blue-400">معلومات التواصل</h4>
+              <h4 className="text-lg font-bold text-cyan-300">معلومات التواصل</h4>
               <div className="space-y-3">
-                <div className="flex items-center space-x-3 space-x-reverse text-gray-300">
-                  <MapPin className="h-4 w-4 text-blue-400" />
+                <div className="flex items-center space-x-3 space-x-reverse text-gray-200 font-medium">
+                  <MapPin className="h-4 w-4 text-emerald-400 flex-shrink-0" />
                   <span className="text-sm">المملكة العربية السعودية - تبوك - ضبا</span>
                 </div>
-                <div className="flex items-center space-x-3 space-x-reverse text-gray-300">
-                  <Mail className="h-4 w-4 text-blue-400" />
+                <div className="flex items-center space-x-3 space-x-reverse text-gray-200 font-medium">
+                  <Mail className="h-4 w-4 text-emerald-400 flex-shrink-0" />
                   <span className="text-sm">alebawani.k.s.a@hotmail.com</span>
                 </div>
-                <div className="flex items-center space-x-3 space-x-reverse text-gray-300">
-                  <Phone className="h-4 w-4 text-blue-400" />
+                <div className="flex items-center space-x-3 space-x-reverse text-gray-200 font-medium">
+                  <Phone className="h-4 w-4 text-emerald-400 flex-shrink-0" />
                   <span className="text-sm">متاح 24/7</span>
                 </div>
               </div>
@@ -251,7 +266,7 @@ export default function Footer() {
           <div className="border-t border-gray-700 mt-12 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-gray-400 text-sm">
-                © 2024 مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت. جميع الحقوق محفوظة.
+                © 2026/2027 مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت. جميع الحقوق محفوظة.
               </p>
               <div className="flex space-x-6 space-x-reverse">
                 <button 

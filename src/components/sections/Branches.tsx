@@ -91,7 +91,7 @@ export default function Branches() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {branches.map((branch, index) => {
             const IconComponent = branch.icon;
             return (
@@ -117,7 +117,7 @@ export default function Branches() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .float-animation { animation: float 6s ease-in-out infinite; }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes title-glow { 0%, 100% { text-shadow: 0 0 10px rgba(59, 130, 246, 0.3); } 50% { text-shadow: 0 0 20px rgba(59, 130, 246, 0.6); } }

@@ -208,7 +208,7 @@ export default function Services() {
         </div>
       </div>
 
-      <style jsx>{`
+      <style>{`
         @keyframes float-services-slow {
           0%, 100% { transform: translate(0, 0) rotate(0deg) scale(1); }
           25% { transform: translate(25px, -25px) rotate(90deg) scale(1.1); }
