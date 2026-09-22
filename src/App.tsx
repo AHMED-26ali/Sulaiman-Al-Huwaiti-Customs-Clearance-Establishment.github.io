@@ -38,36 +38,27 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-green-900 bg-fixed">
-          <AnimatePresence mode="wait">
-            {showWelcome ? (
-              <WelcomeScreen key="welcome" onComplete={handleWelcomeComplete} />
-            ) : (
-              <motion.div
-                key="main"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.8, ease: "easeInOut" }}
-              >
-                <BrowserRouter>
-                  <ScrollToTop />
-                  <Header />
-                  <main id="main-content" role="main">
-                    <Suspense fallback={<LoadingFallback />}>
-                      <Routes>
-                        <Route path="/" element={<HomePage />} />
-                        <Route path="/services" element={<ServicesPage />} />
-                        <Route path="/why-us" element={<WhyUsPage />} />
-                        <Route path="/branches" element={<BranchesPage />} />
-                        <Route path="/blog" element={<BlogPage />} />
-                        <Route path="/contact" element={<ContactPage />} />
-                        <Route path="*" element={<NotFound />} />
-                      </Routes>
-                    </Suspense>
-                  </main>
-                </BrowserRouter>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {showWelcome && (
+            <WelcomeScreen key="welcome" onComplete={handleWelcomeComplete} />
+          )}
+
+          <BrowserRouter>
+            <ScrollToTop />
+            <Header />
+            <main id="main-content" role="main" tabIndex={-1}>
+              <Suspense fallback={<LoadingFallback />}>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/services" element={<ServicesPage />} />
+                  <Route path="/why-us" element={<WhyUsPage />} />
+                  <Route path="/branches" element={<BranchesPage />} />
+                  <Route path="/blog" element={<BlogPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Suspense>
+            </main>
+          </BrowserRouter>
         </div>
       </TooltipProvider>
     </QueryClientProvider>
