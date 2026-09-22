@@ -51,17 +51,19 @@ const App = () => {
                 <BrowserRouter>
                   <ScrollToTop />
                   <Header />
-                  <Suspense fallback={<LoadingFallback />}>
-                    <Routes>
-                      <Route path="/" element={<HomePage />} />
-                      <Route path="/services" element={<ServicesPage />} />
-                      <Route path="/why-us" element={<WhyUsPage />} />
-                      <Route path="/branches" element={<BranchesPage />} />
-                      <Route path="/blog" element={<BlogPage />} />
-                      <Route path="/contact" element={<ContactPage />} />
-                      <Route path="*" element={<NotFound />} />
-                    </Routes>
-                  </Suspense>
+                  <main id="main-content" role="main">
+                    <Suspense fallback={<LoadingFallback />}>
+                      <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route path="/services" element={<ServicesPage />} />
+                        <Route path="/why-us" element={<WhyUsPage />} />
+                        <Route path="/branches" element={<BranchesPage />} />
+                        <Route path="/blog" element={<BlogPage />} />
+                        <Route path="/contact" element={<ContactPage />} />
+                        <Route path="*" element={<NotFound />} />
+                      </Routes>
+                    </Suspense>
+                  </main>
                 </BrowserRouter>
               </motion.div>
             )}

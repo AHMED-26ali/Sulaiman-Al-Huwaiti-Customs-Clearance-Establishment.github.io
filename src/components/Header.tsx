@@ -108,7 +108,7 @@ export default function Header() {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-2 space-x-reverse">
+          <nav aria-label="التنقل الرئيسي" className="hidden lg:flex items-center space-x-2 space-x-reverse">
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
               return (
@@ -163,7 +163,7 @@ export default function Header() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-b border-white/20 shadow-2xl">
-            <nav className="flex flex-col py-4">
+            <nav aria-label="التنقل عبر الجوال" className="flex flex-col py-4">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
                 return (
