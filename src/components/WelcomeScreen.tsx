@@ -28,9 +28,13 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
   return (
     <AnimatePresence mode="wait" onExitComplete={onComplete}>
       {showWelcome && (
-        <div
-          role="region"
-          aria-label="شاشة الترحيب"
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ 
+            opacity: 0,
+            transition: { duration: 0.3 }
+          }}
           className="fixed inset-0 z-50 flex items-center justify-center overflow-hidden"
           style={{
             background: "linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%)"
@@ -307,7 +311,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
               }
             }
           `}</style>
-        </div>
+        </motion.div>
       )}
     </AnimatePresence>
   );
