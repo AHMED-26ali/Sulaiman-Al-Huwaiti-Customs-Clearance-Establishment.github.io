@@ -94,14 +94,21 @@ export default function Header() {
           <Link to="/" className="flex items-center space-x-4 space-x-reverse group cursor-pointer">
             <div className="relative">
               <img
-                src="/src/assets/images/company_logo_badge_1790156791411.jpg"
+                src="/images/Logo.jpg"
                 alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"
                 className="h-16 w-16 rounded-full object-cover border-2 border-cyan-400/60 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:border-cyan-300 group-hover:shadow-lg group-hover:shadow-cyan-400/50"
                 loading="eager"
                 decoding="async"
                 width={64}
                 height={64}
-                referrerPolicy="no-referrer"
+                onError={(e) => {
+                  // في حال تعذر تحميل المسار لأي سبب يتم التحويل للرابط الاحتياطي
+                  const target = e.currentTarget;
+                  if (!target.dataset.triedFallback) {
+                    target.dataset.triedFallback = "true";
+                    target.src = "https://i.pinimg.com/236x/7f/12/80/7f1280df00efb23c191881da5c430049.jpg";
+                  }
+                }}
               />
               <div className="absolute inset-0 rounded-full bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
             </div>
