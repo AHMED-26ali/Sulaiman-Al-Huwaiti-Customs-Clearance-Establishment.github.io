@@ -120,6 +120,8 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                 <motion.img 
                   src="https://i.pinimg.com/236x/1e/e4/78/1ee4788aeee1f2426ea5e7fe73f811e1.jpg"
                   alt="شعار سليمان الحويطي"
+                  width={160}
+                  height={160}
                   className="w-24 h-24 md:w-40 md:h-40 rounded-full object-cover shadow-2xl"
                   style={{
                     border: '3px solid rgba(255, 255, 255, 0.5)',

@@ -226,6 +226,8 @@ export default function Hero() {
                   key={currentIndex}
                   src={getImageSize(images[currentIndex].url, 'main', isMobile)}
                   alt={images[currentIndex].title}
+                  width={isMobile ? 236 : 400}
+                  height={isMobile ? 315 : 533}
                   className="relative w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 animate-fade-in"
                   loading={currentIndex === 0 ? 'eager' : 'lazy'}
                   decoding="async"
