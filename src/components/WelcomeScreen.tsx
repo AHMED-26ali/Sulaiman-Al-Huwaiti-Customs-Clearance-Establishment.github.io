@@ -7,20 +7,15 @@ interface WelcomeScreenProps {
 
 export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
   const [showWelcome, setShowWelcome] = useState(true);
-  const [isMobile, setIsMobile] = useState(() => {
+  const [isMobile] = useState(() => {
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      return window.matchMedia('(max-width: 767px)').matches || 
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     return false;
   });
 
   useEffect(() => {
-    // كشف الجهاز
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    };
-    checkMobile();
-
     // تقليل المدة على الموبايل
     const timer = setTimeout(() => {
       setShowWelcome(false);

@@ -32,17 +32,16 @@ export default function ParticleBackground({
     await loadExternalRepulseInteraction(engine);
   }, []);
 
-  // Dynamic particle count based on screen size
+  // Dynamic particle count based on screen size without triggering forced reflow
   const getParticleCount = () => {
     if (particleCount) return particleCount;
     
     if (typeof window !== 'undefined') {
-      const width = window.innerWidth;
-      if (width < 768) return 30; // Mobile
-      if (width < 1024) return 60; // Tablet
-      return 120; // Desktop
+      if (window.matchMedia('(max-width: 767px)').matches) return 25; // Mobile
+      if (window.matchMedia('(max-width: 1023px)').matches) return 50; // Tablet
+      return 90; // Desktop
     }
-    return 60; // Default
+    return 50; // Default
   };
 
   const options = useMemo(() => ({

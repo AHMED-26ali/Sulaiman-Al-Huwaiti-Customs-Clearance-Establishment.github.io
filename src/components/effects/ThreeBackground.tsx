@@ -46,8 +46,8 @@ export default function ThreeBackground({ enabled, className = "" }: ThreeBackgr
     const rafId = requestAnimationFrame(() => {
       if (disposed || !mountRef.current) return;
 
-      const width = mountRef.current.clientWidth || window.innerWidth;
-      const height = mountRef.current.clientHeight || window.innerHeight;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
 
       // Scene setup
       scene = new THREE.Scene();
@@ -157,8 +157,8 @@ export default function ThreeBackground({ enabled, className = "" }: ThreeBackgr
       resizeTimeout = setTimeout(() => {
         if (!mountRef.current || !renderer || !camera) return;
         
-        const newWidth = mountRef.current.clientWidth;
-        const newHeight = mountRef.current.clientHeight;
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
         
         camera.aspect = newWidth / newHeight;
         camera.updateProjectionMatrix();

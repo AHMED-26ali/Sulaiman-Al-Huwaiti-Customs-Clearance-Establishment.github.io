@@ -60,23 +60,23 @@ const getImageSize = (url: string, size: 'thumb' | 'side' | 'main' | 'full', isM
   return url.replace(/\/\d+x\//, `/${sizeMap[size]}/`);
 };
 
-// Hook للكشف عن الجهاز
+// Hook للكشف عن الجهاز دون التسبب في إعادة تدفق إلزامي (Forced Reflow)
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window !== 'undefined') {
-      return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      return window.matchMedia('(max-width: 767px)').matches || 
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     }
     return false;
   });
   
   useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    const mql = window.matchMedia('(max-width: 767px)');
+    const onChange = (e: MediaQueryListEvent) => {
+      setIsMobile(e.matches);
     };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
   }, []);
   
   return isMobile;

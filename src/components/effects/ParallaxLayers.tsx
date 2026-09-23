@@ -10,19 +10,32 @@ export default function ParallaxLayers({ className = "" }: ParallaxLayersProps) 
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    let ticking = false;
+    let targetX = 0;
+    let targetY = 0;
+
     const handleMouseMove = (e: MouseEvent) => {
       if (!isVisible) return;
       
-      const x = (e.clientX / window.innerWidth - 0.5) * 2;
-      const y = (e.clientY / window.innerHeight - 0.5) * 2;
-      setMousePosition({ x, y });
+      const width = window.innerWidth || 1;
+      const height = window.innerHeight || 1;
+      targetX = (e.clientX / width - 0.5) * 2;
+      targetY = (e.clientY / height - 0.5) * 2;
+
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setMousePosition({ x: targetX, y: targetY });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     const handleVisibilityChange = () => {
       setIsVisible(!document.hidden);
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
