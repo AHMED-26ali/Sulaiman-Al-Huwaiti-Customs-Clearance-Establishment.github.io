@@ -9,16 +9,16 @@
   <meta name="yandex-verification" content="2c6f2cb1ca88aae8" />
   <title>مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت | السعودية</title>
 
-  <!-- الروابط الاستباقية للخطوط والصور -->
+  <!-- الروابط الاستباقية للخطوط والصور مع ضبط الـ CORS بدقة -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://i.pinimg.com" crossorigin />
+  <link rel="preconnect" href="https://i.pinimg.com" />
   <link rel="dns-prefetch" href="https://i.pinimg.com" />
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   
-  <!-- تحميل خطوط Google Fonts بشكل أمثل لتجنب أي Layout Shift -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;500;700;800&family=Tajawal:wght@400;500;700;900&display=swap" />
+  <!-- تحميل خطوط Google Fonts الأساسية فقط (400, 700) لتقليل حجم التحميل من 753ms وتسريع مسار الشبكة -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@400;700&family=Tajawal:wght@500;700&display=swap" />
   
   <!-- Critical CSS مدمج في الصفحة لأول شاشة FCP فوري دون انتظار أي طلب خارجي -->
   <style>
@@ -34,8 +34,9 @@
     }
   </style>
 
-  <!-- Preload للصورة الرئيسية لرفع سرعة LCP -->
-  <link rel="preload" as="image" href="https://i.pinimg.com/400x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg" fetchpriority="high" />
+  <!-- Preload للصورة الرئيسية حسب مقاس الشاشة لرفع سرعة LCP وتوفير أكثر من 300ms -->
+  <link rel="preload" as="image" href="https://i.pinimg.com/236x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg" media="(max-width: 767px)" fetchpriority="high" />
+  <link rel="preload" as="image" href="https://i.pinimg.com/400x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg" media="(min-width: 768px)" fetchpriority="high" />
   
   <meta name="description" content="مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت - خبرة في الاستيراد والتصدير، التخليص الجمركي، خدمات الشحن، الترانزيت، ومكاتب التخليص الجمركي في السعودية.">
   

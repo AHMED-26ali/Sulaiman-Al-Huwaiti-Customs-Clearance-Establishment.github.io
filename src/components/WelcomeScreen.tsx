@@ -42,18 +42,18 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
           }}
         >
           {/* Floating Particles - تقليل العدد على الموبايل */}
-          <div className="absolute inset-0 overflow-hidden particles-container">
-            {[...Array(isMobile ? 5 : 15)].map((_, i) => (
+          <div className="absolute inset-0 overflow-hidden particles-container pointer-events-none">
+            {[...Array(isMobile ? 5 : 12)].map((_, i) => (
               <div
                 key={`particle-${i}`}
                 className="absolute rounded-full bg-white/40 particle"
                 style={{
-                  width: `${Math.random() * 3 + 1}px`,
-                  height: `${Math.random() * 3 + 1}px`,
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                  animationDelay: `${Math.random() * 2}s`,
-                  animationDuration: `${2 + Math.random() * 2}s`
+                  width: `${(i % 3) + 2}px`,
+                  height: `${(i % 3) + 2}px`,
+                  left: `${(i * 19 + 7) % 95}%`,
+                  top: `${(i * 23 + 11) % 90}%`,
+                  animationDelay: `${(i * 0.4) % 2}s`,
+                  animationDuration: `${2.5 + (i % 3) * 0.5}s`
                 }}
               />
             ))}
@@ -61,16 +61,16 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
 
           {/* Geometric Shapes - تقليل العدد على الموبايل */}
           {!isMobile && (
-            <div className="absolute inset-0 shapes-container">
+            <div className="absolute inset-0 shapes-container pointer-events-none">
               {[...Array(5)].map((_, i) => (
                 <div
                   key={`shape-${i}`}
                   className={`absolute shape shape-${i % 3}`}
                   style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    animationDelay: `${Math.random() * 2}s`,
-                    animationDuration: `${3 + Math.random() * 2}s`
+                    left: `${(i * 21 + 15) % 85}%`,
+                    top: `${(i * 17 + 20) % 75}%`,
+                    animationDelay: `${i * 0.5}s`,
+                    animationDuration: `${3.5 + i * 0.3}s`
                   }}
                 />
               ))}

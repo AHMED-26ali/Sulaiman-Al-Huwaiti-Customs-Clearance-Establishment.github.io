@@ -152,40 +152,40 @@ export default function Footer() {
           <div className="shape-hexagon absolute" style={{ bottom: '50%', right: '25%' }}></div>
           
           {/* Floating Particles */}
-          {Array.from({ length: 20 }, (_, i) => (
+          {Array.from({ length: 15 }, (_, i) => (
             <div 
               key={i}
               className="floating-particle" 
               style={{ 
-                left: `${Math.random() * 100}%`, 
-                animationDelay: `${Math.random() * 15}s`,
-                animationDuration: `${15 + Math.random() * 10}s`
+                left: `${(i * 17) % 100}%`, 
+                animationDelay: `${(i * 1.3) % 15}s`,
+                animationDuration: `${15 + (i * 2) % 10}s`
               }}
             ></div>
           ))}
           
           {/* Light Beams */}
-          {Array.from({ length: 8 }, (_, i) => (
+          {Array.from({ length: 6 }, (_, i) => (
             <div 
               key={i}
               className="light-beam" 
               style={{ 
-                left: `${10 + i * 12}%`, 
+                left: `${12 + i * 15}%`, 
                 bottom: '0',
-                animationDelay: `${i * 1}s`
+                animationDelay: `${i * 1.2}s`
               }}
             ></div>
           ))}
           
           {/* Glowing Orbs */}
-          {Array.from({ length: 12 }, (_, i) => (
+          {Array.from({ length: 6 }, (_, i) => (
             <div 
               key={i}
               className="glowing-orb" 
               style={{ 
-                top: `${Math.random() * 80 + 10}%`,
-                left: `${Math.random() * 80 + 10}%`, 
-                animationDelay: `${Math.random() * 5}s`
+                top: `${15 + (i * 23) % 70}%`,
+                left: `${10 + (i * 31) % 80}%`, 
+                animationDelay: `${(i * 1.1) % 5}s`
               }}
             ></div>
           ))}
