@@ -90,7 +90,7 @@ export default function Header() {
                 src="https://i.pinimg.com/236x/7f/12/80/7f1280df00efb23c191881da5c430049.jpg"
                 alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"
                 className="h-16 w-16 rounded-full object-cover border-2 border-cyan-400/60 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:border-cyan-300 group-hover:shadow-lg group-hover:shadow-cyan-400/50"
-                loading="lazy"
+                loading="eager"
                 decoding="async"
                 width={64}
                 height={64}

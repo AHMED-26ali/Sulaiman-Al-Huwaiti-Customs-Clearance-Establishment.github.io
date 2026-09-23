@@ -62,7 +62,12 @@ const getImageSize = (url: string, size: 'thumb' | 'side' | 'main' | 'full', isM
 
 // Hook للكشف عن الجهاز
 const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    return false;
+  });
   
   useEffect(() => {
     const checkMobile = () => {

@@ -123,8 +123,8 @@ export default function Footer() {
   return (
     <>
       <footer className="text-white py-16 section-transparent footer-3d-container relative">
-        {/* 3D Shapes Background with reduced opacity so it doesn't obscure text */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-20 z-0">
+        {/* 3D Shapes Background - مخفية على الجوال لتوفير المعالجة والبطارية ومنع أي بطء أو Layout Shift */}
+        <div className="hidden md:block absolute inset-0 overflow-hidden pointer-events-none opacity-20 z-0">
           {/* Floating 3D Shapes */}
           <div className="shape-3d" style={{ top: '10%', left: '5%', width: '80px', height: '80px', animationDelay: '0s' }}></div>
           <div className="shape-3d" style={{ top: '20%', right: '10%', width: '60px', height: '60px', animationDelay: '1s' }}></div>
