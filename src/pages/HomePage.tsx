@@ -24,6 +24,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import Hero from '@/components/sections/Hero';
+import OfficeLocation from '@/components/sections/OfficeLocation';
 import Footer from '@/components/Footer';
 
 export default function HomePage() {
@@ -555,6 +556,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ========== Office Headquarters & Map Section ========== */}
+      <OfficeLocation />
 
       {/* ========== CTA Section ========== */}
       <section className="relative py-20 px-4">

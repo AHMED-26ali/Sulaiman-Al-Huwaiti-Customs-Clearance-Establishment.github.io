@@ -106,7 +106,7 @@ export default function Header() {
                   const target = e.currentTarget;
                   if (!target.dataset.triedFallback) {
                     target.dataset.triedFallback = "true";
-                    target.src = "https://i.pinimg.com/236x/7f/12/80/7f1280df00efb23c191881da5c430049.jpg";
+                    target.src = "https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg";
                   }
                 }}
               />

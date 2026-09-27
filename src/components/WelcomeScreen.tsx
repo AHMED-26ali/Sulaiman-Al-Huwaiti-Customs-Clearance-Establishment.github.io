@@ -118,7 +118,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
             >
               <div className="relative">
                 <motion.img 
-                  src="https://i.pinimg.com/236x/1e/e4/78/1ee4788aeee1f2426ea5e7fe73f811e1.jpg"
+                  src="/images/Logo.jpg"
                   alt="شعار سليمان الحويطي"
                   width={160}
                   height={160}
@@ -126,6 +126,13 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                   style={{
                     border: '3px solid rgba(255, 255, 255, 0.5)',
                     boxShadow: '0 0 40px rgba(59, 130, 246, 0.6)'
+                  }}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = "true";
+                      target.src = "https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg";
+                    }
                   }}
                 />
                 
