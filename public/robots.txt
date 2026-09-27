@@ -1,25 +1,43 @@
 # Robots.txt لمؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت
-# السماح لجميع محركات البحث بأرشفة الموقع بالكامل لضمان الانتشار
+# https://sulaimanal-huwaiti.vercel.app/
 
 User-agent: *
 Allow: /
-
-# السماح لجميع صفحات الموقع
 Allow: /services
 Allow: /why-us
 Allow: /branches
 Allow: /blog
 Allow: /contact
+Allow: /images/
+Allow: /favicon.ico
 
-# منع الملفات الإدارية والتقنية
+# محرك بحث Google
+User-agent: Googlebot
+Allow: /
+Allow: /images/
+Allow: /assets/
+
+# محرك بحث الصور لـ Google
+User-agent: Googlebot-Image
+Allow: /images/
+Allow: /assets/
+
+# محرك بحث Bing
+User-agent: bingbot
+Allow: /
+Allow: /images/
+Allow: /assets/
+
+# حجب الملفات الحساسة والتنفيذية فقط
 Disallow: /admin/
-Disallow: /node_modules/
 Disallow: /api/
+Disallow: /node_modules/
 Disallow: /tsconfig.json
 Disallow: /package.json
+Disallow: /*.json$
+Allow: /.well-known/
+Allow: /ai-catalog.json
 
-# رابط خريطة الموقع الرسمي
+# رابط خريطة الموقع لمحركات البحث (Sitemap)
 Sitemap: https://sulaimanal-huwaiti.vercel.app/sitemap.xml
-
-# العنوان الرسمي للموقع
 Host: sulaimanal-huwaiti.vercel.app
