@@ -1,3 +1,4 @@
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -22,12 +23,110 @@ import {
   Headphones,
   Quote,
   MessageCircle,
+  Building2,
 } from 'lucide-react';
 import Hero from '@/components/sections/Hero';
-import OfficeLocation from '@/components/sections/OfficeLocation';
 import Footer from '@/components/Footer';
 
+// Lazy loading لمكون OfficeLocation بحيث لا يتم طلب ملف الـ JavaScript الخاص به إلا عند اقتراب المستخدم من القسم
+const OfficeLocation = lazy(() => import('@/components/sections/OfficeLocation'));
+
+// عنصر بديل (Placeholder) محجوز بنفس أبعاد وهيكل وتوزيع القسم الحقيقي على الموبايل والديسكتوب لمنع أي Layout Shift
+const OfficePlaceholder = () => (
+  <section id="office-location" className="relative py-16 md:py-24 text-white overflow-hidden" dir="rtl">
+    <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute top-1/2 right-10 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -translate-y-1/2"></div>
+      <div className="absolute bottom-10 left-10 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+    </div>
+    <div className="container mx-auto px-4 relative z-10">
+      <div className="text-center mb-12">
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-sm font-medium mb-4 shadow-sm">
+          <Building2 className="w-4 h-4 text-cyan-400" />
+          <span>مقرنا الرئيسي في ضبا - بوابة نيوم</span>
+        </div>
+        <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+          موقع المكتب على <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 bg-clip-text text-transparent">الخريطة</span>
+        </h2>
+        <p className="text-lg text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          يسعدنا استقبالكم في مقر مؤسسة سليمان الحويطي الرئيسي بمحافظة ضبا، الواقع على طريق الملك عبدالعزيز الحيوي بالقرب من الميناء.
+        </p>
+      </div>
+
+      {/* كرت الحاوية الرئيسي بنفس أبعاد وتوزيع شبكة المكوّن الحقيقي على الموبايل والديسكتوب */}
+      <div className="bg-gradient-to-br from-slate-900/90 via-slate-900/80 to-slate-950/95 border border-cyan-500/20 rounded-3xl p-6 md:p-10 backdrop-blur-xl shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 left-0 h-1 bg-gradient-to-r from-transparent via-cyan-400 to-transparent opacity-60"></div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* الجانب الأيمن: هيكل الخريطة التفاعلية وأزرارها */}
+          <div className="lg:col-span-7 flex flex-col justify-between">
+            <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-slate-950 min-h-[380px] md:min-h-[460px] flex-grow flex items-center justify-center">
+              <div className="flex flex-col items-center justify-center gap-3 p-8 text-center text-cyan-400">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center">
+                  <MapPin className="w-6 h-6 text-cyan-400 animate-pulse" />
+                </div>
+                <span className="text-xs font-semibold text-gray-300">موقع المكتب على الخريطة التفاعلية</span>
+              </div>
+            </div>
+
+            {/* أزرار الخريطة بنفس الارتفاع */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+              <div className="h-11 rounded-xl bg-cyan-600/20 border border-cyan-400/20"></div>
+              <div className="h-11 rounded-xl bg-white/5 border border-white/10"></div>
+            </div>
+          </div>
+
+          {/* الجانب الأيسر: هيكل تفاصيل المقر والوصول وبطاقات البيانات بنفس الارتفاعات */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
+            <div>
+              <div className="h-4 w-64 bg-emerald-500/20 rounded mb-2"></div>
+              <div className="h-7 w-72 bg-white/15 rounded mb-3"></div>
+              <div className="h-10 w-full bg-white/5 rounded mb-6"></div>
+
+              {/* بطاقات البيانات الأربع بنفس مقاسات كروت OfficeLocation */}
+              <div className="space-y-3">
+                <div className="bg-white/5 border border-white/10 p-3.5 rounded-2xl h-[92px]"></div>
+                <div className="bg-white/5 border border-white/10 p-3.5 rounded-2xl h-[58px]"></div>
+                <div className="bg-white/5 border border-white/10 p-3.5 rounded-2xl h-[130px]"></div>
+                <div className="bg-white/5 border border-white/10 p-3.5 rounded-2xl h-[90px]"></div>
+              </div>
+            </div>
+
+            {/* أزرار الاتصال والتواصل المباشر بنفس الارتفاع */}
+            <div className="pt-2 flex flex-col sm:flex-row gap-3">
+              <div className="flex-1 h-10 rounded-xl bg-emerald-600/20 border border-emerald-500/20"></div>
+              <div className="w-full sm:w-32 h-10 rounded-xl bg-white/5 border border-white/10"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
+
 export default function HomePage() {
+  const [shouldLoadOffice, setShouldLoadOffice] = useState(false);
+  const officeObserverRef = useRef<HTMLDivElement>(null);
+
+  // تأجيل تحميل ملف JavaScript لمكون OfficeLocation حتى يقترب الزائر من القسم بـ 400 بكسل
+  useEffect(() => {
+    if (shouldLoadOffice || !officeObserverRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoadOffice(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '400px' }
+    );
+
+    observer.observe(officeObserverRef.current);
+    return () => observer.disconnect();
+  }, [shouldLoadOffice]);
+
   const sectionCards = [
     {
       id: 'services',
@@ -557,8 +656,16 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ========== Office Headquarters & Map Section ========== */}
-      <OfficeLocation />
+      {/* ========== Office Headquarters & Map Section (Lazy Loaded on Intersection) ========== */}
+      <div ref={officeObserverRef}>
+        {shouldLoadOffice ? (
+          <Suspense fallback={<OfficePlaceholder />}>
+            <OfficeLocation />
+          </Suspense>
+        ) : (
+          <OfficePlaceholder />
+        )}
+      </div>
 
       {/* ========== CTA Section ========== */}
       <section className="relative py-20 px-4">

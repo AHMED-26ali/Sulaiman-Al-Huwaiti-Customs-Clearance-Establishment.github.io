@@ -122,6 +122,9 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                   alt="شعار سليمان الحويطي"
                   width={160}
                   height={160}
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
                   className="w-24 h-24 md:w-40 md:h-40 rounded-full object-cover shadow-2xl"
                   style={{
                     border: '3px solid rgba(255, 255, 255, 0.5)',

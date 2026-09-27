@@ -99,6 +99,7 @@ export default function Header() {
                 className="h-16 w-16 rounded-full object-cover border-2 border-cyan-400/60 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:border-cyan-300 group-hover:shadow-lg group-hover:shadow-cyan-400/50"
                 loading="eager"
                 decoding="async"
+                fetchPriority="high"
                 width={64}
                 height={64}
                 onError={(e) => {

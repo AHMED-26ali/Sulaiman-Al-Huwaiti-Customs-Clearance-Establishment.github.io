@@ -9,11 +9,9 @@
   <meta name="yandex-verification" content="2c6f2cb1ca88aae8" />
   <title>مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت | السعودية</title>
 
-  <!-- الروابط الاستباقية للخطوط والصور مع ضبط الـ CORS بدقة -->
+  <!-- الروابط الاستباقية للخطوط مع ضبط الـ CORS بدقة -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preconnect" href="https://i.pinimg.com" />
-  <link rel="dns-prefetch" href="https://i.pinimg.com" />
   <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
   <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
   
@@ -38,9 +36,8 @@
     }
   </style>
 
-  <!-- Preload للصورة الرئيسية حسب مقاس الشاشة لرفع سرعة LCP وتوفير أكثر من 300ms -->
-  <link rel="preload" as="image" href="https://i.pinimg.com/236x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg" media="(max-width: 767px)" fetchpriority="high" />
-  <link rel="preload" as="image" href="https://i.pinimg.com/400x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg" media="(min-width: 768px)" fetchpriority="high" />
+  <!-- Preload للصورة الرئيسية الأصلية لتسريع LCP -->
+  <link rel="preload" as="image" href="https://i.pinimg.com/236x/c6/b4/7d/c6b47d402669f4e2b3151f00e443f500.jpg" fetchpriority="high" />
   
   <meta name="description" content="مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت في السعودية. خبرة 15+ عاماً في التخليص الجمركي البحري والبري عبر ميناء جدة، نيوم وضبا، الدمام، ينبع، ومنافذ الحديثة، البطحاء، جسر الملك فهد، سلوى والدرة.">
   
@@ -67,8 +64,8 @@
   <meta property="og:title" content="مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت | السعودية" />
   <meta property="og:description" content="مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت - خدمات تخليص جمركي بحري وبري واستيراد وتصدير وترانزيت عبر أهم موانئ ومنافذ المملكة بخبرة 15+ عاماً." />
   <meta property="og:url" content="https://sulaimanal-huwaiti.vercel.app/" />
-  <meta property="og:image" content="https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg" />
-  <meta property="og:image:secure_url" content="https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg" />
+  <meta property="og:image" content="https://sulaimanal-huwaiti.vercel.app/images/Logo.jpg" />
+  <meta property="og:image:secure_url" content="https://sulaimanal-huwaiti.vercel.app/images/Logo.jpg" />
   <meta property="og:image:width" content="736" />
   <meta property="og:image:height" content="736" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -78,7 +75,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت | السعودية" />
   <meta name="twitter:description" content="تخليص جمركي وترانزيت في كافة موانئ ومنافذ السعودية - خبرة تزيد عن 15 عاماً وسرعة في الإنجاز." />
-  <meta name="twitter:image" content="https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg" />
+  <meta name="twitter:image" content="https://sulaimanal-huwaiti.vercel.app/images/Logo.jpg" />
   <meta name="twitter:image:alt" content="مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت" />
   
   <link rel="canonical" href="https://sulaimanal-huwaiti.vercel.app/" />
@@ -112,8 +109,8 @@
         ],
         "legalName": "مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت",
         "url": "https://sulaimanal-huwaiti.vercel.app/",
-        "logo": "https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg",
-        "image": "https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg",
+        "logo": "https://sulaimanal-huwaiti.vercel.app/images/Logo.jpg",
+        "image": "https://sulaimanal-huwaiti.vercel.app/images/Logo.jpg",
         "description": "مؤسسة رائدة معتمدة في تقديم خدمات التخليص الجمركي والترانزيت والاستيراد والتصدير في كافة الموانئ البحرية والمنافذ البرية بالمملكة العربية السعودية بخبرة تزيد عن 15 عاماً.",
         "founder": {
           "@type": "Person",
@@ -160,30 +157,46 @@
           "https://sulaimanal-huwaiti.vercel.app/",
           "https://wa.me/966559586786"
         ],
-        "serviceArea": [
+        "areaServed": [
           {
             "@type": "Country",
             "name": "المملكة العربية السعودية"
           },
           {
-            "@type": "AdministrativeArea",
-            "name": "ميناء جدة الإسلامي - منطقة مكة المكرمة"
+            "@type": "Place",
+            "name": "ميناء جدة الإسلامي"
           },
           {
-            "@type": "AdministrativeArea",
-            "name": "ميناء نيوم وجمرك ضبا ومنفذ الدرة - منطقة تبوك"
+            "@type": "Place",
+            "name": "ميناء نيوم (جمرك ضبا)"
           },
           {
-            "@type": "AdministrativeArea",
-            "name": "ميناء الملك عبدالعزيز بالدمام وجسر الملك فهد ومنفذ البطحاء وسلوى - المنطقة الشرقية"
+            "@type": "Place",
+            "name": "ميناء الملك عبدالعزيز (الدمام)"
           },
           {
-            "@type": "AdministrativeArea",
-            "name": "ميناء ينبع التجاري والصناعي - منطقة المدينة المنورة"
+            "@type": "Place",
+            "name": "ميناء ينبع التجاري"
           },
           {
-            "@type": "AdministrativeArea",
-            "name": "منفذ الحديثة البري الدولي - منطقة الجوف"
+            "@type": "Place",
+            "name": "منفذ الحديثة (Crossing)"
+          },
+          {
+            "@type": "Place",
+            "name": "منفذ البطحاء (Crossing)"
+          },
+          {
+            "@type": "Place",
+            "name": "منفذ جسر الملك فهد"
+          },
+          {
+            "@type": "Place",
+            "name": "منفذ السلوى (Crossing)"
+          },
+          {
+            "@type": "Place",
+            "name": "منفذ الدرة (Crossing)"
           }
         ],
         "hasOfferCatalog": {
@@ -194,24 +207,32 @@
               "@type": "Offer",
               "itemOffered": {
                 "@type": "Service",
-                "name": "التخليص الجمركي البحري عبر الموانئ السعودية",
-                "description": "تخليص الحاويات والبضائع العامة والمبردة عبر ميناء جدة الإسلامي، ميناء نيوم (ضبا)، ميناء الملك عبدالعزيز بالدمام، وميناء ينبع التجاري."
+                "name": "التخليص الجمركي الشامل",
+                "description": "خدمات تخليص جمركي متكاملة لجميع أنواع البضائع مع ضمان السرعة والدقة في الإنجاز والأمان التام عبر الموانئ والمنافذ الجمركية."
               }
             },
             {
               "@type": "Offer",
               "itemOffered": {
                 "@type": "Service",
-                "name": "التخليص الجمركي البري وعبور الترانزيت",
-                "description": "تخليص الشاحنات وخدمات عبور الترانزيت الدولي TIR عبر منفذ الحديثة، منفذ البطحاء، منفذ جسر الملك فهد، منفذ سلوى، ومنفذ الدرة بحقل."
+                "name": "النقل البري والترانزيت",
+                "description": "خدمات نقل برية وترانزيت آمنة وسريعة مع تتبع مباشر للشحنات عبر جميع المنافذ الحدودية والموانئ."
               }
             },
             {
               "@type": "Offer",
               "itemOffered": {
                 "@type": "Service",
-                "name": "استشارات الاستيراد والتصدير ومنصة سابر والفسح المباشر",
-                "description": "إتمام إجراءات منصة فسح وشهادات مطابقة سابر وإدارة المستندات والتعريفات الجمركية باحترافية وسرعة فائقة."
+                "name": "الشحن البحري",
+                "description": "حلول شحن وتخليص جمركي للبضائع والحاويات عبر الموانئ السعودية."
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "الاستشارات التجارية والجمركية",
+                "description": "خدمات استشارية متخصصة في التجارة الدولية والقوانين وحساب الرسوم الجمركية للاستيراد والتصدير."
               }
             }
           ]

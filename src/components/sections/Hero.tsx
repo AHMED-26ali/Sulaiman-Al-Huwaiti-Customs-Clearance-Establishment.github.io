@@ -52,14 +52,6 @@ const images: GalleryItem[] = [
   },
 ];
 
-// دالة مساعدة للحصول على حجم الصورة المناسب حسب الجهاز
-const getImageSize = (url: string, size: 'thumb' | 'side' | 'main' | 'full', isMobile: boolean) => {
-  const sizeMap = isMobile 
-    ? { thumb: '75x', side: '150x', main: '236x', full: '400x' }  // أحجام أصغر للموبايل
-    : { thumb: '150x', side: '236x', main: '400x', full: '736x' }; // أحجام عادية للديسكتوب
-  return url.replace(/\/\d+x\//, `/${sizeMap[size]}/`);
-};
-
 // Hook للكشف عن الجهاز دون التسبب في إعادة تدفق إلزامي (Forced Reflow)
 const useIsMobile = () => {
   const [isMobile, setIsMobile] = useState(() => {
@@ -90,6 +82,16 @@ export default function Hero() {
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const touchStartX = useRef<number | null>(null);
+  const [show3D, setShow3D] = useState(false);
+
+  // تأجيل تحميل خلفية Three.js لتسريع أول رسم للصفحة والـ LCP
+  useEffect(() => {
+    if (isMobile) return;
+    const timer = setTimeout(() => {
+      setShow3D(true);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, [isMobile]);
 
   useEffect(() => {
     if (!isPlaying || lightboxOpen) return;
@@ -146,8 +148,8 @@ export default function Hero() {
 
   return (
     <section id="home" className="min-h-screen text-white relative overflow-hidden pt-16 section-transparent">
-      {/* تعطيل ThreeBackground على الموبايل لتوفير الأداء */}
-      {!isMobile && (
+      {/* تأجيل وتحسين أداء ThreeBackground على الديسكتوب وتعطيلها على الموبايل لتوفير الأداء */}
+      {!isMobile && show3D && (
         <Suspense fallback={null}>
           <ThreeBackground enabled={true} />
         </Suspense>
@@ -226,13 +228,13 @@ export default function Hero() {
                 {/* خلفية جمالية متوهجة */}
                 <div className="absolute -inset-4 bg-gradient-to-tr from-emerald-500/20 via-cyan-500/20 to-blue-500/20 rounded-3xl blur-2xl opacity-50 pointer-events-none"></div>
 
-                {/* الصورة المعروضة بجودة عالية وترانزيشن هادئ */}
+                {/* الصورة المعروضة بجودة عالية وترانزيشن هادئ بنسبة 3:4 */}
                 <img
                   key={currentIndex}
-                  src={getImageSize(images[currentIndex].url, 'main', isMobile)}
+                  src={images[currentIndex].url}
                   alt={images[currentIndex].title}
-                  width={isMobile ? 236 : 400}
-                  height={isMobile ? 315 : 533}
+                  width={isMobile ? 300 : 400}
+                  height={isMobile ? 400 : 533}
                   className="relative w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105 animate-fade-in"
                   loading={currentIndex === 0 ? 'eager' : 'lazy'}
                   decoding="async"
@@ -438,7 +440,7 @@ export default function Hero() {
             onClick={(e) => e.stopPropagation()}
           >
             <img
-              src={getImageSize(images[currentIndex].url, 'full', isMobile)}
+              src={images[currentIndex].url}
               alt={images[currentIndex].title}
               className="max-w-full max-h-[60vh] object-contain rounded-2xl shadow-2xl ring-1 ring-white/20"
               loading="lazy"
@@ -471,7 +473,15 @@ export default function Hero() {
                 }`}
                 title={img.title}
               >
-                <img src={getImageSize(img.url, 'thumb', isMobile)} alt={img.title} className="w-full h-full object-cover" />
+                <img 
+                  src={img.url} 
+                  alt={img.title} 
+                  className="w-full h-full object-cover" 
+                  loading="lazy" 
+                  decoding="async" 
+                  width={48} 
+                  height={48} 
+                />
               </button>
             ))}
           </div>

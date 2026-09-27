@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
   MapPin, 
   Navigation, 
@@ -24,6 +24,26 @@ interface OfficeLocationProps {
 export default function OfficeLocation({ className = '', showTitle = true }: OfficeLocationProps) {
   const [copiedPlusCode, setCopiedPlusCode] = useState(false);
   const [copiedAddress, setCopiedAddress] = useState(false);
+  const [shouldLoadMap, setShouldLoadMap] = useState(false);
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!mapContainerRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setShouldLoadMap(true);
+            observer.disconnect();
+          }
+        });
+      },
+      { rootMargin: '350px' } // تحميل مسبق سلس قبل وصول المستخدم بـ 350 بكسل
+    );
+
+    observer.observe(mapContainerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   const plusCode = '8PX4+PRC';
   const fullAddress = '8PX4+PRC، طريق الملك عبدالعزيز (بجوار شركة البسام للشحن)، ضبا 49312، المملكة العربية السعودية';
@@ -75,18 +95,30 @@ export default function OfficeLocation({ className = '', showTitle = true }: Off
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             {/* ===================== الجانب الأيمن: الخريطة التفاعلية ===================== */}
             <div className="lg:col-span-7 flex flex-col justify-between">
-              <div className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-slate-950 min-h-[380px] md:min-h-[460px] flex-grow">
-                {/* الإطار المضمن للخريطة */}
-                <iframe
-                  title="موقع مكتب مؤسسة سليمان الحويطي للتخليص الجمركي"
-                  src={embedMapUrl}
-                  width="100%"
-                  height="100%"
-                  className="w-full h-full min-h-[380px] md:min-h-[460px] border-0"
-                  style={{ filter: 'contrast(1.05) saturate(1.15)' }}
-                  loading="lazy"
-                  allowFullScreen
-                ></iframe>
+              <div 
+                ref={mapContainerRef} 
+                className="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-slate-950 min-h-[380px] md:min-h-[460px] flex-grow flex items-center justify-center"
+              >
+                {/* الإطار المضمن للخريطة مع التحميل الكسول */}
+                {shouldLoadMap ? (
+                  <iframe
+                    title="موقع مكتب مؤسسة سليمان الحويطي للتخليص الجمركي"
+                    src={embedMapUrl}
+                    width="100%"
+                    height="100%"
+                    className="w-full h-full min-h-[380px] md:min-h-[460px] border-0"
+                    style={{ filter: 'contrast(1.05) saturate(1.15)' }}
+                    loading="lazy"
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <div className="flex flex-col items-center justify-center gap-3 p-8 text-center text-cyan-400">
+                    <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-400/30 flex items-center justify-center">
+                      <MapPin className="w-6 h-6 text-cyan-400 animate-pulse" />
+                    </div>
+                    <span className="text-xs font-semibold text-gray-300">موقع المكتب على الخريطة التفاعلية</span>
+                  </div>
+                )}
 
                 {/* شريط معلومات يطفو فوق الخريطة */}
                 <div className="absolute top-3 right-3 left-3 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
