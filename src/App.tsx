@@ -29,22 +29,8 @@ const LoadingFallback = () => (
 );
 
 const App = () => {
-  const [showWelcome, setShowWelcome] = useState(() => {
-    if (typeof window === 'undefined') return false;
-    // تخطي شاشة الترحيب لروبوتات قياس السرعة والأداء (PageSpeed / Lighthouse) لضمان TBT < 200ms و Speed Index فوري
-    const isPerformanceAudit = /Lighthouse|PageSpeed|HeadlessChrome|Chrome-Lighthouse|bot|crawl/i.test(navigator.userAgent);
-    if (isPerformanceAudit) return false;
-    
-    // فحص ما إذا كان الزائر قد شاهد شاشة الترحيب مسبقاً في هذه الجلسة لمنع إزعاج المستخدم وتسريع التنقل
-    try {
-      if (sessionStorage.getItem('welcomed_sulaiman')) return false;
-      sessionStorage.setItem('welcomed_sulaiman', 'true');
-    } catch {
-      // Ignore storage access errors in private browsing
-    }
-    
-    return true;
-  });
+  // شاشة الترحيب معطلة افتراضياً لمنع أي حظر للـ Main Thread ولضمان TBT < 150ms والأداء 100/100
+  const [showWelcome] = useState(false);
 
   const handleWelcomeComplete = () => {
     setShowWelcome(false);

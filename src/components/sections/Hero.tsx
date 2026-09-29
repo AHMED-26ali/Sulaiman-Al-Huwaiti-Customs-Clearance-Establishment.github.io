@@ -138,13 +138,7 @@ export default function Hero() {
     window.addEventListener('mousemove', trigger3D, { passive: true, once: true });
     window.addEventListener('touchstart', trigger3D, { passive: true, once: true });
 
-    const idleTimer = setTimeout(() => {
-      setShow3D(true);
-      removeListeners();
-    }, 4500);
-
     return () => {
-      clearTimeout(idleTimer);
       removeListeners();
     };
   }, [isMobile]);
