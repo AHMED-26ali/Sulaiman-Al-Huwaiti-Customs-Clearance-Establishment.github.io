@@ -102,7 +102,7 @@ export default function Hero() {
   const isMobile = useIsMobile();
   const [show3D, setShow3D] = useState(false);
 
-  // استخدام IntersectionObserver لتحريك الكاروسيل وتحميل الصور فقط عندما يكون في مجال الرؤية
+  // استخدام IntersectionObserver مع threshold=0 و rootMargin لتحميل وتنشيط الكاروسيل فوراً بمجرد الاقتراب
   useEffect(() => {
     const node = carouselContainerRef.current;
     if (!node || typeof IntersectionObserver === 'undefined') return;
@@ -111,7 +111,7 @@ export default function Hero() {
       ([entry]) => {
         setIsInView(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0, rootMargin: '200px' }
     );
     observer.observe(node);
     return () => observer.disconnect();
@@ -258,7 +258,8 @@ export default function Hero() {
                 {/* عرض الصور التسع مع انتقال ناعم ودوران لا نهائي بدون تشويه وبنسبة 3:4 الدقيقة مع تحميل متدرج وبصيغة WebP الحديثة */}
                 {customImages.map((image, idx) => {
                   const isActive = idx === currentIndex;
-                  const isLoaded = loadedIndices.has(idx);
+                  // تحميل فوري لأول صورتين بدون أي تأخير لمنع حظر LCP، والبدء تدريجياً من الصورة الثالثة
+                  const shouldRender = idx < 2 || loadedIndices.has(idx);
 
                   return (
                     <div
@@ -268,7 +269,7 @@ export default function Hero() {
                       }`}
                       aria-hidden={!isActive}
                     >
-                      {isLoaded ? (
+                      {shouldRender ? (
                         <picture>
                           <source
                             type="image/webp"

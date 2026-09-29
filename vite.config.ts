@@ -2,19 +2,18 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
-// إضافة إضافة تجعل تحميل الـ CSS الأولي غير حاجب للعرض مع ضمان تطبيق التنسيق الفوري
-function asyncCssPlugin(): Plugin {
+// إضافة تحسين تحميل الـ CSS الأولي بأعلى أولوية ممكنة
+function optimizeCssPlugin(): Plugin {
   return {
-    name: 'async-css-plugin',
+    name: 'optimize-css-plugin',
     apply: 'build',
     enforce: 'post',
     transformIndexHtml(html) {
-      // تحويل وسم <link rel="stylesheet" href="..."> المولّد تلقائياً ليكون غير حاجب للعرض
+      // إبقاء ملف الـ CSS الأساسي عالي الأولوية مع Preload لضمان FCP سريع جداً دون تأخير أو وميض
       return html.replace(
         /<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g,
         `<link rel="preload" href="$1" as="style">
-  <link rel="stylesheet" crossorigin href="$1" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" crossorigin href="$1"></noscript>`
+  <link rel="stylesheet" crossorigin href="$1">`
       );
     },
   };
@@ -25,7 +24,7 @@ export default defineConfig(({ mode }) => ({
     host: "0.0.0.0",
     port: 3000,
   },
-  plugins: [react(), asyncCssPlugin()],
+  plugins: [react(), optimizeCssPlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

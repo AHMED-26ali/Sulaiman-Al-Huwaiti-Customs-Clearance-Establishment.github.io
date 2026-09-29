@@ -1,10 +1,11 @@
 // Service Worker for Sulaiman Al-Huwaiti Customs Clearance App
-const CACHE_NAME = 'alhuwaiti-cache-v1';
+const CACHE_NAME = 'alhuwaiti-cache-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
   '/images/Logo.webp',
   '/images/Logo.jpg',
+  '/images/custom/cargo-ship-sea-top-view-400w.webp',
   '/images/custom/cargo-ship-sea-top-view.webp',
   '/images/custom/cargo-ship-sea-top-view.jpg.jpg'
 ];

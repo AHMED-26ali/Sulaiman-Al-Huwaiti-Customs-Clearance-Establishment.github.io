@@ -36,8 +36,8 @@
     }
   </style>
 
-  <!-- Preload للصورة الرئيسية لتسريع LCP بأحدث صيغة WebP -->
-  <link rel="preload" as="image" href="/images/custom/cargo-ship-sea-top-view.webp" type="image/webp" fetchpriority="high" />
+  <!-- Preload للصورة الرئيسية لتسريع LCP على الموبايل والديسكتوب بأحدث صيغة WebP المتوافقة تماماً مع الـ srcset -->
+  <link rel="preload" as="image" href="/images/custom/cargo-ship-sea-top-view-400w.webp" imagesrcset="/images/custom/cargo-ship-sea-top-view-400w.webp 400w, /images/custom/cargo-ship-sea-top-view.webp 800w" imagesizes="(max-width: 640px) 320px, (max-width: 1024px) 384px, 420px" type="image/webp" fetchpriority="high" />
   <link rel="preload" as="image" href="/images/custom/cargo-ship-sea-top-view.jpg.jpg" fetchpriority="high" />
   
   <meta name="description" content="مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت في السعودية. خبرة 15+ عاماً في التخليص الجمركي البحري والبري عبر ميناء جدة، نيوم وضبا، الدمام، ينبع، ومنافذ الحديثة، البطحاء، جسر الملك فهد، سلوى والدرة.">
@@ -356,7 +356,37 @@
 </head>
 
 <body>
-  <div id="root"></div>
+  <div id="root">
+    <!-- Prerender Shell لضمان FCP < 1s و LCP < 2.5s فوري على شبكات الجوال قبل اكتمال تحميل الجافاسكريبت -->
+    <div style="min-height:100vh;background:linear-gradient(to bottom right, #1e3a8a, #581c87, #064e3b);">
+      <header style="height:5rem;display:flex;align-items:center;padding:0 1rem;max-width:80rem;margin:0 auto;">
+        <div style="display:flex;align-items:center;gap:1rem;">
+          <img src="/images/Logo.webp" alt="شعار مؤسسة سليمان الحويطي" width="64" height="64" style="border-radius:9999px;object-fit:cover;border:2px solid rgba(34,211,238,0.6);" />
+          <span style="font-size:1.25rem;font-weight:700;color:#ffffff;">مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت</span>
+        </div>
+      </header>
+      <main style="max-width:80rem;margin:0 auto;padding:3rem 1rem;">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:2.5rem;">
+          <div style="flex:1;min-width:18rem;color:#ffffff;">
+            <h1 style="font-size:2rem;font-weight:800;line-height:1.25;margin-bottom:1.5rem;">
+              مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت
+            </h1>
+            <p style="font-size:1.125rem;color:#cbd5e1;line-height:1.625;margin-bottom:2rem;">
+              نقدم خدمات التخليص الجمركي والترانزيت بأعلى معايير الجودة والاحترافية في جميع أنحاء المملكة.
+            </p>
+          </div>
+          <div style="flex:1;min-width:18rem;display:flex;justify-content:center;">
+            <div style="width:100%;max-width:420px;aspect-ratio:3/4;border-radius:1.5rem;overflow:hidden;box-shadow:0 25px 60px -15px rgba(0,0,0,0.85);border:1px solid rgba(255,255,255,0.2);background:#020617;position:relative;">
+              <picture>
+                <source type="image/webp" srcset="/images/custom/cargo-ship-sea-top-view-400w.webp 400w, /images/custom/cargo-ship-sea-top-view.webp 800w" sizes="(max-width: 640px) 320px, (max-width: 1024px) 384px, 420px" />
+                <img src="/images/custom/cargo-ship-sea-top-view.jpg.jpg" alt="سفينة شحن بضائع في عرض البحر - خدمات الشحن والترانزيت البحري" width="420" height="560" style="width:100%;height:100%;object-fit:cover;" fetchpriority="high" loading="eager" decoding="sync" />
+              </picture>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
   <script type="module" src="/src/main.tsx"></script>
 </body>
 
