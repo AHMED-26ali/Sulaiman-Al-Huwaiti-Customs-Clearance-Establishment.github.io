@@ -9,3 +9,18 @@ createRoot(document.getElementById('root')!).render(
     <App />
   </StrictMode>
 );
+
+// تسجيل الـ Service Worker بشكل متأخر وغير حاجب بعد اكتمال التحميل
+if (typeof window !== 'undefined' && 'serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
+  window.addEventListener('load', () => {
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(() => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    } else {
+      setTimeout(() => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      }, 1000);
+    }
+  });
+}

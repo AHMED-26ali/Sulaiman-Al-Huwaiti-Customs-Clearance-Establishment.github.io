@@ -93,25 +93,27 @@ export default function Header() {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-4 space-x-reverse group cursor-pointer">
             <div className="relative">
-              <img
-                src="/images/Logo.jpg"
-                alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"
-                className="h-16 w-16 rounded-full object-cover border-2 border-cyan-400/60 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:border-cyan-300 group-hover:shadow-lg group-hover:shadow-cyan-400/50"
-                loading="eager"
-                decoding="async"
-                fetchPriority="high"
-                width={64}
-                height={64}
-                onError={(e) => {
-                  // في حال تعذر تحميل المسار لأي سبب يتم التحويل للرابط الاحتياطي
-                  const target = e.currentTarget;
-                  if (!target.dataset.triedFallback) {
-                    target.dataset.triedFallback = "true";
-                    target.src = "https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg";
-                  }
-                }}
-              />
-              <div className="absolute inset-0 rounded-full bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+              <picture>
+                <source type="image/webp" srcSet="/images/Logo.webp" />
+                <img
+                  src="/images/Logo.jpg"
+                  alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"
+                  className="h-16 w-16 rounded-full object-cover border-2 border-cyan-400/60 transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 group-hover:border-cyan-300 group-hover:shadow-lg group-hover:shadow-cyan-400/50"
+                  loading="eager"
+                  decoding="async"
+                  fetchPriority="high"
+                  width={64}
+                  height={64}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.dataset.triedFallback) {
+                      target.dataset.triedFallback = "true";
+                      target.src = "/images/Logo.jpg";
+                    }
+                  }}
+                />
+              </picture>
+              <div className="absolute inset-0 rounded-full bg-cyan-400/20 opacity-0 group-hover:opacity-100 transition-all duration-500 pointer-events-none"></div>
             </div>
             <div className="text-right">
               <h1 className="text-xl md:text-2xl font-bold text-white group-hover:text-cyan-300 transition-all duration-500">
