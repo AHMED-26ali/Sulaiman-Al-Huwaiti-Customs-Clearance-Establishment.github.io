@@ -199,7 +199,7 @@ export default function Footer() {
                 <h3 className="text-xl font-bold text-white">سليمان الحويطي</h3>
               </div>
               <p className="text-gray-200 leading-relaxed font-medium">
-                مؤسسة متخصصة في التخليص الجمركي والترانزيت مع خبرة تزيد عن 15 سنة في خدمة عملائنا الكرام
+                مؤسسة سليمان الحويطي - رواد التخليص الجمركي والترانزيت في كافة المنافذ السعودية. دقة، سرعة، وموثوقية في إنهاء كافة الإجراءات الجمركية.
               </p>
             </div>
 
@@ -262,21 +262,8 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Service Areas - نخدمكم في (Local SEO & Regional Coverage) */}
-          <div className="border-t border-gray-800/80 mt-12 pt-6">
-            <div className="flex flex-col sm:flex-row items-center sm:items-start gap-3 sm:gap-4 bg-slate-900/40 rounded-2xl p-4 border border-white/5 backdrop-blur-sm">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-xs font-semibold flex-shrink-0">
-                <MapPin className="w-3.5 h-3.5 text-emerald-400" />
-                <span>نخدمكم في:</span>
-              </div>
-              <p className="text-xs text-gray-300 leading-relaxed text-center sm:text-right font-normal">
-                الرياض، جدة، الدمام، ينبع، نيوم، ضبا، الحديثة، البطحاء، السلوي، جسر الملك فهد، الدرة، سفاجا، مصر، المملكة العربية السعودية، الإمارات، دبي، الكويت، البحرين، قطر، واليمن.
-              </p>
-            </div>
-          </div>
-
           {/* Bottom Section */}
-          <div className="border-t border-gray-700 mt-8 pt-6">
+          <div className="border-t border-gray-700 mt-12 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
               <p className="text-gray-400 text-sm">
                 © 2026/2027 مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت. جميع الحقوق محفوظة.
