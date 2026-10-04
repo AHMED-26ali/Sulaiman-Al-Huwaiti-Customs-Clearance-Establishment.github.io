@@ -134,7 +134,7 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
                     const target = e.currentTarget;
                     if (!target.dataset.triedFallback) {
                       target.dataset.triedFallback = "true";
-                      target.src = "https://i.pinimg.com/736x/f9/2d/b7/f92db76234a62e591d71a17a4f875cdf.jpg";
+                      target.src = "/images/Logo.webp";
                     }
                   }}
                 />
