@@ -91,6 +91,75 @@ export default function SEOHead() {
     }
     canonical.setAttribute('href', pageUrl);
 
+    // 6. تحديث كود Schema JSON-LD لكل مسار
+    let schemaScript = document.getElementById('dynamic-jsonld');
+    if (!schemaScript) {
+      schemaScript = document.createElement('script');
+      schemaScript.id = 'dynamic-jsonld';
+      schemaScript.setAttribute('type', 'application/ld+json');
+      document.head.appendChild(schemaScript);
+    }
+
+    let pageSchema: object;
+    if (pathname === '/services') {
+      pageSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        'name': 'خدمات التخليص الجمركي والترانزيت',
+        'serviceType': 'تخليص جمركي وترانزيت وخدمات لوجستية',
+        'provider': {
+          '@type': 'ProfessionalService',
+          'name': SITE_NAME,
+          'url': BASE_URL,
+          'telephone': '+966559586786'
+        },
+        'description': config.description
+      };
+    } else if (pathname === '/branches') {
+      pageSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'ItemList',
+        'name': 'الموانئ والمنافذ الجمركية المعتمدة',
+        'description': config.description
+      };
+    } else if (pathname === '/why-us') {
+      pageSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'AboutPage',
+        'name': config.title,
+        'description': config.description
+      };
+    } else if (pathname === '/blog') {
+      pageSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'Blog',
+        'name': 'المدونة الجمركية ودليل الاستيراد والتصدير',
+        'description': config.description
+      };
+    } else if (pathname === '/contact') {
+      pageSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'ContactPage',
+        'name': config.title,
+        'description': config.description,
+        'mainEntity': {
+          '@type': 'ProfessionalService',
+          'name': SITE_NAME,
+          'telephone': '+966559586786'
+        }
+      };
+    } else {
+      pageSchema = {
+        '@context': 'https://schema.org',
+        '@type': 'ProfessionalService',
+        'name': SITE_NAME,
+        'description': config.description,
+        'url': BASE_URL,
+        'telephone': '+966559586786'
+      };
+    }
+    schemaScript.textContent = JSON.stringify(pageSchema);
+
   }, [pathname]);
 
   // المكون يعمل في الخلفية بالكامل وبدون أي أثر مرئي في الواجهة

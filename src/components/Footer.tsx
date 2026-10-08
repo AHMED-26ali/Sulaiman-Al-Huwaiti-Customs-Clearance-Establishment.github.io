@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Building, Mail, MapPin, Phone } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 
@@ -207,11 +208,11 @@ export default function Footer() {
             <div className="space-y-4">
               <h4 className="text-lg font-bold text-cyan-300">روابط سريعة</h4>
               <ul className="space-y-2.5">
-                <li><a href="#services" title="اطلع على خدماتنا المتميزة في التخليص الجمركي" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">خدماتنا</a></li>
-                <li><a href="#branches" title="تعرف على مواقع فروعنا في المملكة" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">فروعنا</a></li>
-                <li><a href="#why-us" title="اكتشف لماذا نحن الخيار الأفضل" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">لماذا نحن</a></li>
-                <li><a href="#blog" title="اقرأ آخر أخبار ومقالات التخليص الجمركي" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">المدونة</a></li>
-                <li><a href="#contact" title="تواصل معنا للحصول على استشارة مجانية" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">تواصل معنا</a></li>
+                <li><Link to="/services" title="اطلع على خدماتنا المتميزة في التخليص الجمركي" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">خدماتنا</Link></li>
+                <li><Link to="/branches" title="تعرف على مواقع فروعنا في المملكة" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">فروعنا</Link></li>
+                <li><Link to="/why-us" title="اكتشف لماذا نحن الخيار الأفضل" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">لماذا نحن</Link></li>
+                <li><Link to="/blog" title="اقرأ آخر أخبار ومقالات التخليص الجمركي" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">المدونة</Link></li>
+                <li><Link to="/contact" title="تواصل معنا للحصول على استشارة مجانية" className="text-gray-200 hover:text-white hover:text-cyan-300 transition-colors font-medium">تواصل معنا</Link></li>
               </ul>
             </div>
 
