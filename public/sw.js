@@ -37,6 +37,16 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
+  // Bypass service worker for .well-known, ai-catalog, ard, and llms.txt
+  if (
+    url.pathname.startsWith('/.well-known/') ||
+    url.pathname.includes('ai-catalog') ||
+    url.pathname.includes('ard') ||
+    url.pathname === '/llms.txt'
+  ) {
+    return;
+  }
+
   // Cache-first for images, css, js, fonts
   if (
     event.request.destination === 'image' ||
