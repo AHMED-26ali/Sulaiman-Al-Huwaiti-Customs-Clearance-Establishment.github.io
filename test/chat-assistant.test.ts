@@ -270,4 +270,75 @@ describe('Sulaiman Al-Huwaiti AI Assistant - Serverless Function API & Error Res
   });
 });
 
+describe('Sulaiman Al-Huwaiti AI Assistant - Automated Regression Protection & Serverless ESM Resolution', () => {
+  it('should successfully import and initialize api/chat with zero missing module errors', async () => {
+    const chatModule = await import('../api/chat');
+    assert.equal(typeof chatModule.default, 'function', 'Default export must be the serverless handler function');
+    assert.equal(typeof chatModule.handleChatRequest, 'function', 'handleChatRequest must be exported');
+    assert.equal(typeof chatModule.detectExplicitContactIntent, 'function', 'detectExplicitContactIntent must be exported');
+  });
+
+  it('should ensure api/chat has ZERO relative file imports to prevent Vercel ESM resolution crashes', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const chatTsPath = path.resolve('api/chat.ts');
+    const content = fs.readFileSync(chatTsPath, 'utf8');
+
+    // Check that there are no relative imports like from './...' or from '../...'
+    const relativeImportRegex = /from\s+['"]\.\.?\/[^'"]+['"]/g;
+    const matches = content.match(relativeImportRegex) || [];
+    assert.equal(
+      matches.length,
+      0,
+      `api/chat.ts must not have relative imports which break Vercel ESM. Found: ${matches.join(', ')}`
+    );
+  });
+
+  it('should ensure api/siteKnowledge.ts does not exist to prevent redundant Vercel endpoints and ESM confusion', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const siteKnowledgeInApi = path.resolve('api/siteKnowledge.ts');
+    assert.equal(
+      fs.existsSync(siteKnowledgeInApi),
+      false,
+      'api/siteKnowledge.ts must be deleted from api/ so Vercel does not generate an orphaned endpoint'
+    );
+  });
+
+  it('should ensure knowledge in api/chat is 100% synchronized with src/shared/siteKnowledge', async () => {
+    const apiChat = await import('../api/chat');
+    const shared = await import('../src/shared/siteKnowledge');
+
+    assert.deepEqual(apiChat.OFFICIAL_CONTACTS, shared.OFFICIAL_CONTACTS);
+    assert.deepEqual(apiChat.HEADQUARTERS_INFO, shared.HEADQUARTERS_INFO);
+    assert.deepEqual(apiChat.OFFICIAL_BRANCHES, shared.OFFICIAL_BRANCHES);
+    assert.deepEqual(apiChat.CORE_SERVICES, shared.CORE_SERVICES);
+    assert.deepEqual(apiChat.REQUIRED_DOCUMENTS, shared.REQUIRED_DOCUMENTS);
+    assert.equal(apiChat.SYSTEM_KNOWLEDGE_PROMPT, shared.SYSTEM_KNOWLEDGE_PROMPT);
+  });
+
+  it('should ensure vercel.json rewrites exclude /api/ routes to prevent SPA HTML interception', async () => {
+    const fs = await import('node:fs');
+    const vercelConfig = JSON.parse(fs.readFileSync('vercel.json', 'utf8'));
+    const rewrites = vercelConfig.rewrites || [];
+
+    const spaRewrite = rewrites.find((r: any) => r.destination === '/index.html');
+    assert.ok(spaRewrite, 'vercel.json must define a SPA rewrite to /index.html');
+    assert.ok(
+      spaRewrite.source.includes('api/'),
+      'The SPA rewrite rule must explicitly exclude api/ so /api/chat is not rewritten to HTML'
+    );
+  });
+
+  it('should verify contact intent detection on English phrases as well', async () => {
+    const { detectExplicitContactIntent } = await import('../api/chat');
+    assert.equal(detectExplicitContactIntent('I want to contact your team.'), true);
+    assert.equal(detectExplicitContactIntent('Can I call your office?'), true);
+    assert.equal(detectExplicitContactIntent('Give me your phone number'), true);
+    assert.equal(detectExplicitContactIntent('Where are your branches?'), false);
+    assert.equal(detectExplicitContactIntent('What documents are needed for customs?'), false);
+  });
+});
+
+
 

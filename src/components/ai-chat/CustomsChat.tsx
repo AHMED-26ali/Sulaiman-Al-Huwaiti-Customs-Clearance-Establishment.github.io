@@ -192,7 +192,7 @@ export default function CustomsChat() {
       if (!res.ok || !data) {
         const errorMsg = data?.error || (res.status === 429
           ? 'تم تجاوز حد الرسائل المسموح به حالياً. يرجى الانتظار قليلاً ثم إعادة المحاولة.'
-          : 'تعذر إرسال الرد حالياً. يرجى النقر على زر "إعادة المحاولة".');
+          : 'عذرًا، حدث خطأ مؤقت أثناء معالجة رسالتك. يُرجى إعادة المحاولة.');
         throw new Error(errorMsg);
       }
 
@@ -211,11 +211,18 @@ export default function CustomsChat() {
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (err: unknown) {
-      const errorText = err instanceof Error ? err.message : 'تعذر إرسال الرد حالياً. يرجى إعادة المحاولة.';
+      let userFriendlyError = 'عذرًا، حدث خطأ مؤقت أثناء معالجة رسالتك. يُرجى إعادة المحاولة.';
+      if (err instanceof Error && err.message) {
+        // If message is in Arabic (our controlled backend error), preserve it; otherwise use default Arabic error
+        if (/[\u0600-\u06FF]/.test(err.message)) {
+          userFriendlyError = err.message;
+        }
+      }
+
       const errorMessage: MessageData = {
         id: 'err_' + Date.now(),
         sender: 'assistant',
-        text: errorText,
+        text: userFriendlyError,
         timestamp: new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' }),
         isError: true,
         showContactCards: false,
