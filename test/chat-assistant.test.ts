@@ -167,3 +167,107 @@ describe('Sulaiman Al-Huwaiti AI Assistant - Versioning & Stale Data Purge', () 
   });
 });
 
+describe('Sulaiman Al-Huwaiti AI Assistant - Serverless Function API & Error Resilience', () => {
+  it('should return 405 Method Not Allowed on non-POST requests with JSON error', async () => {
+    const handler = (await import('../api/chat')).default;
+    let statusCode = 0;
+    let jsonBody: any = null;
+    const req: any = { method: 'GET', headers: {} };
+    const res: any = {
+      setHeader: () => {},
+      status: (code: number) => { statusCode = code; return res; },
+      json: (data: any) => { jsonBody = data; return res; }
+    };
+    await handler(req, res);
+    assert.equal(statusCode, 405);
+    assert.equal(typeof jsonBody.error, 'string');
+  });
+
+  it('should handle CORS OPTIONS preflight cleanly with 204', async () => {
+    const handler = (await import('../api/chat')).default;
+    let statusCode = 0;
+    let ended = false;
+    const req: any = { method: 'OPTIONS', headers: {} };
+    const res: any = {
+      setHeader: () => {},
+      status: (code: number) => { statusCode = code; return res; },
+      end: () => { ended = true; }
+    };
+    await handler(req, res);
+    assert.equal(statusCode, 204);
+    assert.equal(ended, true);
+  });
+
+  it('should reject empty or missing messages with 400 JSON and showContactCards=false', async () => {
+    const { handleChatRequest } = await import('../api/chat');
+    let statusCode = 0;
+    let jsonBody: any = null;
+    const req: any = {
+      method: 'POST',
+      headers: {},
+      body: { message: '' }
+    };
+    const res: any = {
+      setHeader: () => {},
+      status: (code: number) => { statusCode = code; return res; },
+      json: (data: any) => { jsonBody = data; return res; }
+    };
+    await handleChatRequest(req, res);
+    assert.equal(statusCode, 400);
+    assert.equal(jsonBody.showContactCards, false);
+    assert.equal(jsonBody.code, 'EMPTY_MESSAGE');
+  });
+
+  it('should reject messages exceeding length limit with 400 JSON', async () => {
+    const { handleChatRequest } = await import('../api/chat');
+    let statusCode = 0;
+    let jsonBody: any = null;
+    const req: any = {
+      method: 'POST',
+      headers: {},
+      body: { message: 'أ'.repeat(1050) }
+    };
+    const res: any = {
+      setHeader: () => {},
+      status: (code: number) => { statusCode = code; return res; },
+      json: (data: any) => { jsonBody = data; return res; }
+    };
+    await handleChatRequest(req, res);
+    assert.equal(statusCode, 400);
+    assert.equal(jsonBody.code, 'MESSAGE_TOO_LONG');
+    assert.equal(jsonBody.showContactCards, false);
+  });
+
+  it('should reject requests gracefully when GEMINI_API_KEY is missing without crashing or leaking secrets', async () => {
+    const { handleChatRequest } = await import('../api/chat');
+    const originalKey = process.env.GEMINI_API_KEY;
+    delete process.env.GEMINI_API_KEY;
+
+    let statusCode = 0;
+    let jsonBody: any = null;
+    const req: any = {
+      method: 'POST',
+      headers: { 'x-session-id': 'test_unique_key_check' },
+      body: { message: 'السلام عليكم' }
+    };
+    const res: any = {
+      setHeader: () => {},
+      status: (code: number) => { statusCode = code; return res; },
+      json: (data: any) => { jsonBody = data; return res; }
+    };
+
+    try {
+      await handleChatRequest(req, res);
+      assert.equal(statusCode, 503);
+      assert.equal(jsonBody.code, 'API_KEY_NOT_CONFIGURED');
+      assert.equal(jsonBody.showContactCards, false);
+      assert.ok(jsonBody.error.includes('GEMINI_API_KEY'));
+    } finally {
+      if (originalKey) {
+        process.env.GEMINI_API_KEY = originalKey;
+      }
+    }
+  });
+});
+
+

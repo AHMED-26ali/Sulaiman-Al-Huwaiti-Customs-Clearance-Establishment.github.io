@@ -4,6 +4,12 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "cleanUrls": true,
+  "functions": {
+    "api/**/*.ts": {
+      "memory": 1024,
+      "maxDuration": 30
+    }
+  },
   "redirects": [
     {
       "source": "/:path*",
@@ -51,11 +57,7 @@
       "destination": "/sitemap.xml"
     },
     {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    },
-    {
-      "source": "/(.*)",
+      "source": "/((?!api/|version\\.json).*)",
       "destination": "/index.html"
     }
   ],

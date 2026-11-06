@@ -165,10 +165,35 @@ export default function CustomsChat() {
         })
       });
 
-      const data = await res.json();
+      let data: {
+        reply?: string;
+        showContactCards?: boolean;
+        contacts?: Array<{
+          name: string;
+          role: string;
+          phone: string;
+          displayPhone: string;
+          whatsapp?: string;
+          isPrimary?: boolean;
+        }>;
+        remainingDaily?: number;
+        error?: string;
+        code?: string;
+      } | null = null;
+      const contentType = res.headers.get('content-type') || '';
+      if (contentType.includes('application/json')) {
+        try {
+          data = await res.json();
+        } catch {
+          data = null;
+        }
+      }
 
-      if (!res.ok) {
-        throw new Error(data.error || 'تعذر إرسال الرد حالياً. يرجى النقر على زر إعادة المحاولة.');
+      if (!res.ok || !data) {
+        const errorMsg = data?.error || (res.status === 429
+          ? 'تم تجاوز حد الرسائل المسموح به حالياً. يرجى الانتظار قليلاً ثم إعادة المحاولة.'
+          : 'تعذر إرسال الرد حالياً. يرجى النقر على زر "إعادة المحاولة".');
+        throw new Error(errorMsg);
       }
 
       const assistantMessage: MessageData = {
