@@ -1,6 +1,39 @@
 import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
+import fs from "fs";
+
+const rawVersion = process.env.VERCEL_GIT_COMMIT_SHA ||
+  process.env.GIT_COMMIT_SHA ||
+  process.env.GITHUB_SHA ||
+  process.env.COMMIT_REF ||
+  process.env.VITE_APP_VERSION ||
+  'v2026.04.1';
+const appVersion = String(rawVersion).substring(0, 12);
+const buildTime = new Date().toISOString();
+
+// كتابة ملف version.json في مجلد public تلقائياً عند التشغيل أو البناء
+try {
+  const publicDir = path.resolve(__dirname, 'public');
+  if (fs.existsSync(publicDir)) {
+    fs.writeFileSync(
+      path.join(publicDir, 'version.json'),
+      JSON.stringify(
+        {
+          version: appVersion,
+          buildTime,
+          chatSchemaVersion: 2,
+          service: 'Sulaiman Al-Huwaiti AI Assistant'
+        },
+        null,
+        2
+      ),
+      'utf8'
+    );
+  }
+} catch {
+  // ignore
+}
 
 // إضافة تحسين تحميل الـ CSS الأولي بأعلى أولوية ممكنة
 function optimizeCssPlugin(): Plugin {
@@ -9,7 +42,6 @@ function optimizeCssPlugin(): Plugin {
     apply: 'build',
     enforce: 'post',
     transformIndexHtml(html) {
-      // إبقاء ملف الـ CSS الأساسي عالي الأولوية مع Preload لضمان FCP سريع جداً دون تأخير أو وميض
       return html.replace(
         /<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g,
         `<link rel="preload" href="$1" as="style">
@@ -19,12 +51,38 @@ function optimizeCssPlugin(): Plugin {
   };
 }
 
+function versionFilePlugin(): Plugin {
+  return {
+    name: 'version-file-plugin',
+    generateBundle() {
+      this.emitFile({
+        type: 'asset',
+        fileName: 'version.json',
+        source: JSON.stringify(
+          {
+            version: appVersion,
+            buildTime,
+            chatSchemaVersion: 2,
+            service: 'Sulaiman Al-Huwaiti AI Assistant'
+          },
+          null,
+          2
+        )
+      });
+    }
+  };
+}
+
 export default defineConfig(({ mode }) => ({
+  define: {
+    __APP_VERSION__: JSON.stringify(appVersion),
+    __BUILD_TIME__: JSON.stringify(buildTime),
+  },
   server: {
     host: "0.0.0.0",
     port: 3000,
   },
-  plugins: [react(), optimizeCssPlugin()],
+  plugins: [react(), optimizeCssPlugin(), versionFilePlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),

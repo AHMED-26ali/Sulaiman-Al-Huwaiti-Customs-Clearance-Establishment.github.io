@@ -442,13 +442,13 @@ function generateStaticPages() {
     console.log(`Generated prerendered page: ${targetFile}`);
   }
 
-  // التأكد التام من وجود ملفات ai-catalog و ard في dist و dist/.well-known
+  // التأكد التام من وجود ملفات ai-catalog و ard و version.json في dist
   const publicDir = path.resolve(__dirname, '../public');
   const wellKnownDist = path.join(distDir, '.well-known');
   if (!fs.existsSync(wellKnownDist)) {
     fs.mkdirSync(wellKnownDist, { recursive: true });
   }
-  ['ai-catalog.json', 'ard.json'].forEach(file => {
+  ['ai-catalog.json', 'ard.json', 'version.json'].forEach(file => {
     const srcWellKnown = path.join(publicDir, '.well-known', file);
     const destWellKnown = path.join(wellKnownDist, file);
     if (fs.existsSync(srcWellKnown)) {
@@ -461,7 +461,7 @@ function generateStaticPages() {
     }
   });
 
-  console.log('Static pages and AI catalog manifests verified successfully!');
+  console.log('Static pages and AI catalog manifests and version.json verified successfully!');
 }
 
 generateStaticPages();

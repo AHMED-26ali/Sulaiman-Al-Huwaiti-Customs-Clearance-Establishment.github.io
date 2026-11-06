@@ -19,6 +19,7 @@ const BranchesPage = lazy(() => import('./pages/BranchesPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 const NotFound = lazy(() => import('./pages/NotFound'));
+const CustomsChat = lazy(() => import('./components/ai-chat/CustomsChat'));
 
 const queryClient = new QueryClient();
 
@@ -69,6 +70,10 @@ const App = () => {
                 </Routes>
               </Suspense>
             </main>
+
+            <Suspense fallback={null}>
+              <CustomsChat />
+            </Suspense>
           </BrowserRouter>
         </div>
       </TooltipProvider>

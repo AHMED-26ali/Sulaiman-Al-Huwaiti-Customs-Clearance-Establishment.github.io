@@ -37,12 +37,14 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
-  // Bypass service worker for .well-known, ai-catalog, ard, and llms.txt
+  // Bypass service worker for .well-known, ai-catalog, ard, llms.txt, API requests, and version check
   if (
     url.pathname.startsWith('/.well-known/') ||
+    url.pathname.startsWith('/api/') ||
     url.pathname.includes('ai-catalog') ||
     url.pathname.includes('ard') ||
-    url.pathname === '/llms.txt'
+    url.pathname === '/llms.txt' ||
+    url.pathname === '/version.json'
   ) {
     return;
   }

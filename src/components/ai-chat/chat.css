@@ -1,0 +1,120 @@
+/* Luxury Styling for Sulaiman Al-Huwaiti AI Assistant */
+
+@keyframes gold-spin-clockwise {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes gold-spin-counter {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes gold-breathe {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px rgba(216, 185, 128, 0.35), 0 0 30px rgba(169, 131, 75, 0.2);
+  }
+  50% {
+    transform: scale(1.04);
+    box-shadow: 0 0 25px rgba(216, 185, 128, 0.55), 0 0 45px rgba(169, 131, 75, 0.35);
+  }
+}
+
+@keyframes core-pulse {
+  0%, 100% {
+    opacity: 0.9;
+    filter: drop-shadow(0 0 6px #d8b980);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 14px #d8b980) brightness(1.2);
+  }
+}
+
+@keyframes shimmer-gold {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes message-pop-in {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-gold-orbit-1 {
+  animation: gold-spin-clockwise 14s linear infinite;
+}
+
+.animate-gold-orbit-2 {
+  animation: gold-spin-counter 20s linear infinite;
+}
+
+.animate-gold-breathe {
+  animation: gold-breathe 4s ease-in-out infinite;
+}
+
+.animate-core-pulse {
+  animation: core-pulse 3s ease-in-out infinite;
+}
+
+.animate-message-enter {
+  animation: message-pop-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.shimmer-gold-text {
+  background: linear-gradient(90deg, #d8b980 0%, #ffffff 50%, #d8b980 100%);
+  background-size: 200% auto;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: shimmer-gold 6s linear infinite;
+}
+
+/* Custom scrollbar for chat window */
+.luxury-scrollbar::-webkit-scrollbar {
+  width: 5px;
+}
+
+.luxury-scrollbar::-webkit-scrollbar-track {
+  background: rgba(28, 28, 27, 0.4);
+}
+
+.luxury-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(216, 185, 128, 0.3);
+  border-radius: 9999px;
+}
+
+.luxury-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(216, 185, 128, 0.6);
+}
+
+/* Reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-gold-orbit-1,
+  .animate-gold-orbit-2,
+  .animate-gold-breathe,
+  .animate-core-pulse,
+  .animate-message-enter,
+  .shimmer-gold-text {
+    animation: none !important;
+  }
+}
