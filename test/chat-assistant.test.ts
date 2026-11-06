@@ -338,7 +338,144 @@ describe('Sulaiman Al-Huwaiti AI Assistant - Automated Regression Protection & S
     assert.equal(detectExplicitContactIntent('Where are your branches?'), false);
     assert.equal(detectExplicitContactIntent('What documents are needed for customs?'), false);
   });
+
+  it('should filter contacts when a specific person is requested and return all 4 for general requests', async () => {
+    const { filterRequestedContacts } = await import('../api/chat');
+
+    // Specific requests
+    const sulaimanResult = filterRequestedContacts('أريد رقم سليمان الحويطي');
+    assert.equal(sulaimanResult.length, 1);
+    assert.equal(sulaimanResult[0].name, 'سليمان الحويطي');
+
+    const ahmedResult = filterRequestedContacts('ممكن أتكلم مع أحمد علي بخصوص العمليات؟');
+    assert.equal(ahmedResult.length, 1);
+    assert.equal(ahmedResult[0].name, 'أحمد علي');
+
+    const ibrahimResult = filterRequestedContacts('أريد جوال إبراهيم جمعة للمتابعة الميدانية');
+    assert.equal(ibrahimResult.length, 1);
+    assert.equal(ibrahimResult[0].name, 'إبراهيم جمعة');
+
+    const alaaResult = filterRequestedContacts('محتاج رقم علاء جاد للاستشارة');
+    assert.equal(alaaResult.length, 1);
+    assert.equal(alaaResult[0].name, 'علاء جاد');
+
+    // General or "all" requests: MUST return all 4
+    const allResult = filterRequestedContacts('أعطني أرقام التواصل كلها');
+    assert.equal(allResult.length, 4);
+
+    const officeResult = filterRequestedContacts('أرقام المكتب');
+    assert.equal(officeResult.length, 4);
+
+    const teamResult = filterRequestedContacts('أريد الاتصال بفريق العمل');
+    assert.equal(teamResult.length, 4);
+  });
 });
 
+describe('Sulaiman Al-Huwaiti AI Assistant - Branding Assets & SEO Verification', () => {
+  it('should verify branding image assets exist and have non-zero file sizes', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
 
+    const logoPath = path.resolve('public/branding/logo.png');
+    assert.ok(fs.existsSync(logoPath), 'public/branding/logo.png must exist');
+    assert.ok(fs.statSync(logoPath).size > 1000, 'logo.png must be a valid image file');
 
+    const ogImagePath = path.resolve('public/branding/og-image.png');
+    assert.ok(fs.existsSync(ogImagePath), 'public/branding/og-image.png must exist');
+    assert.ok(fs.statSync(ogImagePath).size > 1000, 'og-image.png must be generated and valid');
+
+    const faviconIco = path.resolve('public/favicon.ico');
+    assert.ok(fs.existsSync(faviconIco), 'public/favicon.ico must exist');
+    assert.ok(fs.statSync(faviconIco).size > 0, 'favicon.ico must not be empty');
+
+    const manifestPath = path.resolve('public/site.webmanifest');
+    assert.ok(fs.existsSync(manifestPath), 'public/site.webmanifest must exist');
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
+    assert.equal(manifest.name, 'مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت');
+    assert.ok(manifest.icons.length >= 2, 'manifest must define icons');
+  });
+
+  it('should verify index.html links to the new official logo and og-image', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+    const html = fs.readFileSync(path.resolve('index.html'), 'utf8');
+
+    assert.ok(html.includes('/branding/og-image.png'), 'index.html must reference /branding/og-image.png');
+    assert.ok(html.includes('/branding/logo.png'), 'index.html must reference /branding/logo.png');
+    assert.ok(html.includes('favicon.ico'), 'index.html must reference favicon.ico');
+    assert.ok(html.includes('apple-touch-icon.png'), 'index.html must reference apple-touch-icon.png');
+    assert.ok(html.includes('site.webmanifest'), 'index.html must link to site.webmanifest');
+    assert.ok(!html.includes('i.pinimg.com'), 'index.html must not contain Pinterest image URLs');
+  });
+
+  it('should verify the logo has NO black circular background, border ring, or forced circle clipping', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+
+    // Header check
+    const headerCode = fs.readFileSync(path.resolve('src/components/Header.tsx'), 'utf8');
+    assert.ok(!headerCode.includes('rounded-full object-cover border-2 border-[#D8B980]'), 'Header logo must not have circular border ring');
+    assert.ok(!headerCode.includes('bg-[#1C1C1B]'), 'Header logo must not have black background');
+    assert.ok(headerCode.includes('object-contain'), 'Header logo must use object-contain for transparent rendering');
+
+    // Footer check
+    const footerCode = fs.readFileSync(path.resolve('src/components/Footer.tsx'), 'utf8');
+    assert.ok(!footerCode.includes('rounded-full object-cover border border-[#D8B980]'), 'Footer logo must not have circular border');
+    assert.ok(footerCode.includes('object-contain'), 'Footer logo must use object-contain');
+
+    // WelcomeScreen check
+    const welcomeCode = fs.readFileSync(path.resolve('src/components/WelcomeScreen.tsx'), 'utf8');
+    assert.ok(!welcomeCode.includes('rounded-full object-cover shadow-2xl bg-[#1C1C1B]'), 'WelcomeScreen logo must not have black circle');
+    assert.ok(welcomeCode.includes('object-contain'), 'WelcomeScreen logo must use object-contain');
+
+    // index.html prerender shell check
+    const indexHtml = fs.readFileSync(path.resolve('index.html'), 'utf8');
+    assert.ok(!indexHtml.includes('border-radius:9999px;object-fit:cover;border:2px solid rgba(216,185,128,0.7);background:#1C1C1B;'), 'index.html prerender logo must not have black circular background');
+  });
+
+  it('should verify contact cards display names only without any job titles or badges', async () => {
+    const fs = await import('node:fs');
+    const path = await import('node:path');
+
+    const cardCode = fs.readFileSync(path.resolve('src/components/ai-chat/ContactCard.tsx'), 'utf8');
+    assert.ok(!cardCode.includes('{contact.role}'), 'ContactCard must not display contact.role');
+    assert.ok(!cardCode.includes('المقر الرئيسي'), 'ContactCard must not display HQ badge');
+    assert.ok(!cardCode.includes('معتمد'), 'ContactCard must not display accreditation badge');
+    assert.ok(cardCode.includes('{contact.name}'), 'ContactCard must display contact name');
+    assert.ok(cardCode.includes('اتصال مباشر'), 'ContactCard must provide direct call button');
+    assert.ok(cardCode.includes('واتساب'), 'ContactCard must provide WhatsApp button when verified');
+  });
+});
+
+describe('Sulaiman Al-Huwaiti AI Assistant - 30 Daily Messages & Persistent Quota Enforcement', () => {
+  it('should enforce exactly 30 messages per day with persistent disk-backed storage', async () => {
+    const { checkRateLimit, recordDailySuccess, MAX_DAILY_MESSAGES, RATE_LIMIT_FILE } = await import('../api/chat');
+    const fs = await import('node:fs');
+
+    assert.equal(MAX_DAILY_MESSAGES, 30, 'Daily limit constant must be exactly 30');
+
+    const testClientId = `test_visitor_quota_${Date.now()}`;
+
+    // 1. New visitor receives exactly 30 available messages
+    const initialStatus = checkRateLimit(testClientId);
+    assert.equal(initialStatus.allowed, true);
+    assert.equal(initialStatus.remainingDaily, 30, 'New visitor must receive exactly 30 remaining messages');
+
+    // 2. Consume 30 messages
+    for (let i = 0; i < 30; i++) {
+      recordDailySuccess(testClientId);
+    }
+
+    // 3. 31st check MUST be rejected
+    const blockedStatus = checkRateLimit(testClientId);
+    assert.equal(blockedStatus.allowed, false, '31st message must be blocked');
+    assert.equal(blockedStatus.reason, 'daily_limit_reached');
+    assert.equal(blockedStatus.remainingDaily, 0);
+
+    // 4. Verify disk persistence: the record must be persisted to RATE_LIMIT_FILE
+    assert.ok(fs.existsSync(RATE_LIMIT_FILE), 'RATE_LIMIT_FILE must exist on disk for persistence');
+    const diskContent = JSON.parse(fs.readFileSync(RATE_LIMIT_FILE, 'utf8'));
+    assert.ok(diskContent[testClientId], 'Client usage record must be stored on disk');
+    assert.equal(diskContent[testClientId].dailyCount, 30, 'Stored dailyCount must equal 30');
+  });
+});

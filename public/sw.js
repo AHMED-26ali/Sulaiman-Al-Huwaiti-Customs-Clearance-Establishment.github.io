@@ -1,10 +1,17 @@
 // Service Worker for Sulaiman Al-Huwaiti Customs Clearance App
-const CACHE_NAME = 'alhuwaiti-cache-v2';
+const CACHE_NAME = 'alhuwaiti-cache-v3';
 const STATIC_ASSETS = [
   '/',
+  '/',
   '/index.html',
-  '/images/Logo.webp',
-  '/images/Logo.jpg',
+  '/branding/logo.png',
+  '/branding/logo.webp',
+  '/branding/og-image.png',
+  '/favicon.ico',
+  '/favicon-32x32.png',
+  '/favicon-16x16.png',
+  '/apple-touch-icon.png',
+  '/site.webmanifest',
   '/images/custom/cargo-ship-sea-top-view-400w.webp',
   '/images/custom/cargo-ship-sea-top-view.webp',
   '/images/custom/cargo-ship-sea-top-view.jpg.jpg'
@@ -56,6 +63,7 @@ self.addEventListener('fetch', (event) => {
     event.request.destination === 'script' ||
     event.request.destination === 'font' ||
     url.pathname.startsWith('/images/') ||
+    url.pathname.startsWith('/branding/') ||
     url.pathname.startsWith('/assets/')
   ) {
     event.respondWith(

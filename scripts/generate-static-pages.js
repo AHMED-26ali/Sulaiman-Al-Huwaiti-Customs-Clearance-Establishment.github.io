@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { generateBrandingAssets } from './generate-branding-assets.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -324,8 +325,9 @@ const PAGES_DATA = {
             <h3 class="text-xl font-bold text-rose-300 mb-2">أرقام التواصل والمتابعة</h3>
             <p class="text-gray-300 text-sm leading-relaxed mb-2">
               سليمان الحويطي: <a href="tel:+966559586786" class="text-white font-bold hover:underline" dir="ltr">+966 55 958 6786</a><br/>
+              أحمد علي: <a href="tel:+966551046758" class="text-white font-bold hover:underline" dir="ltr">+966 55 104 6758</a><br/>
               إبراهيم جمعة: <a href="tel:+966509457627" class="text-white font-bold hover:underline" dir="ltr">+966 50 945 7627</a><br/>
-              أحمد علي: <a href="tel:+966551046758" class="text-white font-bold hover:underline" dir="ltr">+966 55 104 6758</a>
+              علاء جاد: <a href="tel:+966553992052" class="text-white font-bold hover:underline" dir="ltr">+966 55 399 2052</a>
             </p>
             <p class="text-xs text-emerald-300">متاحون على مدار الساعة عبر الواتساب والمكالمات</p>
           </article>
@@ -343,7 +345,10 @@ const PAGES_DATA = {
   }
 };
 
-function generateStaticPages() {
+async function generateStaticPages() {
+  // توليد أصول العلامة التجارية والأيقونات والصور الاجتماعية أولاً
+  await generateBrandingAssets();
+
   const indexHtmlPath = path.join(distDir, 'index.html');
   if (!fs.existsSync(indexHtmlPath)) {
     console.error('Error: dist/index.html not found! Run vite build first.');
@@ -386,7 +391,7 @@ function generateStaticPages() {
       <header style="height:5rem;display:flex;align-items:center;padding:0 1rem;max-width:80rem;margin:0 auto;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:1rem;">
           <a href="/" style="display:flex;align-items:center;gap:1rem;text-decoration:none;color:#ffffff;">
-            <img src="/images/Logo.webp" alt="شعار مؤسسة سليمان الحويطي" width="64" height="64" style="border-radius:9999px;object-fit:cover;border:2px solid rgba(34,211,238,0.6);" />
+            <img src="/branding/logo.png" alt="شعار مؤسسة سليمان الحويطي" width="64" height="64" style="object-fit:contain;" />
             <span style="font-size:1.25rem;font-weight:700;color:#ffffff;">${SITE_NAME}</span>
           </a>
         </div>
@@ -442,7 +447,7 @@ function generateStaticPages() {
     console.log(`Generated prerendered page: ${targetFile}`);
   }
 
-  // التأكد التام من وجود ملفات ai-catalog و ard و version.json في dist
+  // التأكد التام من وجود ملفات ai-catalog و ard و version.json و branding في dist
   const publicDir = path.resolve(__dirname, '../public');
   const wellKnownDist = path.join(distDir, '.well-known');
   if (!fs.existsSync(wellKnownDist)) {
@@ -458,6 +463,26 @@ function generateStaticPages() {
     const destRoot = path.join(distDir, file);
     if (fs.existsSync(srcRoot)) {
       fs.copyFileSync(srcRoot, destRoot);
+    }
+  });
+
+  // نسخ مجلد branding وملفات favicon و manifest إلى dist في حال لم يقم vite بنسخها
+  const brandingDist = path.join(distDir, 'branding');
+  if (!fs.existsSync(brandingDist)) {
+    fs.mkdirSync(brandingDist, { recursive: true });
+  }
+  const publicBranding = path.join(publicDir, 'branding');
+  if (fs.existsSync(publicBranding)) {
+    fs.readdirSync(publicBranding).forEach(file => {
+      fs.copyFileSync(path.join(publicBranding, file), path.join(brandingDist, file));
+    });
+  }
+
+  ['favicon.ico', 'favicon-16x16.png', 'favicon-32x32.png', 'apple-touch-icon.png', 'android-chrome-192x192.png', 'android-chrome-512x512.png', 'site.webmanifest'].forEach(file => {
+    const src = path.join(publicDir, file);
+    const dest = path.join(distDir, file);
+    if (fs.existsSync(src)) {
+      fs.copyFileSync(src, dest);
     }
   });
 

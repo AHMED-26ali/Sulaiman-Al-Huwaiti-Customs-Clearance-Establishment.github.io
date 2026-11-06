@@ -196,7 +196,14 @@ export default function Footer() {
             {/* Company Info */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3 space-x-reverse">
-                <Building className="h-8 w-8 text-cyan-400" />
+                <img
+                  src="/branding/logo.png"
+                  alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"
+                  className="h-10 w-10 object-contain"
+                  width={40}
+                  height={40}
+                  loading="lazy"
+                />
                 <h3 className="text-xl font-bold text-white">سليمان الحويطي</h3>
               </div>
               <p className="text-gray-200 leading-relaxed font-medium">

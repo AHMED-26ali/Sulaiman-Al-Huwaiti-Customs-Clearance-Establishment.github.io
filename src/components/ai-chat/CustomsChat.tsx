@@ -53,20 +53,47 @@ export default function CustomsChat() {
     return [INITIAL_GREETING];
   });
   const [isLoading, setIsLoading] = useState(false);
-  const [remainingDaily, setRemainingDaily] = useState<number | null>(null);
+  const [remainingDaily, setRemainingDaily] = useState<number>(() => {
+    try {
+      const saved = localStorage.getItem('alhuwaiti_remaining_daily');
+      if (saved !== null) {
+        const val = parseInt(saved, 10);
+        if (!isNaN(val) && val >= 0 && val <= 30) {
+          return val;
+        }
+      }
+    } catch {
+      // ignore
+    }
+    return 30;
+  });
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const lastAttemptedMessageRef = useRef<string>('');
 
-  // Generate or get anonymous session ID for rate limiting
+  // Generate or get anonymous client ID for rate limiting with cross-session persistence
   const getSessionId = () => {
-    let sid = sessionStorage.getItem('alhuwaiti_session_id');
-    if (!sid) {
-      sid = 'session_' + Math.random().toString(36).substring(2, 12);
-      sessionStorage.setItem('alhuwaiti_session_id', sid);
+    let cid = '';
+    try {
+      cid = localStorage.getItem('alhuwaiti_client_uuid') || '';
+    } catch {
+      // ignore
     }
-    return sid;
+    if (!cid) {
+      cid = 'client_' + Math.random().toString(36).substring(2, 12) + '_' + Date.now().toString(36);
+      try {
+        localStorage.setItem('alhuwaiti_client_uuid', cid);
+      } catch {
+        // ignore
+      }
+    }
+    try {
+      sessionStorage.setItem('alhuwaiti_session_id', cid);
+    } catch {
+      // ignore
+    }
+    return cid;
   };
 
   // Check remote version when chat is opened to handle in-flight deployments seamlessly
@@ -207,6 +234,11 @@ export default function CustomsChat() {
 
       if (typeof data.remainingDaily === 'number') {
         setRemainingDaily(data.remainingDaily);
+        try {
+          localStorage.setItem('alhuwaiti_remaining_daily', String(data.remainingDaily));
+        } catch {
+          // ignore
+        }
       }
 
       setMessages((prev) => [...prev, assistantMessage]);
@@ -420,7 +452,7 @@ export default function CustomsChat() {
               </span>
               {remainingDaily !== null && (
                 <span className="font-mono text-[#D8B980]">
-                  المتبقي: {remainingDaily}/15
+                  المتبقي: {remainingDaily}/30
                 </span>
               )}
             </div>

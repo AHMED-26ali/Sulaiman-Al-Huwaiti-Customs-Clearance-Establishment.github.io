@@ -9,7 +9,8 @@ interface PageSEOConfig {
 
 const BASE_URL = 'https://sulaimanal-huwaiti.vercel.app';
 const SITE_NAME = 'مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت';
-const LOGO_URL = `${BASE_URL}/images/Logo.jpg`;
+const LOGO_URL = `${BASE_URL}/branding/logo.png`;
+const OG_IMAGE_URL = `${BASE_URL}/branding/og-image.png`;
 const DEFAULT_KEYWORDS = 'تخليص جمركي, مخلص جمركي, مخلص جمركي بالانجليزي, تخليص جمركي بالانجليزي, بيان جمركي, تفويض مخلص جمركي, شركة تخليص جمركي, مكتب تخليص جمركي, استعلام عن بيان جمركي, مخلص جمركي الرياض, تفويض جمركي doc, تخليص جمركي dhl, تخليص جمركي dwc, مخلص جمركي dhl, مخلص جمركي english, تخليص جمركي english, بيان جمركي english, مخلص جمركي in english, اعفاء جمركي in english, مستخلص جمركي in english, مكتب تخليص معاملات, شركات تخليص جمركي, مكاتب تخليص معاملات, مكتب تخليص معاملات قريب مني, مخلص جمارك, مخلص جمركي قطر, مخلص جمارك دبي, مخلص جمارك الكويت, مخلص جمركي البحرين, مخلص جمركي سفاجا, مخلص جمركي في مصر, مخلص جمركي السعودية, مخلص جمركي الامارات, مخلص جمركي اليمن, مخلص جمركي الدرة, مخلص جمركي ضبا, مخلص جمركي نيوم, مخلص جمركي الحديثة, مخلص جمركي جدة, مخلص جمركي جسر الملك فهد, مخلص جمركي ينبع, مخلص جمركي الدمام, مخلص جمركي البطحاء, مخلص جمركي السلوي';
 
 const PAGE_SEO_MAP: Record<string, PageSEOConfig> = {
@@ -75,12 +76,19 @@ export default function SEOHead() {
     setMetaTag('property', 'og:description', config.description);
     setMetaTag('property', 'og:url', pageUrl);
     setMetaTag('property', 'og:site_name', SITE_NAME);
-    setMetaTag('property', 'og:image', LOGO_URL);
+    setMetaTag('property', 'og:image', OG_IMAGE_URL);
+    setMetaTag('property', 'og:image:secure_url', OG_IMAGE_URL);
+    setMetaTag('property', 'og:image:width', '1200');
+    setMetaTag('property', 'og:image:height', '630');
+    setMetaTag('property', 'og:image:type', 'image/png');
+    setMetaTag('property', 'og:image:alt', 'شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت');
 
     // 4. تحديث وسوم Twitter
+    setMetaTag('name', 'twitter:card', 'summary_large_image');
     setMetaTag('name', 'twitter:title', config.title);
     setMetaTag('name', 'twitter:description', config.description);
-    setMetaTag('name', 'twitter:image', LOGO_URL);
+    setMetaTag('name', 'twitter:image', OG_IMAGE_URL);
+    setMetaTag('name', 'twitter:image:alt', 'مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت');
 
     // 5. تحديث الرابط الأساسي Canonical
     let canonical = document.querySelector('link[rel="canonical"]');

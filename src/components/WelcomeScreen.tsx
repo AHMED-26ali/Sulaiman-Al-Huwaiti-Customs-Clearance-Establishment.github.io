@@ -116,38 +116,24 @@ export default function WelcomeScreen({ onComplete }: WelcomeScreenProps) {
               }}
               className="mb-8 flex justify-center"
             >
-              <div className="relative">
+              <div className="relative flex items-center justify-center">
                 <motion.img 
-                  src="/images/Logo.jpg"
-                  alt="شعار سليمان الحويطي"
+                  src="/branding/logo.png"
+                  alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"
                   width={160}
                   height={160}
                   loading="eager"
                   decoding="async"
                   fetchPriority="high"
-                  className="w-24 h-24 md:w-40 md:h-40 rounded-full object-cover shadow-2xl"
-                  style={{
-                    border: '3px solid rgba(255, 255, 255, 0.5)',
-                    boxShadow: '0 0 40px rgba(59, 130, 246, 0.6)'
-                  }}
+                  className="w-24 h-24 md:w-40 md:h-40 object-contain"
                   onError={(e) => {
                     const target = e.currentTarget;
                     if (!target.dataset.triedFallback) {
                       target.dataset.triedFallback = "true";
-                      target.src = "/images/Logo.webp";
+                      target.src = "/branding/logo.png";
                     }
                   }}
                 />
-                
-                {/* Rotating Ring - تعطيل على الموبايل */}
-                {!isMobile && (
-                  <motion.div 
-                    className="absolute inset-0 border-2 border-dashed rounded-full"
-                    style={{ borderColor: 'rgba(255, 255, 255, 0.4)' }}
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                  />
-                )}
               </div>
             </motion.div>
 

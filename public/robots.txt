@@ -7,6 +7,7 @@ Allow: /blog
 Allow: /contact
 Allow: /assets/
 Allow: /images/
+Allow: /branding/
 Allow: /.well-known/
 Allow: /ai-catalog.json
 Allow: /ard.json
@@ -17,6 +18,7 @@ Allow: /
 
 User-agent: Googlebot-Image
 Allow: /images/
+Allow: /branding/
 
 User-agent: Bingbot
 Allow: /

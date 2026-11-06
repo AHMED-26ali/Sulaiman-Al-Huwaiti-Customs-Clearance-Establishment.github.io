@@ -1,5 +1,8 @@
 import { GoogleGenAI } from '@google/genai';
 import type { Request, Response } from 'express';
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
 
 /**
  * Self-Contained Knowledge Base & Serverless Function for Sulaiman Al-Huwaiti AI Assistant
@@ -203,29 +206,70 @@ export const SYSTEM_KNOWLEDGE_PROMPT = `
 6. حظر المرفقات: لا تطلب أو تقبل رفع ملفات أو صور أو تسجيلات صوتية.
 `;
 
-// In-Memory Rate Limiting
+// Persistent Server-Side Rate Limiting
 interface RateLimitRecord {
   dailyCount: number;
   lastDailyReset: number;
   recentTimestamps: number[];
 }
 
-const rateLimitStore = new Map<string, RateLimitRecord>();
+export const MAX_DAILY_MESSAGES = 30;
+export const MAX_BURST_MESSAGES = 5;
+export const BURST_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
+export const DAY_MS = 24 * 60 * 60 * 1000;
+export const MAX_MESSAGE_LENGTH = 1000;
+export const REQUEST_TIMEOUT_MS = 15000;
 
-const MAX_DAILY_MESSAGES = 15;
-const MAX_BURST_MESSAGES = 5;
-const BURST_WINDOW_MS = 10 * 60 * 1000; // 10 minutes
-const DAY_MS = 24 * 60 * 60 * 1000;
-const MAX_MESSAGE_LENGTH = 1000;
-const REQUEST_TIMEOUT_MS = 15000;
+export const RATE_LIMIT_FILE = path.join(os.tmpdir(), 'alhuwaiti_chat_ratelimits.json');
+
+function readPersistedStore(): Map<string, RateLimitRecord> {
+  const store = new Map<string, RateLimitRecord>();
+  try {
+    if (fs.existsSync(RATE_LIMIT_FILE)) {
+      const raw = fs.readFileSync(RATE_LIMIT_FILE, 'utf8');
+      const parsed = JSON.parse(raw);
+      const now = Date.now();
+      if (parsed && typeof parsed === 'object') {
+        for (const [key, val] of Object.entries(parsed)) {
+          const r = val as RateLimitRecord;
+          if (r && typeof r.dailyCount === 'number' && (now - (r.lastDailyReset || 0) < DAY_MS)) {
+            store.set(key, r);
+          }
+        }
+      }
+    }
+  } catch {
+    // Ignore and fallback
+  }
+  return store;
+}
+
+function writePersistedStore(store: Map<string, RateLimitRecord>): void {
+  try {
+    const obj: Record<string, RateLimitRecord> = {};
+    for (const [k, v] of store.entries()) {
+      obj[k] = v;
+    }
+    fs.writeFileSync(RATE_LIMIT_FILE, JSON.stringify(obj), 'utf8');
+  } catch {
+    // Ignore write failures in read-only systems
+  }
+}
+
+const rateLimitStore = readPersistedStore();
 
 // Periodic cleanup of stale records (unref'd so it does not block process exit or tests)
 const cleanupInterval = setInterval(() => {
   const now = Date.now();
+  let changed = false;
   for (const [key, record] of rateLimitStore.entries()) {
     if (now - record.lastDailyReset > DAY_MS && record.recentTimestamps.length === 0) {
       rateLimitStore.delete(key);
+      changed = true;
     }
+  }
+  if (changed) {
+    writePersistedStore(rateLimitStore);
   }
 }, 30 * 60 * 1000);
 
@@ -245,9 +289,17 @@ function getClientIdentifier(req: Request): string {
     : ip;
 }
 
-function checkRateLimit(clientId: string): { allowed: boolean; reason?: string; remainingDaily: number } {
+export function checkRateLimit(clientId: string): { allowed: boolean; reason?: string; remainingDaily: number } {
   const now = Date.now();
   let record = rateLimitStore.get(clientId);
+
+  if (!record) {
+    const diskStore = readPersistedStore();
+    record = diskStore.get(clientId);
+    if (record) {
+      rateLimitStore.set(clientId, record);
+    }
+  }
 
   if (!record) {
     record = {
@@ -256,11 +308,13 @@ function checkRateLimit(clientId: string): { allowed: boolean; reason?: string; 
       recentTimestamps: []
     };
     rateLimitStore.set(clientId, record);
+    writePersistedStore(rateLimitStore);
   }
 
   if (now - record.lastDailyReset > DAY_MS) {
     record.dailyCount = 0;
     record.lastDailyReset = now;
+    writePersistedStore(rateLimitStore);
   }
 
   record.recentTimestamps = record.recentTimestamps.filter(ts => now - ts < BURST_WINDOW_MS);
@@ -287,7 +341,7 @@ function checkRateLimit(clientId: string): { allowed: boolean; reason?: string; 
   };
 }
 
-function recordBurstAttempt(clientId: string): void {
+export function recordBurstAttempt(clientId: string): void {
   const now = Date.now();
   let record = rateLimitStore.get(clientId);
   if (!record) {
@@ -299,12 +353,14 @@ function recordBurstAttempt(clientId: string): void {
     rateLimitStore.set(clientId, record);
   }
   record.recentTimestamps.push(now);
+  writePersistedStore(rateLimitStore);
 }
 
-function recordDailySuccess(clientId: string): void {
+export function recordDailySuccess(clientId: string): void {
   const record = rateLimitStore.get(clientId);
   if (record) {
     record.dailyCount += 1;
+    writePersistedStore(rateLimitStore);
   }
 }
 
@@ -333,6 +389,49 @@ export function detectExplicitContactIntent(message: string): boolean {
 
   return asksForPhoneNumber || asksToCallOrSpeak;
 }
+
+/**
+ * Filter contacts if a specific person is requested, otherwise return all 4 official contacts.
+ */
+export function filterRequestedContacts(message: string): ContactPerson[] {
+  if (!message || typeof message !== 'string') return OFFICIAL_CONTACTS;
+  const text = message.trim().toLowerCase();
+
+  const mentionsSulaiman = /(سليمان|الحويطي|sulaiman|alhuwaiti|al-huwaiti|المدير\s*العام|المؤسس)/i.test(text);
+  const mentionsAhmed = /(أحمد|احمد|علي|ahmed|ali|مسؤول\s*العمليات|مسئول\s*العمليات|الرقم\s*الموحد)/i.test(text);
+  const mentionsIbrahim = /(إبراهيم|ابراهيم|جمعة|جمعه|ibrahim|gomaa|الميداني|التخليص\s*الميداني)/i.test(text);
+  const mentionsAlaa = /(علاء|جاد|alaa|gad|مستشار)/i.test(text);
+
+  // If asking for all, or no specific person is identified, or multiple people are mentioned
+  const askingForAll = /(?:^|[^\p{L}])(كل|كلها|كلهم|الكل|الجميع|الفريق|المكتب|المؤسسة|أرقامكم|ارقامكم|أرقام\s*التواصل|ارقام\s*التواصل|قائمة|جميع)(?:$|[^\p{L}])/u.test(text);
+
+  const matched: ContactPerson[] = [];
+  if (mentionsSulaiman) {
+    const p = OFFICIAL_CONTACTS.find(c => c.name.includes("سليمان"));
+    if (p) matched.push(p);
+  }
+  if (mentionsAhmed) {
+    const p = OFFICIAL_CONTACTS.find(c => c.name.includes("أحمد"));
+    if (p) matched.push(p);
+  }
+  if (mentionsIbrahim) {
+    const p = OFFICIAL_CONTACTS.find(c => c.name.includes("إبراهيم"));
+    if (p) matched.push(p);
+  }
+  if (mentionsAlaa) {
+    const p = OFFICIAL_CONTACTS.find(c => c.name.includes("علاء"));
+    if (p) matched.push(p);
+  }
+
+  // If specific person(s) were targeted and user didn't ask for "all", return the specific ones
+  if (matched.length > 0 && !askingForAll) {
+    return matched;
+  }
+
+  // Otherwise return all 4 official contacts
+  return OFFICIAL_CONTACTS;
+}
+
 
 /**
  * Normalizes conversation history into strictly alternating user/model turns
@@ -420,7 +519,7 @@ export async function handleChatRequest(req: Request, res: Response): Promise<vo
     if (!rateLimitStatus.allowed) {
       if (rateLimitStatus.reason === 'daily_limit_reached') {
         res.status(429).json({
-          error: 'لقد استهلكت الحد الأقصى من الرسائل اليومية (15 رسالة). يرجى المحاولة غداً.',
+          error: 'لقد استهلكت الحد الأقصى من الرسائل اليومية (30 رسالة). يرجى المحاولة غداً.',
           code: 'DAILY_LIMIT_EXCEEDED',
           showContactCards: false
         });
@@ -542,7 +641,7 @@ export async function handleChatRequest(req: Request, res: Response): Promise<vo
     res.status(200).json({
       reply: replyText.trim(),
       showContactCards: isExplicitContactRequest,
-      contacts: isExplicitContactRequest ? OFFICIAL_CONTACTS : undefined,
+      contacts: isExplicitContactRequest ? filterRequestedContacts(trimmedMessage) : undefined,
       remainingDaily: Math.max(0, rateLimitStatus.remainingDaily - 1)
     });
   } catch (error: any) {

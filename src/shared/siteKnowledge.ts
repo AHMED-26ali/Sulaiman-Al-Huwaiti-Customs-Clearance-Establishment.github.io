@@ -199,3 +199,72 @@ export const SYSTEM_KNOWLEDGE_PROMPT = `
 5. الخروج عن الاختصاص: إذا كان السؤال خارج التخليص الجمركي ومؤسسة سليمان الحويطي، اعتذر باختصار وأعد الحوار لمجال التخليص الجمركي.
 6. حظر المرفقات: لا تطلب أو تقبل رفع ملفات أو صور أو تسجيلات صوتية.
 `;
+
+/**
+ * Strict verification of explicit intent to request phone numbers or direct calling.
+ * NEVER triggers on general queries (e.g. "مساعدة", "خدمات", "تخليص", "شحنة", "أوراق").
+ * ONLY triggers when the visitor explicitly asks to call, speak with someone, or get a phone number.
+ */
+export function detectExplicitContactIntent(message: string): boolean {
+  if (!message || typeof message !== 'string') return false;
+  const text = message.trim().toLowerCase();
+
+  // Exclude common phrases that contain "رقم" but are NOT phone numbers
+  const isCustomsDocNumber = /(رقم\s+(البيان|الشحنة|الحاوية|السجل|البند|الرمز|الطلب|التتبع))/i.test(text);
+  if (isCustomsDocNumber) {
+    return false;
+  }
+
+  // Explicit patterns for asking for phone / mobile / office number
+  const asksForPhoneNumber = /(رقم|ارقام|أرقام|نمرة|تليفون|جوال|هاتف|phone|mobile|number|call)/i.test(text) &&
+    /(مكتب|مؤسسة|فرع|تواصل|اتصال|مسؤول|مسئول|سليمان|أحمد|احمد|ابراهيم|إبراهيم|علاء|عندكم|لكم|بتاعكم|حقكم|اديني|عطني|هات|ممكن|عايز|ابغى|أبغى|اريد|أريد|phone\s*number|contact\s*number|call\s*(the\s*)?office)/i.test(text);
+
+  // Explicit patterns for wanting to call or speak to a person
+  const asksToCallOrSpeak = /((أكلم|اكلم|أتصل|اتصل|اتكلم|أتكلم|احاكي|أحاكي|أتواصل|اتواصل|تواصل)\s*(مع\s*|ب)?(مسؤول|مسئول|أحد|حد|شخص|سليمان|المكتب|المؤسسة|الإدارة|الادارة|ممثل|خدمة\s*العملاء))/i.test(text) ||
+    /(عايز\s*اتصل|عايز\s*اكلم|عايز\s*أتصل|عايز\s*أكلم|ابغى\s*اتصل|أبغى\s*أكلم|اريد\s*الاتصال|ممكن\s*اتصل|ممكن\s*أكلم|can\s*i\s*call|speak\s*(with|to)\s*(someone|a\s*representative|the\s*office|sulaiman)|call\s*someone|want\s*to\s*contact|contact\s*your\s*team)/i.test(text);
+
+  return asksForPhoneNumber || asksToCallOrSpeak;
+}
+
+/**
+ * Filter contacts if a specific person is requested, otherwise return all 4 official contacts.
+ */
+export function filterRequestedContacts(message: string): ContactPerson[] {
+  if (!message || typeof message !== 'string') return OFFICIAL_CONTACTS;
+  const text = message.trim().toLowerCase();
+
+  const mentionsSulaiman = /(سليمان|الحويطي|sulaiman|alhuwaiti|al-huwaiti|المدير\s*العام|المؤسس)/i.test(text);
+  const mentionsAhmed = /(أحمد|احمد|علي|ahmed|ali|مسؤول\s*العمليات|مسئول\s*العمليات|الرقم\s*الموحد)/i.test(text);
+  const mentionsIbrahim = /(إبراهيم|ابراهيم|جمعة|جمعه|ibrahim|gomaa|الميداني|التخليص\s*الميداني)/i.test(text);
+  const mentionsAlaa = /(علاء|جاد|alaa|gad|مستشار)/i.test(text);
+
+  // If asking for all, or no specific person is identified, or multiple people are mentioned
+  const askingForAll = /(?:^|[^\p{L}])(كل|كلها|كلهم|الكل|الجميع|الفريق|المكتب|المؤسسة|أرقامكم|ارقامكم|أرقام\s*التواصل|ارقام\s*التواصل|قائمة|جميع)(?:$|[^\p{L}])/u.test(text);
+
+  const matched: ContactPerson[] = [];
+  if (mentionsSulaiman) {
+    const p = OFFICIAL_CONTACTS.find(c => c.name.includes("سليمان"));
+    if (p) matched.push(p);
+  }
+  if (mentionsAhmed) {
+    const p = OFFICIAL_CONTACTS.find(c => c.name.includes("أحمد"));
+    if (p) matched.push(p);
+  }
+  if (mentionsIbrahim) {
+    const p = OFFICIAL_CONTACTS.find(c => c.name.includes("إبراهيم"));
+    if (p) matched.push(p);
+  }
+  if (mentionsAlaa) {
+    const p = OFFICIAL_CONTACTS.find(c => c.name.includes("علاء"));
+    if (p) matched.push(p);
+  }
+
+  // If specific person(s) were targeted and user didn't ask for "all", return the specific ones
+  if (matched.length > 0 && !askingForAll) {
+    return matched;
+  }
+
+  // Otherwise return all 4 official contacts
+  return OFFICIAL_CONTACTS;
+}
+
