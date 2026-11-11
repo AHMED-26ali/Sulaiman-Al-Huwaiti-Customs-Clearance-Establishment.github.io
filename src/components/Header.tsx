@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { trackSiteInteraction } from '@/lib/siteAnalytics';
 import { Menu, X } from 'lucide-react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate();
 
   useEffect(() => {
     let ticking = false;
@@ -28,7 +27,6 @@ export default function Header() {
   const handleNavigate = (path: string) => {
     if (path === '/contact') trackSiteInteraction('contact_cta_click', 'header');
     if (path === '/services') trackSiteInteraction('services_cta_click', 'header');
-    navigate(path);
     setIsMenuOpen(false);
   };
 
@@ -133,8 +131,10 @@ export default function Header() {
             {navItems.map((item) => {
               const isActive = location.pathname === item.path;
               return (
-                <button
+                <Link
                   key={item.path}
+                  to={item.path}
+                  aria-current={isActive ? 'page' : undefined}
                   onClick={() => handleNavigate(item.path)}
                   className={`relative font-semibold px-4 py-3 rounded-xl transition-all duration-500 ${
                     isActive
@@ -162,7 +162,7 @@ export default function Header() {
                   <div
                     className={`absolute inset-0 ${item.bgColor} opacity-0 hover:opacity-100 rounded-xl transition-all duration-300`}
                   ></div>
-                </button>
+                </Link>
               );
             })}
           </nav>
@@ -190,8 +190,10 @@ export default function Header() {
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
                 return (
-                  <button
+                  <Link
                     key={item.path}
+                    to={item.path}
+                    aria-current={isActive ? 'page' : undefined}
                     onClick={() => handleNavigate(item.path)}
                     className={`transition-all duration-300 font-semibold py-4 px-6 text-right relative ${
                       isActive
@@ -206,7 +208,7 @@ export default function Header() {
                         style={{ boxShadow: `0 0 8px ${item.glowColor}` }}
                       ></div>
                     )}
-                  </button>
+                  </Link>
                 );
               })}
             </nav>
