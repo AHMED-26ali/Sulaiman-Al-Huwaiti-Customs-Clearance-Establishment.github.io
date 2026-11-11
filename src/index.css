@@ -740,3 +740,20 @@ section {
     filter: drop-shadow(0 0 3px rgba(244, 63, 149, .60));
   }
 }
+
+/* On small screens, don't continuously animate every offscreen service card.
+   All cards, images, colors and layouts remain unchanged. */
+@media (max-width: 767px) {
+  .float-animation {
+    animation: none;
+  }
+}
+
+/* Accessible motion setting: avoid nonessential looping movement.
+   Keep the existing logo's own reduced-motion styling intact. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .float-animation, .shape-3d, .floating-particle, .light-beam {
+    animation: none !important;
+  }
+}

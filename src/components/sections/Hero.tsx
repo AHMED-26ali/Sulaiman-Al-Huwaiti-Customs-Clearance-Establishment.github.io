@@ -99,9 +99,30 @@ export default function Hero() {
   const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0, 1]));
   const carouselContainerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(true);
+  // Prevent needless slideshow updates in background tabs.
+  const [isTabVisible, setIsTabVisible] = useState(
+    () => typeof document === 'undefined' || !document.hidden
+  );
+  // Respect visitors who request fewer animated elements.
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  );
   const navigate = useNavigate();
   const isMobile = useIsMobile();
   const [show3D, setShow3D] = useState(false);
+
+  useEffect(() => {
+    const handleVisibility = () => setIsTabVisible(!document.hidden);
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleMotionChange = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
+    mediaQuery.addEventListener('change', handleMotionChange);
+    return () => mediaQuery.removeEventListener('change', handleMotionChange);
+  }, []);
 
   // استخدام IntersectionObserver مع threshold=0 و rootMargin لتحميل وتنشيط الكاروسيل فوراً بمجرد الاقتراب
   useEffect(() => {
@@ -146,7 +167,7 @@ export default function Hero() {
 
   // حركة تلقائية مستمرة ومنتظمة بدون قفزات (Automatic Auto-Sliding Loop) مع تحميل تدرجي للصور التالية
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView || !isTabVisible || prefersReducedMotion) return;
 
     const timer = setInterval(() => {
       setCurrentIndex((prev) => {
@@ -164,7 +185,7 @@ export default function Hero() {
     }, 3800);
 
     return () => clearInterval(timer);
-  }, [isInView]);
+  }, [isInView, isTabVisible, prefersReducedMotion]);
 
   return (
     <section id="home" className="min-h-screen text-white relative overflow-hidden pt-16 section-transparent">
