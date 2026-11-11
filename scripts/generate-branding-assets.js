@@ -18,20 +18,41 @@ export async function generateBrandingAssets() {
 
   console.log('[Branding] Generating high-resolution favicons and social assets from:', sourceLogoPath);
 
-  // 1. Generate Favicon PNG sizes
-  await sharp(sourceLogoPath).resize(16, 16).png().toFile(path.join(publicDir, 'favicon-16x16.png'));
-  await sharp(sourceLogoPath).resize(32, 32).png().toFile(path.join(publicDir, 'favicon-32x32.png'));
-  await sharp(sourceLogoPath).resize(180, 180).png().toFile(path.join(publicDir, 'apple-touch-icon.png'));
-  await sharp(sourceLogoPath).resize(192, 192).png().toFile(path.join(publicDir, 'android-chrome-192x192.png'));
-  await sharp(sourceLogoPath).resize(512, 512).png().toFile(path.join(publicDir, 'android-chrome-512x512.png'));
+  // 1. Crop unused margins only for favicons, preserving the source logo and every site image.
+  const iconArtwork = await sharp(sourceLogoPath).trim({ threshold: 10 }).png().toBuffer();
+  const makeIcon = async (size) => {
+    const artworkSize = Math.max(1, Math.round(size * 0.86));
+    const artwork = await sharp(iconArtwork)
+      .resize(artworkSize, artworkSize, { fit: 'contain', background: '#0b1120' })
+      .png()
+      .toBuffer();
+    return sharp({
+      create: {
+        width: size,
+        height: size,
+        channels: 4,
+        background: '#0b1120'
+      }
+    }).composite([{ input: artwork, gravity: 'centre' }]).png().toBuffer();
+  };
+
+  for (const [size, file] of [
+    [16, 'favicon-16x16.png'],
+    [32, 'favicon-32x32.png'],
+    [180, 'apple-touch-icon.png'],
+    [192, 'android-chrome-192x192.png'],
+    [512, 'android-chrome-512x512.png']
+  ]) {
+    fs.writeFileSync(path.join(publicDir, file), await makeIcon(size));
+  }
   
   // Optimized WebP version of the master logo
   await sharp(sourceLogoPath).webp({ quality: 95 }).toFile(path.join(brandingDir, 'logo.webp'));
 
   // 2. Multi-resolution Windows ICO (16x16, 32x32, 48x48)
-  const p16 = await sharp(sourceLogoPath).resize(16, 16).png().toBuffer();
-  const p32 = await sharp(sourceLogoPath).resize(32, 32).png().toBuffer();
-  const p48 = await sharp(sourceLogoPath).resize(48, 48).png().toBuffer();
+  const p16 = await makeIcon(16);
+  const p32 = await makeIcon(32);
+  const p48 = await makeIcon(48);
 
   const pngBuffers = [
     { width: 16, height: 16, buffer: p16 },
