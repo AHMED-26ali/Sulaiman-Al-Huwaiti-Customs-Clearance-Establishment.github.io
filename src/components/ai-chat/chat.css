@@ -118,3 +118,69 @@
     animation: none !important;
   }
 }
+
+
+/* Lightweight premium chatbot trigger: no spinning rings, image assets or heavy filters. */
+.ai-launcher-button {
+  isolation: isolate;
+  border: 1px solid rgba(245, 210, 148, .82);
+  background: linear-gradient(145deg, #443622 0%, #d8b980 42%, #6e542e 100%);
+  box-shadow: 0 5px 20px rgba(0,0,0,.35), 0 0 0 3px rgba(216,185,128,.12);
+  transition: box-shadow .2s ease, transform .2s ease;
+}
+.ai-launcher-button-inner {
+  display: flex;
+  width: calc(100% - 7px);
+  height: calc(100% - 7px);
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 32% 22%, #34312b 0%, #1c1c1b 62%, #11110f 100%);
+  border: 1px solid rgba(255,239,200,.28);
+}
+.ai-launcher-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(0,0,0,.4), 0 0 0 4px rgba(216,185,128,.22);
+}
+.ai-launcher-button:focus-visible,
+.ai-launcher-label:focus-visible {
+  outline: 3px solid #f7da9d;
+  outline-offset: 4px;
+}
+.ai-launcher-button-open {
+  border-color: rgba(216,185,128,.8);
+}
+.ai-launcher-status,
+.ai-launcher-online-dot {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 9px;
+  height: 9px;
+  background: #34d399;
+  border-radius: 9999px;
+  box-shadow: 0 0 0 2px #1c1c1b;
+}
+.ai-launcher-status {
+  position: absolute;
+  top: 2px;
+  right: 1px;
+  width: 11px;
+  height: 11px;
+  border: 2px solid #1c1c1b;
+  box-shadow: 0 0 0 1px rgba(216,185,128,.65);
+}
+.ai-launcher-label {
+  background: rgba(28,28,27,.96);
+  border: 1px solid rgba(216,185,128,.45);
+  box-shadow: 0 8px 22px rgba(0,0,0,.22);
+  transition: border-color .2s ease, background-color .2s ease;
+}
+.ai-launcher-label:hover {
+  border-color: #d8b980;
+  background: #26231d;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ai-launcher-button,
+  .ai-launcher-label { transition: none; }
+  .ai-launcher-button:hover { transform: none; }
+}
