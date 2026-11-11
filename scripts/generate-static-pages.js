@@ -62,8 +62,8 @@ const PAGES_DATA = {
             <p class="text-gray-300 text-sm leading-relaxed">إنهاء كافة إجراءات الفسح والتخليص الجمركي للحاويات والبضائع العامة عبر ميناء جدة الإسلامي، ميناء نيوم وضبا، وميناء الملك عبدالعزيز بالدمام.</p>
           </article>
           <article class="bg-white/5 border border-white/10 rounded-2xl p-6 text-right">
-            <h3 class="text-xl font-bold text-cyan-300 mb-2">التخليص الجمركي الجوي</h3>
-            <p class="text-gray-300 text-sm leading-relaxed">فسح جمركي فوري للشحنات الجوية عبر مطارات المملكة مع مطابقة المستندات والشهادات بدقة وسرعة فائقة.</p>
+            <h3 class="text-xl font-bold text-cyan-300 mb-2">التخليص الجمركي البري</h3>
+            <p class="text-gray-300 text-sm leading-relaxed">متابعة إجراءات الفسح الجمركي للشحنات الواردة والصادرة عبر المنافذ البرية، مع مراجعة المستندات والبيانات وفق الأنظمة المعتمدة.</p>
           </article>
           <article class="bg-white/5 border border-white/10 rounded-2xl p-6 text-right">
             <h3 class="text-xl font-bold text-cyan-300 mb-2">الاستشارات والتعريفة الجمركية</h3>
@@ -207,7 +207,7 @@ const PAGES_DATA = {
           </article>
           <article class="bg-white/5 border border-white/10 rounded-2xl p-6 text-right">
             <h3 class="text-xl font-bold text-pink-300 mb-2">ترخيص رسمي واعتماد كامل</h3>
-            <p class="text-gray-300 text-sm leading-relaxed">مؤسسة مرخصة من هيئة الزكاة والضريبة والجمارك ومسجلة في كافة المنصات المعتمدة (فسح، سابر، نافذة).</p>
+            <p class="text-gray-300 text-sm leading-relaxed">مؤسسة مرخصة من هيئة الزكاة والضريبة والجمارك وتتابع الإجراءات الجمركية وفق الأنظمة المعمول بها عبر منصة فسح والجهات المختصة.</p>
           </article>
           <article class="bg-white/5 border border-white/10 rounded-2xl p-6 text-right">
             <h3 class="text-xl font-bold text-pink-300 mb-2">دقة متناهية في تصنيف البنود</h3>
@@ -268,7 +268,7 @@ const PAGES_DATA = {
           <article class="bg-white/5 border border-white/10 rounded-2xl p-8 text-right">
             <div class="text-xs text-indigo-300 font-semibold mb-2">أنظمة وقوانين • وقت القراءة: 6 دقائق</div>
             <h3 class="text-2xl font-bold text-white mb-3">التطورات الحديثة في الأنظمة الجمركية السعودية ومنصة فسح</h3>
-            <p class="text-gray-300 text-sm leading-relaxed mb-4">شهدت الأنظمة الجمركية نقلة نوعية عبر منصة فسح والأتمتة الرقمية لإجراءات الفسح المسبق، والربط مع منصة سابر للمطابقة وتتبع البيانات إلكترونياً بما يضمن الشفافية والسرعة الفائقة في إنهاء المعاملات.</p>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">تسهم منصة فسح والأتمتة الرقمية في تسهيل تقديم البيانات والمستندات اللازمة للإجراءات الجمركية. ويساعد الاستعداد المبكر للشحنة ومراجعة متطلباتها النظامية على تقليل التأخير وتحسين متابعة الفسح.</p>
             <span class="text-xs text-cyan-300">التحول الرقمي للجمارك السعودية</span>
           </article>
           <article class="bg-white/5 border border-white/10 rounded-2xl p-8 text-right">

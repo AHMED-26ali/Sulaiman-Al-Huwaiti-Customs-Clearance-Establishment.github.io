@@ -30,7 +30,7 @@ const customImages: CarouselImage[] = [
     fallback: "/images/custom/container-port-aerial-view.jpg.jpg",
     webp: "/images/custom/container-port-aerial-view.webp",
     webp400: "/images/custom/container-port-aerial-view-400w.webp",
-    alt: "منظر جوي لميناء الحاويات والأرصفة البحرية - التخليص الجمركي الفوري",
+    alt: "ميناء الحاويات والأرصفة البحرية - خدمات التخليص الجمركي البحري",
   },
   {
     fallback: "/images/custom/container-ship-docking.png.png",
