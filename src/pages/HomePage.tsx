@@ -352,7 +352,7 @@ export default function HomePage() {
                     <CheckCircle2 className="w-5 h-5 text-green-400" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-white mb-1">رؤيتنا</h4>
+                    <h3 className="font-bold text-white mb-1">رؤيتنا</h4>
                     <p className="text-sm text-gray-400">الريادة في خدمات التخليص الجمركي</p>
                   </div>
                 </div>
@@ -361,7 +361,7 @@ export default function HomePage() {
                     <Target className="w-5 h-5 text-cyan-400" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-white mb-1">رسالتنا</h4>
+                    <h3 className="font-bold text-white mb-1">رسالتنا</h4>
                     <p className="text-sm text-gray-400">تقديم خدمة متميزة بكل احترافية</p>
                   </div>
                 </div>
@@ -586,7 +586,7 @@ export default function HomePage() {
                     {t.name.charAt(0)}
                   </div>
                   <div>
-                    <h4 className="font-bold text-white">{t.name}</h4>
+                    <h3 className="font-bold text-white">{t.name}</h3>
                     <p className="text-xs text-gray-400">{t.role}</p>
                   </div>
                 </div>

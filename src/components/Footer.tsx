@@ -197,7 +197,8 @@ export default function Footer() {
             <div className="space-y-4">
               <div className="flex items-center space-x-3 space-x-reverse">
                 <img
-                  src="/branding/logo-mark.webp"
+                  src="/branding/logo-mark-96.webp"
+                  srcSet="/branding/logo-mark-96.webp 1x, /branding/logo-mark-192.webp 2x"
                   alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"
                   className="brand-mark-image h-12 w-12 object-contain"
                   width={48}

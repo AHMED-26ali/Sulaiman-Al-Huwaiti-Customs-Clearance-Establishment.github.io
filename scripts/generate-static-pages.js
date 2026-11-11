@@ -391,7 +391,7 @@ async function generateStaticPages() {
       <header style="height:5rem;display:flex;align-items:center;padding:0 1rem;max-width:80rem;margin:0 auto;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:1rem;">
           <a href="/" style="display:flex;align-items:center;gap:1rem;text-decoration:none;color:#ffffff;">
-            <img src="/branding/logo-mark.webp" alt="شعار مؤسسة سليمان الحويطي" width="64" height="64" style="object-fit:contain;" />
+            <img src="/branding/logo-mark-96.webp" srcset="/branding/logo-mark-96.webp 1x, /branding/logo-mark-192.webp 2x" alt="شعار مؤسسة سليمان الحويطي" width="64" height="64" style="object-fit:contain;" />
             <span style="font-size:1.25rem;font-weight:700;color:#ffffff;">${SITE_NAME}</span>
           </a>
         </div>

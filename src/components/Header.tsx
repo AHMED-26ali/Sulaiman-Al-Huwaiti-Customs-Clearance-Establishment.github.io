@@ -94,7 +94,7 @@ export default function Header() {
           <Link to="/" className="group flex min-w-0 flex-1 items-center gap-2 sm:gap-3 lg:flex-none">
             <div className="relative flex shrink-0 items-center justify-center">
               <picture className="brand-mark">
-                <source type="image/webp" srcSet="/branding/logo-mark.webp" />
+                <source type="image/webp" srcSet="/branding/logo-mark-96.webp 1x, /branding/logo-mark-192.webp 2x" />
                 <img
                   src="/branding/logo.png"
                   alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"

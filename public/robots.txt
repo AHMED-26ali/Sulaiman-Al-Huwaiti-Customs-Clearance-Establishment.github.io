@@ -36,7 +36,3 @@ User-agent: PerplexityBot
 Allow: /
 
 Sitemap: https://sulaimanal-huwaiti.vercel.app/sitemap.xml
-Agentmap: https://sulaimanal-huwaiti.vercel.app/.well-known/ard.json
-Agentmap: https://sulaimanal-huwaiti.vercel.app/.well-known/ai-catalog.json
-Agentmap: https://sulaimanal-huwaiti.vercel.app/ai-catalog.json
-Host: https://sulaimanal-huwaiti.vercel.app
