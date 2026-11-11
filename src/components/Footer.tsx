@@ -231,15 +231,15 @@ export default function Footer() {
               <ul className="space-y-2.5 text-gray-100 font-medium">
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>التخليص الجمركي الشامل</span>
+                  <Link to="/truck-clearance" className="hover:text-cyan-200">تخليص الشاحنات بالمنافذ البرية</Link>
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>خدمات الترانزيت الدولي</span>
+                  <Link to="/transit-clearance" className="hover:text-cyan-200">خدمات الترانزيت الدولي</Link>
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  <span>التخليص الجمركي البحري والبري</span>
+                  <Link to="/sea-customs-clearance" className="hover:text-cyan-200">التخليص البحري والحاويات</Link>
                 </li>
                 <li className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>

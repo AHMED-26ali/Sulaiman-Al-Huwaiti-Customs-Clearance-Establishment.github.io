@@ -1,5 +1,6 @@
 import { Truck, Ship, FileText, Clock, Shield, Users, Globe, Package, Calculator, Building, Award, Heart, Lightbulb, Rocket, Settings, Phone, Zap, Target } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link } from 'react-router-dom';
 
 export default function Services() {
   const services = [
@@ -156,9 +157,9 @@ export default function Services() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-glow-blue">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 text-glow-blue">
             خدماتنا المتميزة
-          </h1>
+          </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-blue-400 to-green-400 mx-auto mb-6"></div>
           <p className="text-xl text-blue-200 max-w-3xl mx-auto leading-relaxed">
             خدمات التخليص الجمركي والترانزيت وإنهاء كافة إجراءات الفسح الجمركي للشحنات والبضائع الواردة والصادرة بدقة وسرعة فائقة عبر كافة موانئ ومنافذ المملكة.
@@ -190,7 +191,7 @@ export default function Services() {
                 } animated-border`}>
                   <service.icon className="h-6 w-6 text-white relative z-10" />
                 </div>
-                <h2 className={`text-xl font-bold mb-4 ${
+                <h3 className={`text-xl font-bold mb-4 ${
                   index % 6 === 0 ? 'text-blue-300 text-glow-blue' : 
                   index % 6 === 1 ? 'text-purple-300 text-glow-purple' : 
                   index % 6 === 2 ? 'text-green-300 text-glow-green' : 
@@ -198,7 +199,7 @@ export default function Services() {
                   index % 6 === 4 ? 'text-pink-300' : 'text-orange-300'
                 }`}>
                   {service.title}
-                </h2>
+                </h3>
                 <p className="text-gray-300 text-sm leading-relaxed">
                   {service.description}
                 </p>
@@ -207,6 +208,18 @@ export default function Services() {
           ))}
         </div>
       </div>
+
+      <section aria-labelledby="specialized-customs-services" className="container mx-auto px-4 relative z-10 mt-12 mb-8">
+        <div className="rounded-2xl bg-slate-950/55 border border-cyan-400/25 p-6 md:p-9">
+          <h2 id="specialized-customs-services" className="text-2xl md:text-3xl font-bold text-white mb-4">خدمات تخليص جمركي للشاحنات والترانزيت والحاويات</h2>
+          <p className="text-slate-200 leading-8 mb-6">إذا كنت تبحث عن مكتب تخليص جمركي أو مخلص جمركي لشحنتك، اختر نوع المعاملة لمعرفة المستندات والخطوات التي قد تحتاجها قبل التواصل.</p>
+          <nav aria-label="أنواع خدمات التخليص" className="grid md:grid-cols-3 gap-4">
+            <Link to="/truck-clearance" className="rounded-xl border border-cyan-400/30 bg-cyan-500/10 p-5 text-cyan-100 hover:bg-cyan-500/20">تخليص الشاحنات والمنافذ البرية</Link>
+            <Link to="/transit-clearance" className="rounded-xl border border-cyan-400/30 bg-cyan-500/10 p-5 text-cyan-100 hover:bg-cyan-500/20">ترانزيت الشاحنات والبضائع العابرة</Link>
+            <Link to="/sea-customs-clearance" className="rounded-xl border border-cyan-400/30 bg-cyan-500/10 p-5 text-cyan-100 hover:bg-cyan-500/20">التخليص البحري والحاويات</Link>
+          </nav>
+        </div>
+      </section>
 
       <style>{`
         @keyframes float-services-slow {

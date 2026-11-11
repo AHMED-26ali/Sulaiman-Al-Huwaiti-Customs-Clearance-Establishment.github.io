@@ -6,8 +6,8 @@ export default function ServicesPage() {
   return (
     <div className="min-h-screen section-seamless pt-20">
       <PageHeader
-        title="خدماتنا"
-        subtitle="حلول متكاملة للتخليص الجمركي والترانزيت"
+        title="مكتب تخليص جمركي وخدمات جمارك"
+        subtitle="تخليص شاحنات وترانزيت وبضائع وحاويات عبر المنافذ والموانئ"
         gradient="from-purple-600 via-pink-600 to-purple-800"
       />
       <Services />

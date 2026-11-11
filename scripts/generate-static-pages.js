@@ -13,8 +13,8 @@ const SITE_NAME = 'مؤسسة سليمان الحويطي للتخليص الج�
 // تفاصيل الـ SEO لكل صفحة
 const PAGES_DATA = {
   '/services': {
-    title: 'خدمات التخليص الجمركي والترانزيت | مؤسسة سليمان الحويطي',
-    description: 'خدمات متكاملة في التخليص الجمركي الشامل للبضائع، النقل البري والترانزيت الدولي، الشحن البحري، والاستشارات الجمركية والتجارية في السعودية.',
+    title: 'مكتب تخليص جمركي وترانزيت | مؤسسة سليمان الحويطي',
+    description: 'مكتب تخليص جمركي للشاحنات والبضائع والترانزيت والحاويات في السعودية. تخليص بري وبحري ومتابعة البيانات في الموانئ والمنافذ.',
     headerTitle: 'خدماتنا',
     headerSubtitle: 'حلول متكاملة للتخليص الجمركي والترانزيت',
     gradient: 'from-purple-600 via-pink-600 to-purple-800',
@@ -40,9 +40,18 @@ const PAGES_DATA = {
         '@type': 'Country',
         'name': 'المملكة العربية السعودية'
       },
-      'description': 'خدمات متكاملة في التخليص الجمركي الشامل للبضائع، النقل البري والترانزيت الدولي، الشحن البحري، والاستشارات الجمركية والتجارية في السعودية.'
+      'description': 'مكتب تخليص جمركي للشاحنات والبضائع والترانزيت والحاويات في السعودية. تخليص بري وبحري ومتابعة البيانات في الموانئ والمنافذ.'
     },
     contentHtml: `
+      <section style="max-width:70rem;margin:1rem auto;padding:1rem;color:#e2e8f0;">
+        <h2 style="font-size:1.5rem;color:#fff;">مكتب تخليص جمركي للشاحنات والترانزيت والحاويات</h2>
+        <p>خدمات تخليص الشاحنات والبضائع بالمنافذ البرية، والترانزيت والحاويات بالموانئ البحرية.</p>
+        <nav aria-label="خدمات متخصصة">
+          <a href="/truck-clearance" style="color:#a5f3fc;margin:.5rem;">تخليص الشاحنات</a>
+          <a href="/transit-clearance" style="color:#a5f3fc;margin:.5rem;">تخليص الترانزيت</a>
+          <a href="/sea-customs-clearance" style="color:#a5f3fc;margin:.5rem;">تخليص الحاويات</a>
+        </nav>
+      </section>
       <section class="py-16 px-4 max-w-7xl mx-auto">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold text-white mb-4">باقة خدماتنا الجمركية واللوجستية</h2>
