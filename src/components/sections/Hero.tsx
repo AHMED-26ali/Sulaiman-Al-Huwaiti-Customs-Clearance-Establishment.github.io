@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
+import { trackSiteInteraction } from '@/lib/siteAnalytics';
 import { ArrowLeft, Star, Zap, Shield } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
@@ -217,7 +218,7 @@ export default function Hero() {
               <Button
                 size="lg"
                 className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold py-4 px-8 rounded-xl transition-all duration-300 shadow-lg hover:shadow-green-500/50 hover:scale-105"
-                onClick={() => navigate('/services')}
+                onClick={() => { trackSiteInteraction('services_cta_click', 'home_hero'); navigate('/services'); }}
               >
                 <span className="flex items-center">
                   اكتشف خدماتنا
@@ -228,7 +229,7 @@ export default function Hero() {
                 size="lg"
                 variant="outline"
                 className="!bg-transparent !hover:bg-transparent border-2 border-cyan-400/50 hover:border-cyan-300 text-cyan-300 hover:text-cyan-100 font-semibold py-4 px-8 rounded-xl transition-all duration-300"
-                onClick={() => navigate('/contact')}
+                onClick={() => { trackSiteInteraction('contact_cta_click', 'home_hero'); navigate('/contact'); }}
               >
                 تواصل معنا
               </Button>

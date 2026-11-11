@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { trackSiteInteraction } from '@/lib/siteAnalytics';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -25,6 +26,8 @@ export default function Header() {
   }, []);
 
   const handleNavigate = (path: string) => {
+    if (path === '/contact') trackSiteInteraction('contact_cta_click', 'header');
+    if (path === '/services') trackSiteInteraction('services_cta_click', 'header');
     navigate(path);
     setIsMenuOpen(false);
   };

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { trackSiteInteraction } from '@/lib/siteAnalytics';
 import { 
   MapPin, 
   Navigation, 
@@ -305,6 +306,7 @@ export default function OfficeLocation({ className = '', showTitle = true }: Off
               <div className="pt-2 flex flex-col sm:flex-row gap-3">
                 <a
                   href={`https://wa.me/966559586786?text=${encodeURIComponent('السلام عليكم، أرغب في استفسار أو طلب استشارة جمركية')}`}
+                  onClick={() => trackSiteInteraction('contact_whatsapp_click', 'home_office')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-500 hover:to-green-500 text-white font-bold py-2.5 px-4 rounded-xl text-xs md:text-sm flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-emerald-500/20 cursor-pointer"
@@ -315,6 +317,7 @@ export default function OfficeLocation({ className = '', showTitle = true }: Off
 
                 <a
                   href="tel:+966559586786"
+                  onClick={() => trackSiteInteraction('contact_call_click', 'home_office')}
                   className="bg-white/10 hover:bg-white/15 text-white font-semibold py-2.5 px-4 rounded-xl text-xs md:text-sm flex items-center justify-center gap-2 transition-all border border-white/10 cursor-pointer"
                 >
                   <Phone className="w-4 h-4 text-cyan-400" />

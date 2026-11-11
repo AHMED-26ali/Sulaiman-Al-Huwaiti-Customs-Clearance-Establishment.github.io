@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { trackSiteInteraction } from '@/lib/siteAnalytics';
 import { motion } from 'framer-motion';
 import { MapPin, Phone, Mail, Clock, Send, MessageCircle, User, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -34,10 +35,12 @@ export default function Contact() {
   ];
 
   const handleCall = (phone: string) => {
+    trackSiteInteraction('contact_call_click', 'contact_team');
     window.open(`tel:${phone}`, '_self');
   };
 
   const handleWhatsApp = (phone: string) => {
+    trackSiteInteraction('contact_whatsapp_click', 'contact_team');
     window.open(`https://wa.me/${phone.replace('+', '')}`, '_blank');
   };
 
@@ -49,6 +52,8 @@ export default function Contact() {
     const encodedMessage = encodeURIComponent(whatsappMessage);
     const UnifiednumberPhone = "966537063709"; // أحمد علي
     
+    // Event contains no form fields or WhatsApp URL; it is only a submit-click signal.
+    trackSiteInteraction('contact_form_whatsapp_click', 'contact_form');
     window.open(`https://wa.me/${UnifiednumberPhone}?text=${encodedMessage}`, '_blank');
     
     // Reset form
