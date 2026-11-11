@@ -693,6 +693,12 @@ export default function HomePage() {
               </details>
             ))}
           </div>
+
+          <nav aria-label="أنواع خدمات التخليص الجمركي" className="grid md:grid-cols-3 gap-3 mt-7">
+            <Link to="/truck-clearance" className="rounded-xl border border-cyan-400/30 bg-white/5 text-cyan-100 px-5 py-4 text-center hover:bg-white/10">تخليص الشاحنات في المنافذ البرية</Link>
+            <Link to="/transit-clearance" className="rounded-xl border border-cyan-400/30 bg-white/5 text-cyan-100 px-5 py-4 text-center hover:bg-white/10">خدمات ترانزيت الشاحنات والبضائع</Link>
+            <Link to="/sea-customs-clearance" className="rounded-xl border border-cyan-400/30 bg-white/5 text-cyan-100 px-5 py-4 text-center hover:bg-white/10">التخليص البحري والحاويات</Link>
+          </nav>
           <p className="text-center text-cyan-200 mt-7">
             للمزيد من التفاصيل، اطلع على <Link to="/services" className="underline hover:text-white">الخدمات</Link> و<Link to="/branches" className="underline hover:text-white">الموانئ والمنافذ</Link> أو <Link to="/contact" className="underline hover:text-white">تواصل معنا</Link>.
           </p>

@@ -13,8 +13,8 @@ const SITE_NAME = 'مؤسسة سليمان الحويطي للتخليص الج�
 // تفاصيل الـ SEO لكل صفحة
 const PAGES_DATA = {
   '/services': {
-    title: 'خدمات التخليص الجمركي والترانزيت | مؤسسة سليمان الحويطي',
-    description: 'خدمات متكاملة في التخليص الجمركي الشامل للبضائع، النقل البري والترانزيت الدولي، الشحن البحري، والاستشارات الجمركية والتجارية في السعودية.',
+    title: 'مكتب تخليص جمركي وترانزيت | مؤسسة سليمان الحويطي',
+    description: 'مكتب تخليص جمركي للشاحنات والبضائع والترانزيت والحاويات في السعودية. تخليص بري وبحري ومتابعة البيانات في الموانئ والمنافذ.',
     headerTitle: 'خدماتنا',
     headerSubtitle: 'حلول متكاملة للتخليص الجمركي والترانزيت',
     gradient: 'from-purple-600 via-pink-600 to-purple-800',
@@ -40,9 +40,18 @@ const PAGES_DATA = {
         '@type': 'Country',
         'name': 'المملكة العربية السعودية'
       },
-      'description': 'خدمات متكاملة في التخليص الجمركي الشامل للبضائع، النقل البري والترانزيت الدولي، الشحن البحري، والاستشارات الجمركية والتجارية في السعودية.'
+      'description': 'مكتب تخليص جمركي للشاحنات والبضائع والترانزيت والحاويات في السعودية. تخليص بري وبحري ومتابعة البيانات في الموانئ والمنافذ.'
     },
     contentHtml: `
+      <section style="max-width:70rem;margin:1rem auto;padding:1rem;color:#e2e8f0;">
+        <h2 style="font-size:1.5rem;color:#fff;">مكتب تخليص جمركي للشاحنات والترانزيت والحاويات</h2>
+        <p>خدمات تخليص الشاحنات والبضائع بالمنافذ البرية، والترانزيت والحاويات بالموانئ البحرية.</p>
+        <nav aria-label="خدمات متخصصة">
+          <a href="/truck-clearance" style="color:#a5f3fc;margin:.5rem;">تخليص الشاحنات</a>
+          <a href="/transit-clearance" style="color:#a5f3fc;margin:.5rem;">تخليص الترانزيت</a>
+          <a href="/sea-customs-clearance" style="color:#a5f3fc;margin:.5rem;">تخليص الحاويات</a>
+        </nav>
+      </section>
       <section class="py-16 px-4 max-w-7xl mx-auto">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold text-white mb-4">باقة خدماتنا الجمركية واللوجستية</h2>
@@ -344,6 +353,22 @@ const PAGES_DATA = {
     `
   }
 };
+
+
+const LANDING_PAGES = JSON.parse(fs.readFileSync(path.resolve(__dirname,'../src/data/serviceLandingPages.json'),'utf8'));
+const escapeSeo = value => String(value).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;');
+for (const [route,p] of Object.entries(LANDING_PAGES)) {
+  const sectionHtml = p.sections.map(s=>`<section style="margin:1rem 0;padding:1.5rem;border:1px solid #3d5466;border-radius:1rem;line-height:1.8;"><h2 style="color:#a5f3fc;font-size:1.5rem;">${escapeSeo(s.heading)}</h2><p>${escapeSeo(s.body)}</p>${s.points.length?'<ul>'+s.points.map(t=>'<li>'+escapeSeo(t)+'</li>').join('')+'</ul>':''}</section>`).join('');
+  const faqHtml = p.faqs.map(f=>`<div style="margin:1rem 0;line-height:1.8;"><h3 style="color:white;">${escapeSeo(f.question)}</h3><p>${escapeSeo(f.answer)}</p></div>`).join('');
+  const navHtml = Object.entries(LANDING_PAGES).filter(([path])=>path!==route).map(([path,d])=>`<a href="${path}" style="color:#a5f3fc;display:inline-block;margin:.5rem;">${escapeSeo(d.heading)}</a>`).join('');
+  PAGES_DATA[route] = {
+    title:p.title,description:p.description,headerTitle:p.heading,headerSubtitle:p.subtitle,
+    schema:{'@context':'https://schema.org','@type':'Service',name:p.heading,
+      serviceType:p.heading,description:p.description,provider:{'@type':'ProfessionalService',name:SITE_NAME,url:BASE_URL,telephone:'+966559586786'},
+      areaServed:{'@type':'Country',name:'Saudi Arabia'}},
+    contentHtml:`<article dir="rtl" style="max-width:70rem;margin:0 auto;padding:2rem 1rem;color:#e2e8f0;"><p style="font-size:1.15rem;line-height:1.9;">${escapeSeo(p.intro)}</p>${sectionHtml}<section><h2 style="font-size:1.5rem;color:white;">أسئلة شائعة</h2>${faqHtml}</section><nav aria-label="خدمات متعلقة" style="margin-top:2rem;">${navHtml}<a href="/services" style="color:#a5f3fc;margin:.5rem;">خدمات ومكاتب التخليص الجمركي</a><a href="/branches" style="color:#a5f3fc;margin:.5rem;">الموانئ والمنافذ</a><a href="/contact" style="color:#a5f3fc;margin:.5rem;">اتصل بالمكتب</a></nav></article>`
+  };
+}
 
 async function generateStaticPages() {
   // توليد أصول العلامة التجارية والأيقونات والصور الاجتماعية أولاً
