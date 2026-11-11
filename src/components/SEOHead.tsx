@@ -10,7 +10,7 @@ interface PageSEOConfig {
 const BASE_URL = 'https://sulaimanal-huwaiti.vercel.app';
 const SITE_NAME = 'مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت';
 const LOGO_URL = `${BASE_URL}/branding/logo.png`;
-const OG_IMAGE_URL = `${BASE_URL}/branding/og-image.png`;
+const OG_IMAGE_URL = `${BASE_URL}/branding/og-image.png?v=20261111-social`;
 const DEFAULT_KEYWORDS = 'تخليص جمركي السعودية, مخلص جمركي ضبا, تخليص جمركي بري, تخليص جمركي بحري, الترانزيت, موانئ السعودية, منفذ البطحاء, منفذ الحديثة, ميناء ضبا, ميناء جدة الإسلامي, فسح جمركي';
 
 const PAGE_SEO_MAP: Record<string, PageSEOConfig> = {
@@ -52,6 +52,10 @@ export default function SEOHead() {
   useEffect(() => {
     const config = PAGE_SEO_MAP[pathname] || PAGE_SEO_MAP['/'];
     const pageUrl = `${BASE_URL}${config.canonicalPath}`;
+
+    // Keep server-side canonical and JSON-LD when loading the page directly.
+    // Only update the existing page schema on client-side navigation.
+    const incomingCanonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]')?.href;
 
     // 1. تحديث عنوان الصفحة
     document.title = config.title;
@@ -100,12 +104,16 @@ export default function SEOHead() {
     canonical.setAttribute('href', pageUrl);
 
     // 6. تحديث كود Schema JSON-LD لكل مسار
-    let schemaScript = document.getElementById('dynamic-jsonld');
+    let schemaScript = document.querySelector<HTMLScriptElement>('script[type="application/ld+json"]');
     if (!schemaScript) {
       schemaScript = document.createElement('script');
-      schemaScript.id = 'dynamic-jsonld';
-      schemaScript.setAttribute('type', 'application/ld+json');
+      schemaScript.type = 'application/ld+json';
       document.head.appendChild(schemaScript);
+    }
+    // The original HTML contains richer route-specific JSON-LD: do not overwrite it
+    // on direct entry, and never insert duplicate ProfessionalService schemas.
+    if (incomingCanonical === pageUrl && schemaScript.textContent?.trim()) {
+      return;
     }
 
     let pageSchema: object;

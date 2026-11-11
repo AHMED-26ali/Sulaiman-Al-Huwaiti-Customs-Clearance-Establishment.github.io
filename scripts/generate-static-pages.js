@@ -391,7 +391,7 @@ async function generateStaticPages() {
       <header style="height:5rem;display:flex;align-items:center;padding:0 1rem;max-width:80rem;margin:0 auto;justify-content:space-between;">
         <div style="display:flex;align-items:center;gap:1rem;">
           <a href="/" style="display:flex;align-items:center;gap:1rem;text-decoration:none;color:#ffffff;">
-            <img src="/branding/logo.png" alt="شعار مؤسسة سليمان الحويطي" width="64" height="64" style="object-fit:contain;" />
+            <img src="/branding/logo-mark.webp" alt="شعار مؤسسة سليمان الحويطي" width="64" height="64" style="object-fit:contain;" />
             <span style="font-size:1.25rem;font-weight:700;color:#ffffff;">${SITE_NAME}</span>
           </a>
         </div>
@@ -478,7 +478,7 @@ async function generateStaticPages() {
     });
   }
 
-  ['favicon.ico', 'favicon-16x16.png', 'favicon-32x32.png', 'apple-touch-icon.png', 'android-chrome-192x192.png', 'android-chrome-512x512.png', 'site.webmanifest'].forEach(file => {
+  ['favicon.ico', 'favicon-16x16.png', 'favicon-32x32.png', 'favicon-96x96.png', 'apple-touch-icon.png', 'android-chrome-192x192.png', 'android-chrome-512x512.png', 'site.webmanifest'].forEach(file => {
     const src = path.join(publicDir, file);
     const dest = path.join(distDir, file);
     if (fs.existsSync(src)) {

@@ -89,36 +89,37 @@ export default function Header() {
       }`}
     >
       <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex h-20 min-w-0 items-center justify-between gap-2 sm:gap-3">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-4 space-x-reverse group cursor-pointer">
-            <div className="relative flex items-center justify-center">
-              <picture>
-                <source type="image/webp" srcSet="/branding/logo.webp" />
+          <Link to="/" className="group flex min-w-0 flex-1 items-center gap-2 sm:gap-3 lg:flex-none">
+            <div className="relative flex shrink-0 items-center justify-center">
+              <picture className="brand-mark">
+                <source type="image/webp" srcSet="/branding/logo-mark.webp" />
                 <img
                   src="/branding/logo.png"
                   alt="شعار مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت"
-                  className="h-16 w-16 object-contain transition-transform duration-300 group-hover:scale-105"
+                  className="brand-mark-image h-[58px] w-[58px] object-contain sm:h-[68px] sm:w-[68px] lg:h-[72px] lg:w-[72px]"
                   loading="eager"
                   decoding="async"
                   fetchPriority="high"
-                  width={64}
-                  height={64}
+                  width={72}
+                  height={72}
                   onError={(e) => {
                     const target = e.currentTarget;
                     if (!target.dataset.triedFallback) {
                       target.dataset.triedFallback = "true";
+                      target.parentElement?.querySelector("source")?.remove();
                       target.src = "/branding/logo.png";
                     }
                   }}
                 />
               </picture>
             </div>
-            <div className="text-right">
-              <h1 className="text-xl md:text-2xl font-bold text-white group-hover:text-cyan-300 transition-all duration-500">
+            <div className="min-w-0 text-right">
+              <span className="block text-[13px] sm:text-base md:text-lg xl:text-xl font-bold leading-tight text-white group-hover:text-cyan-300 transition-colors duration-300">
                 مؤسسة سليمان الحويطي
-              </h1>
-              <p className="text-sm md:text-base text-cyan-200 group-hover:text-cyan-100 transition-all duration-500">
+              </span>
+              <p className="text-[10px] sm:text-xs md:text-sm xl:text-base leading-snug text-cyan-200 group-hover:text-cyan-100 transition-colors duration-300">
                 للتخليص الجمركي والترانزيت
               </p>
             </div>
@@ -167,7 +168,9 @@ export default function Header() {
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden text-white hover:text-cyan-300 transition-all duration-300 p-3 rounded-xl hover:bg-cyan-400/20"
-            aria-label="menu"
+            aria-label={isMenuOpen ? "إغلاق قائمة التنقل" : "فتح قائمة التنقل"}
+            aria-expanded={isMenuOpen}
+            aria-controls="mobile-navigation"
           >
             {isMenuOpen ? (
               <X className="h-7 w-7 transition-all duration-500 rotate-180" />
@@ -180,7 +183,7 @@ export default function Header() {
         {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="lg:hidden absolute top-full left-0 right-0 bg-slate-900/95 backdrop-blur-lg border-b border-white/20 shadow-2xl">
-            <nav aria-label="التنقل عبر الجوال" className="flex flex-col py-4">
+            <nav id="mobile-navigation" aria-label="التنقل عبر الجوال" className="flex flex-col py-4">
               {navItems.map((item) => {
                 const isActive = location.pathname === item.path;
                 return (
