@@ -95,8 +95,9 @@ const useIsMobile = () => {
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  // تحميل أول صورتين فقط في البداية لتخفيف ازدحام الشبكة، مع إبقاء الصورة التالية جاهزة للانتقال.
-  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0, 1]));
+  // Load only the first hero image during the critical rendering window.
+  // Subsequent slides are prepared shortly before the first rotation to avoid network contention.
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0]));
   const carouselContainerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(true);
   // Prevent needless slideshow updates in background tabs.
@@ -165,11 +166,19 @@ export default function Hero() {
     };
   }, [isMobile]);
 
-  // حركة تلقائية مستمرة ومنتظمة بدون قفزات (Automatic Auto-Sliding Loop) مع تحميل تدرجي للصور التالية
+  // Let the first image paint without competing with offscreen carousel images.
+  // Keep the existing 3.8-second rotation cadence after a longer first slide.
   useEffect(() => {
     if (!isInView || !isTabVisible || prefersReducedMotion) return;
 
-    const timer = setInterval(() => {
+    const warmNextImage = window.setTimeout(() => {
+      setLoadedIndices((current) => {
+        if (current.has(1)) return current;
+        return new Set([...current, 1]);
+      });
+    }, 5500);
+
+    const advanceSlide = () => {
       setCurrentIndex((prev) => {
         const next = (prev + 1) % customImages.length;
         setLoadedIndices((current) => {
@@ -182,9 +191,19 @@ export default function Hero() {
         });
         return next;
       });
-    }, 3800);
+    };
 
-    return () => clearInterval(timer);
+    let rotationInterval: number | undefined;
+    const firstRotation = window.setTimeout(() => {
+      advanceSlide();
+      rotationInterval = window.setInterval(advanceSlide, 3800);
+    }, 8500);
+
+    return () => {
+      window.clearTimeout(warmNextImage);
+      window.clearTimeout(firstRotation);
+      if (rotationInterval !== undefined) window.clearInterval(rotationInterval);
+    };
   }, [isInView, isTabVisible, prefersReducedMotion]);
 
   return (
@@ -274,8 +293,8 @@ export default function Hero() {
                 {/* عرض الصور التسع مع انتقال ناعم ودوران لا نهائي بدون تشويه وبنسبة 3:4 الدقيقة مع تحميل متدرج وبصيغة WebP الحديثة */}
                 {customImages.map((image, idx) => {
                   const isActive = idx === currentIndex;
-                  // تحميل فوري لأول صورتين بدون أي تأخير لمنع حظر LCP، والبدء تدريجياً من الصورة الثالثة
-                  const shouldRender = idx < 2 || loadedIndices.has(idx);
+                  // Keep below-the-fold/hidden images out of the DOM until ready to load.
+                  const shouldRender = loadedIndices.has(idx);
 
                   return (
                     <div
