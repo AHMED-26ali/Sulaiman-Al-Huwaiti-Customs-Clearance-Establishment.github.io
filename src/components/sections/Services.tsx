@@ -1,4 +1,4 @@
-import { Truck, Ship, Plane, FileText, Clock, Shield, Users, Globe, Package, Calculator, Building, Award, Heart, Lightbulb, Rocket, Settings, Phone, Zap, Target } from 'lucide-react';
+import { Truck, Ship, FileText, Clock, Shield, Users, Globe, Package, Calculator, Building, Award, Heart, Lightbulb, Rocket, Settings, Phone, Zap, Target } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default function Services() {
@@ -19,9 +19,9 @@ export default function Services() {
       description: "إنهاء كافة إجراءات الفسح والتخليص الجمركي للحاويات والبضائع الواردة والصادرة عبر الموانئ البحرية بالمملكة"
     },
     {
-      icon: Plane,
-      title: "التخليص الجمركي الجوي",
-      description: "فسح جمركي فوري للشحنات الجوية عبر مطارات المملكة مع مطابقة المستندات والمواصفات بدقة عالية"
+      icon: Truck,
+      title: "التخليص الجمركي البري",
+      description: "إنهاء إجراءات التخليص والفسح الجمركي للبضائع عبر المنافذ الحدودية البرية، مع تدقيق المستندات ومتابعة البيان الجمركي"
     },
     {
       icon: Clock,
@@ -81,7 +81,7 @@ export default function Services() {
     {
       icon: Settings,
       title: "المنصات والأنظمة الجمركية",
-      description: "إتقان كامل لمنصات الفسح والربط الإلكتروني (منصة فسح، سابر، هيئة الزكاة والضريبة والجمارك)"
+      description: "إتقان كامل لمنصات الفسح والربط الإلكتروني (منصة فسح وهيئة الزكاة والضريبة والجمارك)"
     },
     {
       icon: Phone,
