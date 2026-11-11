@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Link } from 'react-router-dom';
+import { trackSiteInteraction } from '@/lib/siteAnalytics';
 import {
   ArrowLeft,
   Briefcase,
@@ -738,6 +739,7 @@ export default function HomePage() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   to="/contact"
+                  onClick={() => trackSiteInteraction('contact_cta_click', 'home_cta')}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-semibold transition-all duration-300 shadow-lg hover:shadow-green-500/50 hover:scale-105"
                 >
                   <Phone className="w-5 h-5" />
@@ -745,6 +747,7 @@ export default function HomePage() {
                 </Link>
                 <Link
                   to="/services"
+                  onClick={() => trackSiteInteraction('services_cta_click', 'home_cta')}
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl !bg-transparent !hover:bg-transparent border-2 border-cyan-400/50 hover:border-cyan-300 text-cyan-300 hover:text-cyan-100 font-semibold transition-all duration-300"
                 >
                   <span>تصفح خدماتنا</span>
