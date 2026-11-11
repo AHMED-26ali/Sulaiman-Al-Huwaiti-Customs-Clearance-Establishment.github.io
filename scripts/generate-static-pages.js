@@ -268,7 +268,7 @@ const PAGES_DATA = {
           <article class="bg-white/5 border border-white/10 rounded-2xl p-8 text-right">
             <div class="text-xs text-indigo-300 font-semibold mb-2">أنظمة وقوانين • وقت القراءة: 6 دقائق</div>
             <h3 class="text-2xl font-bold text-white mb-3">التطورات الحديثة في الأنظمة الجمركية السعودية ومنصة فسح</h3>
-            <p class="text-gray-300 text-sm leading-relaxed mb-4">شهدت الأنظمة الجمركية نقلة نوعية عبر منصة فسح والأتمتة الرقمية لإجراءات الفسح المسبق، والربط مع منصة سابر للمطابقة وتتبع البيانات إلكترونياً بما يضمن الشفافية والسرعة الفائقة في إنهاء المعاملات.</p>
+            <p class="text-gray-300 text-sm leading-relaxed mb-4">تسهم منصة فسح والأتمتة الرقمية في تسهيل تقديم البيانات والمستندات اللازمة للإجراءات الجمركية. ويساعد الاستعداد المبكر للشحنة ومراجعة متطلباتها النظامية على تقليل التأخير وتحسين متابعة الفسح.</p>
             <span class="text-xs text-cyan-300">التحول الرقمي للجمارك السعودية</span>
           </article>
           <article class="bg-white/5 border border-white/10 rounded-2xl p-8 text-right">
