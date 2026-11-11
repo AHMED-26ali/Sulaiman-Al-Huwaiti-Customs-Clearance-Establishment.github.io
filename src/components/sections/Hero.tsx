@@ -94,8 +94,8 @@ const useIsMobile = () => {
 
 export default function Hero() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  // تحميل أول 3 صور فقط عند بدء الصفحة وتأجيل باقي الصور تدريجياً لتقليل Speed Index
-  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0, 1, 2]));
+  // تحميل أول صورتين فقط في البداية لتخفيف ازدحام الشبكة، مع إبقاء الصورة التالية جاهزة للانتقال.
+  const [loadedIndices, setLoadedIndices] = useState<Set<number>>(() => new Set([0, 1]));
   const carouselContainerRef = useRef<HTMLDivElement>(null);
   const [isInView, setIsInView] = useState(true);
   const navigate = useNavigate();

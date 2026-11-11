@@ -50,6 +50,14 @@ export async function generateBrandingAssets() {
   // Display-only transparent mark: trim blank padding while leaving logo.png unchanged.
   await sharp(iconArtwork).webp({ quality: 95, alphaQuality: 100 }).toFile(path.join(brandingDir, 'logo-mark.webp'));
 
+  // Small transparent display-only versions: preserve the master logo and its appearance.
+  for (const height of [96, 192]) {
+    await sharp(iconArtwork)
+      .resize({ height, withoutEnlargement: true })
+      .webp({ quality: 90, alphaQuality: 100, effort: 5 })
+      .toFile(path.join(brandingDir, `logo-mark-${height}.webp`));
+  }
+
   // Optimized WebP version of the master logo
   await sharp(sourceLogoPath).webp({ quality: 95 }).toFile(path.join(brandingDir, 'logo.webp'));
 
@@ -208,6 +216,9 @@ export async function generateBrandingAssets() {
     fs.copyFileSync(path.join(brandingDir, 'logo.png'), path.join(distBranding, 'logo.png'));
     fs.copyFileSync(path.join(brandingDir, 'logo.webp'), path.join(distBranding, 'logo.webp'));
     fs.copyFileSync(path.join(brandingDir, 'logo-mark.webp'), path.join(distBranding, 'logo-mark.webp'));
+    for (const height of [96, 192]) {
+      fs.copyFileSync(path.join(brandingDir, `logo-mark-${height}.webp`), path.join(distBranding, `logo-mark-${height}.webp`));
+    }
     fs.copyFileSync(path.join(brandingDir, 'og-image.png'), path.join(distBranding, 'og-image.png'));
 
     const rootFiles = [

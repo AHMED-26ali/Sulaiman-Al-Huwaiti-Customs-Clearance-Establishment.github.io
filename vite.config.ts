@@ -35,22 +35,7 @@ try {
   // ignore
 }
 
-// إضافة تحسين تحميل الـ CSS الأولي بأعلى أولوية ممكنة
-function optimizeCssPlugin(): Plugin {
-  return {
-    name: 'optimize-css-plugin',
-    apply: 'build',
-    enforce: 'post',
-    transformIndexHtml(html) {
-      return html.replace(
-        /<link rel="stylesheet" crossorigin href="(\/assets\/[^"]+\.css)">/g,
-        `<link rel="preload" href="$1" as="style">
-  <link rel="stylesheet" crossorigin href="$1">`
-      );
-    },
-  };
-}
-
+// Keep the single Vite-generated stylesheet; avoid redundant CSS preload hints.
 function versionFilePlugin(): Plugin {
   return {
     name: 'version-file-plugin',
@@ -82,7 +67,7 @@ export default defineConfig(({ mode }) => ({
     host: "0.0.0.0",
     port: 3000,
   },
-  plugins: [react(), optimizeCssPlugin(), versionFilePlugin()],
+  plugins: [react(), versionFilePlugin()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
