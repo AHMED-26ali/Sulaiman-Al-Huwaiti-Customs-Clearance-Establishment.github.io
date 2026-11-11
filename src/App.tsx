@@ -31,7 +31,7 @@ const LoadingFallback = () => (
 
 const App = () => {
   // شاشة الترحيب معطلة افتراضياً لمنع أي حظر للـ Main Thread ولضمان TBT < 150ms والأداء 100/100
-  const [showWelcome] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
 
   const handleWelcomeComplete = () => {
     setShowWelcome(false);
