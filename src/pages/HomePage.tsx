@@ -27,6 +27,29 @@ import {
 import Hero from '@/components/sections/Hero';
 import Footer from '@/components/Footer';
 
+const customsFaq = [
+  {
+    "question": "ما المستندات التي أراجعها قبل بدء التخليص الجمركي؟",
+    "answer": "تختلف المستندات المطلوبة بحسب نوع البضاعة وحركة الشحنة والجهة المختصة. ابدأ بمراجعة الفاتورة التجارية وبيانات الشحن وشهادة المنشأ عند الحاجة، وتأكد من تطابق الكميات ووصف البضاعة مع المستندات. وقد تتطلب بعض الشحنات تصاريح أو شهادات إضافية وفق الأنظمة السارية."
+  },
+  {
+    "question": "ما الفرق بين التخليص الجمركي البري والبحري؟",
+    "answer": "التخليص البري يتعلق بالشحنات التي تمر عبر المنافذ الحدودية البرية، بينما يتم التخليص البحري للبضائع التي تصل عبر الموانئ. قد تختلف إجراءات الفحص والمستندات وطرق استلام الشحنة حسب منفذ الدخول ونوع البضاعة، لذلك يفيد تجهيز البيانات قبل وصولها."
+  },
+  {
+    "question": "كيف أتابع معاملة التخليص الجمركي؟",
+    "answer": "جهز رقم البيان الجمركي واسم المستورد وبيانات الشحنة عند التواصل مع فريق المتابعة. من المفيد أيضًا الاحتفاظ بأرقام مستندات النقل وتواريخ الوصول ومراجعة أي ملاحظات تطلبها الجهات المختصة. تختلف مدة إنهاء المعاملة حسب اكتمال المستندات والفحص والإجراءات المطلوبة."
+  },
+  {
+    "question": "ما المقصود بخدمات الترانزيت؟",
+    "answer": "الترانزيت هو مرور بضائع عبر أراضي دولة باتجاه وجهة أخرى وفق الإجراءات الجمركية المطبقة. تتطلب المتابعة مراجعة مستندات الحركة والمسار والمنفذ والتأكد من متطلبات الجهات المختصة لكل شحنة. ويمكن الاستفسار عن طبيعة الخدمة قبل بدء النقل لتجهيز الأوراق اللازمة."
+  },
+  {
+    "question": "ما المنافذ التي تشملها شبكة خدمات المؤسسة؟",
+    "answer": "توضح صفحة المنافذ تغطية المؤسسة في موانئ جدة الإسلامي ونيوم في ضبا والملك عبدالعزيز بالدمام وينبع التجاري، وفي المنافذ البرية الحديثة والبطحاء وجسر الملك فهد وسلوى والدرة. يمكن مراجعة صفحة الفروع للتعرف على المنافذ المشمولة ثم التواصل لتأكيد تفاصيل المعاملة."
+  }
+];
+
 // Lazy loading لمكون OfficeLocation بحيث لا يتم طلب ملف الـ JavaScript الخاص به إلا عند اقتراب المستخدم من القسم
 const OfficeLocation = lazy(() => import('@/components/sections/OfficeLocation'));
 
@@ -652,6 +675,26 @@ export default function HomePage() {
               );
             })}
           </div>
+        </div>
+      </section>
+
+
+      {/* ========== الأسئلة الشائعة: محتوى مفيد وبدون مكتبات إضافية ========== */}
+      <section aria-labelledby="customs-faq-title" className="relative py-14 md:py-20 px-4">
+        <div className="container mx-auto max-w-5xl">
+          <h2 id="customs-faq-title" className="text-2xl md:text-4xl font-bold text-white text-center mb-4">أسئلة شائعة عن التخليص الجمركي والترانزيت</h2>
+          <p className="text-center text-gray-300 mb-8 max-w-3xl mx-auto">معلومات إرشادية تساعدك على تجهيز بيانات الشحنة وفهم الإجراءات. تختلف المتطلبات الرسمية حسب نوع البضاعة والمنفذ.</p>
+          <div className="space-y-3">
+            {customsFaq.map(({question, answer}) => (
+              <details key={question} className="group rounded-2xl bg-white/5 border border-white/15 px-5 py-4 open:bg-white/10">
+                <summary className="cursor-pointer font-bold text-white leading-relaxed marker:text-[#D8B980]">{question}</summary>
+                <p className="pt-3 text-sm md:text-base leading-8 text-gray-300">{answer}</p>
+              </details>
+            ))}
+          </div>
+          <p className="text-center text-cyan-200 mt-7">
+            للمزيد من التفاصيل، اطلع على <Link to="/services" className="underline hover:text-white">الخدمات</Link> و<Link to="/branches" className="underline hover:text-white">الموانئ والمنافذ</Link> أو <Link to="/contact" className="underline hover:text-white">تواصل معنا</Link>.
+          </p>
         </div>
       </section>
 

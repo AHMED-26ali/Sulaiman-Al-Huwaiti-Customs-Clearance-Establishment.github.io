@@ -275,10 +275,10 @@ export default function Hero() {
                             alt={image.alt}
                             width={420}
                             height={560}
-                            className="w-full h-full object-cover transition-transform ease-out will-change-transform"
+                            className={`w-full h-full object-cover ${isMobile ? "" : "transition-transform ease-out will-change-transform"}`}
                             style={{
-                              transform: isActive ? 'scale(1.04)' : 'scale(1.0)',
-                              transitionDuration: '6000ms',
+                              transform: isMobile ? 'none' : (isActive ? 'scale(1.04)' : 'scale(1.0)'),
+                              transitionDuration: isMobile ? '0ms' : '6000ms',
                             }}
                             loading={idx === 0 ? 'eager' : 'lazy'}
                             decoding={idx === 0 ? 'sync' : 'async'}
