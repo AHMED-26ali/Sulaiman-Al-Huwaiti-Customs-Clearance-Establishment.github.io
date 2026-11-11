@@ -132,7 +132,7 @@ export async function generateBrandingAssets() {
 
   // 4. Generate Open Graph / Twitter Preview Image (1200 x 630 pixels)
   const logoForOg = await sharp(iconArtwork)
-    .resize(280, 280, { fit: 'contain', background: { r: 0, g: 0, alpha: 0 } })
+    .resize(280, 280, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
     .png()
     .toBuffer();
 
