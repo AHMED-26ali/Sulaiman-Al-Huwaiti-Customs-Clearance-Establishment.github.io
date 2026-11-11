@@ -21,9 +21,9 @@ export async function generateBrandingAssets() {
   // 1. Crop unused margins only for favicons, preserving the source logo and every site image.
   const iconArtwork = await sharp(sourceLogoPath).trim({ threshold: 10 }).png().toBuffer();
   const makeIcon = async (size) => {
-    const artworkSize = Math.max(1, Math.round(size * 0.86));
+    const artworkSize = Math.max(1, Math.round(size * 0.94));
     const artwork = await sharp(iconArtwork)
-      .resize(artworkSize, artworkSize, { fit: 'contain', background: '#0b1120' })
+      .resize(artworkSize, artworkSize, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
       .png()
       .toBuffer();
     return sharp({
@@ -31,7 +31,7 @@ export async function generateBrandingAssets() {
         width: size,
         height: size,
         channels: 4,
-        background: '#0b1120'
+        background: { r: 0, g: 0, b: 0, alpha: 0 }
       }
     }).composite([{ input: artwork, gravity: 'centre' }]).png().toBuffer();
   };
@@ -39,6 +39,7 @@ export async function generateBrandingAssets() {
   for (const [size, file] of [
     [16, 'favicon-16x16.png'],
     [32, 'favicon-32x32.png'],
+    [96, 'favicon-96x96.png'],
     [180, 'apple-touch-icon.png'],
     [192, 'android-chrome-192x192.png'],
     [512, 'android-chrome-512x512.png']
@@ -46,6 +47,9 @@ export async function generateBrandingAssets() {
     fs.writeFileSync(path.join(publicDir, file), await makeIcon(size));
   }
   
+  // Display-only transparent mark: trim blank padding while leaving logo.png unchanged.
+  await sharp(iconArtwork).webp({ quality: 95, alphaQuality: 100 }).toFile(path.join(brandingDir, 'logo-mark.webp'));
+
   // Optimized WebP version of the master logo
   await sharp(sourceLogoPath).webp({ quality: 95 }).toFile(path.join(brandingDir, 'logo.webp'));
 
@@ -127,8 +131,8 @@ export async function generateBrandingAssets() {
   fs.writeFileSync(path.join(publicDir, 'site.webmanifest'), JSON.stringify(manifest, null, 2), 'utf8');
 
   // 4. Generate Open Graph / Twitter Preview Image (1200 x 630 pixels)
-  const logoForOg = await sharp(sourceLogoPath)
-    .resize(230, 230, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
+  const logoForOg = await sharp(iconArtwork)
+    .resize(280, 280, { fit: 'contain', background: { r: 0, g: 0, b: 0, alpha: 0 } })
     .png()
     .toBuffer();
 
@@ -188,8 +192,8 @@ export async function generateBrandingAssets() {
     .composite([
       {
         input: logoForOg,
-        top: 60,
-        left: 485
+        top: 45,
+        left: 460
       }
     ])
     .png({ quality: 95 })
@@ -203,12 +207,14 @@ export async function generateBrandingAssets() {
     }
     fs.copyFileSync(path.join(brandingDir, 'logo.png'), path.join(distBranding, 'logo.png'));
     fs.copyFileSync(path.join(brandingDir, 'logo.webp'), path.join(distBranding, 'logo.webp'));
+    fs.copyFileSync(path.join(brandingDir, 'logo-mark.webp'), path.join(distBranding, 'logo-mark.webp'));
     fs.copyFileSync(path.join(brandingDir, 'og-image.png'), path.join(distBranding, 'og-image.png'));
 
     const rootFiles = [
       'favicon.ico',
       'favicon-16x16.png',
       'favicon-32x32.png',
+      'favicon-96x96.png',
       'apple-touch-icon.png',
       'android-chrome-192x192.png',
       'android-chrome-512x512.png',

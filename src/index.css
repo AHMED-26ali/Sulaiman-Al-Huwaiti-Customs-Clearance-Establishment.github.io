@@ -720,3 +720,23 @@ section {
   }
 }
 
+
+/* The existing transparent S artwork is cropped for display; light follows the alpha edge,
+   not a square border. The small filter-only animation keeps the layout fixed. */
+.brand-mark { display: inline-flex; align-items: center; justify-content: center; line-height: 0; flex-shrink: 0; }
+.brand-mark-image {
+  filter: drop-shadow(0 0 2px rgba(253, 76, 142, .85))
+          drop-shadow(0 0 5px rgba(168, 85, 247, .55));
+  animation: brand-edge-neon 5s ease-in-out infinite alternate;
+}
+@keyframes brand-edge-neon {
+  0% { filter: drop-shadow(0 0 2px rgba(156, 89, 250, .9)) drop-shadow(0 0 5px rgba(156, 89, 250, .35)); }
+  50% { filter: drop-shadow(0 0 2px rgba(244, 63, 149, 1)) drop-shadow(0 0 7px rgba(244, 63, 149, .60)); }
+  100% { filter: drop-shadow(0 0 2px rgba(249, 115, 22, .95)) drop-shadow(0 0 6px rgba(249, 115, 22, .50)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark-image {
+    animation: none;
+    filter: drop-shadow(0 0 3px rgba(244, 63, 149, .60));
+  }
+}
