@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import servicePages from '@/data/serviceLandingPages.json';
 
 interface PageSEOConfig {
   title: string;
@@ -45,6 +46,10 @@ const PAGE_SEO_MAP: Record<string, PageSEOConfig> = {
     canonicalPath: '/contact'
   }
 };
+
+for (const [route, p] of Object.entries(servicePages)) {
+  PAGE_SEO_MAP[route] = { title:p.title, description:p.description, canonicalPath:route };
+}
 
 export default function SEOHead() {
   const { pathname } = useLocation();
@@ -117,7 +122,13 @@ export default function SEOHead() {
     }
 
     let pageSchema: object;
-    if (pathname === '/services') {
+    const service = servicePages[pathname as keyof typeof servicePages];
+    if (service) {
+      pageSchema = { '@context':'https://schema.org','@type':'Service',
+        name:service.heading,description:service.description,serviceType:service.heading,
+        provider:{'@type':'ProfessionalService',name:SITE_NAME,url:BASE_URL},
+        areaServed:{'@type':'Country',name:'Saudi Arabia'} };
+    } else if (pathname === '/services') {
       pageSchema = {
         '@context': 'https://schema.org',
         '@type': 'Service',

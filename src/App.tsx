@@ -14,6 +14,7 @@ const WelcomeScreen = lazy(() => import('./components/WelcomeScreen'));
 
 // الصفحات الثانوية يتم تحميلها عند الحاجة فقط
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const ServiceLandingPage = lazy(() => import('./pages/ServiceLandingPage'));
 const WhyUsPage = lazy(() => import('./pages/WhyUsPage'));
 const BranchesPage = lazy(() => import('./pages/BranchesPage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
@@ -62,6 +63,9 @@ const App = () => {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/services" element={<ServicesPage />} />
+                  <Route path="/truck-clearance" element={<ServiceLandingPage />} />
+                  <Route path="/transit-clearance" element={<ServiceLandingPage />} />
+                  <Route path="/sea-customs-clearance" element={<ServiceLandingPage />} />
                   <Route path="/why-us" element={<WhyUsPage />} />
                   <Route path="/branches" element={<BranchesPage />} />
                   <Route path="/blog" element={<BlogPage />} />
