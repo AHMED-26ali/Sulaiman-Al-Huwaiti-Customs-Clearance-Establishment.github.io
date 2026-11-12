@@ -370,18 +370,11 @@ for (const [route,p] of Object.entries(LANDING_PAGES)) {
   };
 }
 
-const INTERNATIONAL_CUSTOMER_DATA = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../src/data/internationalCustomerAudience.json'), 'utf8')
-);
-const customerCountries = [...new Set([
-  ...INTERNATIONAL_CUSTOMER_DATA.asia,
-  ...INTERNATIONAL_CUSTOMER_DATA.africa,
-  ...INTERNATIONAL_CUSTOMER_DATA.europe
-])];
+// Explicit country-name research list lives in src/data/internationalCustomerAudience.json.
+// Do not turn that list into hidden structured-data keywords: this would not match visible page content.
 const customerAudienceSchema = {
   '@type':'BusinessAudience',
-  'audienceType':'المستوردون والمصدرون وشركات الشحن المهتمون بالتخليص الجمركي داخل السعودية',
-  'geographicArea':customerCountries.map(name => ({ '@type':'Country', name }))
+  'audienceType':'مستوردون ومصدرون وشركات شحن من آسيا وأفريقيا وأوروبا يحتاجون إلى تخليص جمركي داخل السعودية'
 };
 // Customer origins are NOT company branches and NOT foreign customs clearance locations.
 // Only Service schemas carry this target-customer audience; areaServed stays Saudi Arabia.

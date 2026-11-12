@@ -16,8 +16,7 @@ const OG_IMAGE_URL = `${BASE_URL}/branding/og-image.png?v=20261111-social`;
 const DEFAULT_KEYWORDS = seoAudience.searchTerms.join(', ');
 const INTERNATIONAL_CUSTOMER_AUDIENCE = {
   '@type': 'BusinessAudience',
-  audienceType: 'المستوردون والمصدرون وشركات الشحن المهتمون بالتخليص الجمركي داخل السعودية',
-  geographicArea: [...new Set([...seoAudience.asia, ...seoAudience.africa, ...seoAudience.europe])].map(name => ({ '@type':'Country', name }))
+  audienceType: 'مستوردون ومصدرون وشركات شحن من آسيا وأفريقيا وأوروبا يحتاجون إلى تخليص جمركي داخل السعودية'
 };
 
 const PAGE_SEO_MAP: Record<string, PageSEOConfig> = {
