@@ -14,7 +14,7 @@ const SITE_NAME = 'مؤسسة سليمان الحويطي للتخليص الج�
 const PAGES_DATA = {
   '/services': {
     title: 'مكتب تخليص جمركي وترانزيت | مؤسسة سليمان الحويطي',
-    description: 'مكتب تخليص جمركي للشاحنات والبضائع والترانزيت والحاويات في السعودية. تخليص بري وبحري ومتابعة البيانات في الموانئ والمنافذ.',
+    description: 'تبحث عن مخلص جمارك في السعودية؟ مكتب تخليص جمركي للبضائع والشاحنات والترانزيت والحاويات عبر الموانئ والمنافذ السعودية.',
     headerTitle: 'خدماتنا',
     headerSubtitle: 'حلول متكاملة للتخليص الجمركي والترانزيت',
     gradient: 'from-purple-600 via-pink-600 to-purple-800',
@@ -368,6 +368,27 @@ for (const [route,p] of Object.entries(LANDING_PAGES)) {
       areaServed:{'@type':'Country',name:'Saudi Arabia'}},
     contentHtml:`<article dir="rtl" style="max-width:70rem;margin:0 auto;padding:2rem 1rem;color:#e2e8f0;"><p style="font-size:1.15rem;line-height:1.9;">${escapeSeo(p.intro)}</p>${sectionHtml}<section><h2 style="font-size:1.5rem;color:white;">أسئلة شائعة</h2>${faqHtml}</section><nav aria-label="خدمات متعلقة" style="margin-top:2rem;">${navHtml}<a href="/services" style="color:#a5f3fc;margin:.5rem;">خدمات ومكاتب التخليص الجمركي</a><a href="/branches" style="color:#a5f3fc;margin:.5rem;">الموانئ والمنافذ</a><a href="/contact" style="color:#a5f3fc;margin:.5rem;">اتصل بالمكتب</a></nav></article>`
   };
+}
+
+const INTERNATIONAL_CUSTOMER_DATA = JSON.parse(
+  fs.readFileSync(path.resolve(__dirname, '../src/data/internationalCustomerAudience.json'), 'utf8')
+);
+const customerCountries = [...new Set([
+  ...INTERNATIONAL_CUSTOMER_DATA.asia,
+  ...INTERNATIONAL_CUSTOMER_DATA.africa,
+  ...INTERNATIONAL_CUSTOMER_DATA.europe
+])];
+const customerAudienceSchema = {
+  '@type':'BusinessAudience',
+  'audienceType':'المستوردون والمصدرون وشركات الشحن المهتمون بالتخليص الجمركي داخل السعودية',
+  'geographicArea':customerCountries.map(name => ({ '@type':'Country', name }))
+};
+// Customer origins are NOT company branches and NOT foreign customs clearance locations.
+// Only Service schemas carry this target-customer audience; areaServed stays Saudi Arabia.
+for (const route of ['/services','/truck-clearance','/transit-clearance','/sea-customs-clearance']) {
+  if (PAGES_DATA[route]?.schema?.['@type'] !== 'Service') throw new Error('Missing Service schema '+route);
+  PAGES_DATA[route].schema.audience = customerAudienceSchema;
+  PAGES_DATA[route].schema.areaServed = {'@type':'Country','name':'Saudi Arabia'};
 }
 
 async function generateStaticPages() {

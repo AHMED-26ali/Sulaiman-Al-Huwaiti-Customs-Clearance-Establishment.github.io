@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import servicePages from '@/data/serviceLandingPages.json';
+import seoAudience from '@/data/internationalCustomerAudience.json';
 
 interface PageSEOConfig {
   title: string;
@@ -12,7 +13,12 @@ const BASE_URL = 'https://sulaimanal-huwaiti.vercel.app';
 const SITE_NAME = 'مؤسسة سليمان الحويطي للتخليص الجمركي والترانزيت';
 const LOGO_URL = `${BASE_URL}/branding/logo.png`;
 const OG_IMAGE_URL = `${BASE_URL}/branding/og-image.png?v=20261111-social`;
-const DEFAULT_KEYWORDS = 'تخليص جمركي السعودية, مخلص جمركي ضبا, تخليص جمركي بري, تخليص جمركي بحري, الترانزيت, موانئ السعودية, منفذ البطحاء, منفذ الحديثة, ميناء ضبا, ميناء جدة الإسلامي, فسح جمركي';
+const DEFAULT_KEYWORDS = seoAudience.searchTerms.join(', ');
+const INTERNATIONAL_CUSTOMER_AUDIENCE = {
+  '@type': 'BusinessAudience',
+  audienceType: 'المستوردون والمصدرون وشركات الشحن المهتمون بالتخليص الجمركي داخل السعودية',
+  geographicArea: [...new Set([...seoAudience.asia, ...seoAudience.africa, ...seoAudience.europe])].map(name => ({ '@type':'Country', name }))
+};
 
 const PAGE_SEO_MAP: Record<string, PageSEOConfig> = {
   '/': {
@@ -22,7 +28,7 @@ const PAGE_SEO_MAP: Record<string, PageSEOConfig> = {
   },
   '/services': {
     title: 'مكتب تخليص جمركي وترانزيت | مؤسسة سليمان الحويطي',
-    description: 'مكتب تخليص جمركي للشاحنات والبضائع والترانزيت والحاويات في السعودية. تخليص بري وبحري ومتابعة البيانات في الموانئ والمنافذ.',
+    description: 'تبحث عن مخلص جمارك في السعودية؟ مكتب تخليص جمركي للبضائع والشاحنات والترانزيت والحاويات عبر الموانئ والمنافذ السعودية.',
     canonicalPath: '/services'
   },
   '/branches': {
@@ -184,6 +190,13 @@ export default function SEOHead() {
         'url': BASE_URL,
         'telephone': '+966559586786'
       };
+    }
+    // Customer geography is distinct from the physical customs-clearance service area.
+    // All port offices remain in Saudi Arabia; no foreign office is implied.
+    if (pathname === '/services' || pathname === '/truck-clearance' ||
+        pathname === '/transit-clearance' || pathname === '/sea-customs-clearance') {
+      (pageSchema as Record<string, unknown>).audience = INTERNATIONAL_CUSTOMER_AUDIENCE;
+      (pageSchema as Record<string, unknown>).areaServed = { '@type': 'Country', name: 'Saudi Arabia' };
     }
     schemaScript.textContent = JSON.stringify(pageSchema);
 
